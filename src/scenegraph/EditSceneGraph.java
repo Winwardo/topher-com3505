@@ -6,12 +6,12 @@ import lighting.PointLight;
 import math.Vector3;
 import scenegraph.models.robot.Head;
 
-public class EditScene extends SceneGraph {
+public class EditSceneGraph extends SceneGraph {
     private SceneGraphNode majorCube;
     private SceneGraphNode minorCubeSpin;
     private float          rotate;
 
-    public EditScene(GL2 gl, GLUT glut) {
+    public EditSceneGraph(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
 
         {

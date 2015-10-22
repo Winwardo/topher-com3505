@@ -45,7 +45,7 @@ public class DefaultSceneGraph extends SceneGraph {
 
     @Override
     public void update() {
-        rotate += 2;
+        rotate += 0.5f;
         minorCubeSpin.setRotation(new Vector3(0, 1, 0), rotate);
         majorCube.setRotation(new Vector3(0, 0, 1), rotate);
     }

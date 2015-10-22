@@ -4,7 +4,7 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
-import scenegraph.EditScene;
+import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 
 class Scene {
@@ -25,7 +25,7 @@ class Scene {
     }
 
     private SceneGraph makeSceneGraph() {
-        return new EditScene(gl, glut);
+        return new EditSceneGraph(gl, glut);
     }
 
     private void setupGL() {
