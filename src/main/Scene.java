@@ -7,6 +7,8 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
+import shaders.Diffuse;
+import shaders.ShaderCore;
 
 class Scene {
     private final GL2  gl;
@@ -40,6 +42,10 @@ class Scene {
             GL2.GL_AMBIENT_AND_DIFFUSE,
             new float[] { 0.2f, 0.2f, 0.2f, 1.0f },
             0);
+
+        final ShaderCore shaderCore = new ShaderCore(gl);
+        int phong = shaderCore.setupShaders(Diffuse.fragment, Diffuse.vertex);
+        shaderCore.useShader(phong);
     }
 
     public void update() {
