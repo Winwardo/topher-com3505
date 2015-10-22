@@ -8,9 +8,9 @@ import math.Vector3;
 import renderer.IRenderable;
 
 public class SceneGraphNode {
-    private List<IRenderable>    renderables;
-    private List<SceneGraphNode> nodes;
-    private List<ILight>         lights;
+    private final List<IRenderable>    renderables;
+    private final List<SceneGraphNode> nodes;
+    private final List<ILight>         lights;
 
     private Vector3 localPosition;
     private Vector3 localRotationAngle;
@@ -74,11 +74,15 @@ public class SceneGraphNode {
     }
 
     public void attachRenderable(IRenderable renderable) {
-        this.renderables.add(renderable);
+        renderables.add(renderable);
     }
 
     public void attachNode(SceneGraphNode node) {
         nodes.add(node);
+    }
+
+    public void attachLight(ILight light) {
+        lights.add(light);
     }
 
     public void setPosition(Vector3 position) {
@@ -123,6 +127,10 @@ public class SceneGraphNode {
 
     public List<IRenderable> renderables() {
         return renderables;
+    }
+
+    public List<ILight> lights() {
+        return lights;
     }
 
 }

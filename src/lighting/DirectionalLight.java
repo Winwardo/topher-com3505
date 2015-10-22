@@ -11,6 +11,6 @@ public class DirectionalLight implements ILight {
 
     @Override
     public void apply() {
-        //
+        // System.out.println("light");
     }
 }
