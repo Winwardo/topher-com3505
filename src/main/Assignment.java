@@ -21,15 +21,16 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 public class Assignment extends Frame
     implements GLEventListener, ActionListener {
+    private static final long serialVersionUID = 1L;
 
-    private static final int   WIDTH     = 640;
-    private static final int   HEIGHT    = 480;
-    private static final int   SCALING   = 2;
-    private static final float NEAR_CLIP = 0.1f;
-    private static final float FAR_CLIP  = 100.0f;
+    private static final float FIELD_OF_VIEW = 80.0f;
+    private static final int   WIDTH         = 640;
+    private static final int   HEIGHT        = 480;
+    private static final int   SCALING       = 2;
+    private static final float NEAR_CLIP     = 0.1f;
+    private static final float FAR_CLIP      = 100.0f;
 
-    private Scene    scene;
-    private GLCanvas canvas;
+    private Scene scene;
 
     public static void main(String[] args) {
         Assignment t1 = new Assignment();
@@ -37,20 +38,27 @@ public class Assignment extends Frame
     }
 
     public Assignment() {
-        super("T1");
+        super("Topher's 3D assignment");
         setSize(WIDTH * SCALING, HEIGHT * SCALING);
 
-        GLProfile glp = GLProfile.getDefault();
-        GLCapabilities caps = new GLCapabilities(glp);
-        canvas = new GLCanvas(caps);
-        add(canvas, "Center");
+        GLCanvas canvas = makeGLCanvas();
 
-        setupExitEvents();
+        add(canvas, "Center");
+        setupExitEvents(canvas);
         setupUI();
 
-        FPSAnimator animator = new FPSAnimator(canvas, 60);
+        createAndStartAnimation(canvas);
+    }
 
+    private void createAndStartAnimation(GLCanvas canvas) {
+        FPSAnimator animator = new FPSAnimator(canvas, 60);
         animator.start();
+    }
+
+    private GLCanvas makeGLCanvas() {
+        GLProfile glp = GLProfile.getDefault();
+        GLCapabilities caps = new GLCapabilities(glp);
+        return new GLCanvas(caps);
     }
 
     private void setupUI() {
@@ -76,7 +84,7 @@ public class Assignment extends Frame
         this.add(p, "South");
     }
 
-    private void setupExitEvents() {
+    private void setupExitEvents(GLCanvas canvas) {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -112,14 +120,13 @@ public class Assignment extends Frame
         scene = new Scene(gl);
     }
 
-    /* Called to indicate the drawing surface has been moved and/or resized */
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width,
         int height) {
         GL2 gl = drawable.getGL().getGL2();
 
         float fAspect = (float) width / height;
-        float fovy = 60.0f;
+        float fovy = FIELD_OF_VIEW;
 
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL2.GL_PROJECTION);
