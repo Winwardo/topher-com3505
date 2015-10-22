@@ -19,7 +19,7 @@ class Scene {
         this.glu = new GLU();
         this.glut = new GLUT();
 
-        setupGL(gl);
+        setupGL();
 
         sceneGraph = makeSceneGraph();
     }
@@ -28,7 +28,7 @@ class Scene {
         return new DefaultSceneGraph(gl, glut);
     }
 
-    private void setupGL(GL2 gl) {
+    private void setupGL() {
         gl.glClearColor(0, 0, 0, 1);
         gl.glEnable(GL.GL_DEPTH_TEST);
         // gl.glEnable(GL2.GL_LIGHTING);
