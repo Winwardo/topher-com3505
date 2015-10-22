@@ -1,5 +1,5 @@
 package renderer;
 
 public interface Renderable {
-	public void render();
+    public void render();
 }
