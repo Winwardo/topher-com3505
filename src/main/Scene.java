@@ -28,8 +28,13 @@ class Scene {
     private void setupGL(GL2 gl) {
         gl.glClearColor(0, 0, 0, 1);
         gl.glEnable(GL.GL_DEPTH_TEST);
-        // gl.glEnable(GL2.GL_LIGHTING);
-        // gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        gl.glEnable(GL2.GL_LIGHTING);
+        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        gl.glMaterialfv(
+            GL.GL_FRONT,
+            GL2.GL_AMBIENT_AND_DIFFUSE,
+            new float[] { 0.2f, 0.2f, 0.2f, 1.0f },
+            0);
     }
 
     public void rotate() {
