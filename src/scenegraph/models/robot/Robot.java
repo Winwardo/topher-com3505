@@ -22,7 +22,7 @@ public class Robot extends SceneGraph {
         root.attachNode(head);
 
         SceneGraphNode body = new Body(gl, glut).root();
-        body.setPosition(new Vector3(0, 2.25f, 0));
+        body.setPosition(new Vector3(0, 2.3f, 0));
         root.attachNode(body);
 
         roller = new Roller(gl, glut);

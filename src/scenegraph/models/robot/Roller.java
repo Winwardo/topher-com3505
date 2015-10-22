@@ -23,6 +23,7 @@ public class Roller extends SceneGraph {
 
         ballNode = new SceneGraphNode(gl);
         ballNode.attachRenderable(new Sphere(gl, glut, 1.5f));
+        ballNode.setScaling(new Vector3(0.75f, 0.75f, 1f));
 
         SceneGraphNode axis = new SceneGraphNode(gl);
         final float rollerLength = 3.25f;

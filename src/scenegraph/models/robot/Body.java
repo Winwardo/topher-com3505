@@ -18,7 +18,7 @@ public class Body extends SceneGraph {
 
         root.setRotation(new Vector3(1, 0, 0), 90f);
         root.setScaling(new Vector3(1, 1.5f, 1));
-        root.attachRenderable(new Cylinder(gl, glut, 0.5f, 1));
+        root.attachRenderable(new Cylinder(gl, glut, 0.5f, 1.2f));
     }
 
     @Override
