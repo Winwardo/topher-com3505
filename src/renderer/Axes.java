@@ -2,6 +2,9 @@ package renderer;
 
 import com.jogamp.opengl.GL2;
 
+/**
+ * A 3D axis. Renders fullbright, ignoring lighting.
+ */
 public class Axes implements Renderable {
     private final GL2 gl;
 
@@ -11,6 +14,9 @@ public class Axes implements Renderable {
 
     @Override
     public void render() {
+        boolean isLit = gl.glIsEnabled(GL2.GL_LIGHTING);
+        gl.glDisable(GL2.GL_LIGHTING);
+
         double x = 1.5, y = 1.5, z = 1.5;
         gl.glLineWidth(4);
         gl.glBegin(GL2.GL_LINES);
@@ -25,5 +31,9 @@ public class Axes implements Renderable {
         gl.glVertex3d(0, 0, z);
         gl.glEnd();
         gl.glLineWidth(1);
+
+        if (isLit) {
+            gl.glEnable(GL2.GL_LIGHTING);
+        }
     }
 }
