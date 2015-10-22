@@ -89,9 +89,10 @@ class Scene {
         sceneGraph.render();
     }
 
-    public void updateSceneGraphTree(DefaultMutableTreeNode sceneGraphTree) {
-        sceneGraphTree.removeAllChildren();
-        sceneGraphTree.add(getCurrentAndChildren(sceneGraph.root()));
+    public DefaultMutableTreeNode createSceneGraphTree() {
+        DefaultMutableTreeNode result = new DefaultMutableTreeNode();
+        result.add(getCurrentAndChildren(sceneGraph.root()));
+        return result;
     }
 
     private MutableTreeNode getCurrentAndChildren(IRenderable renderable) {

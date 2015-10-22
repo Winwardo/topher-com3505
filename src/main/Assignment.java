@@ -31,9 +31,7 @@ public class Assignment extends JFrame
     private static final float NEAR_CLIP     = 0.1f;
     private static final float FAR_CLIP      = 100.0f;
 
-    private Scene                  scene;
-    private DefaultMutableTreeNode sceneGraphTree;
-    private JTree                  sceneGraphJTree;
+    private Scene scene;
 
     public static void main(String[] args) {
         Assignment t1 = new Assignment();
@@ -48,14 +46,7 @@ public class Assignment extends JFrame
         add(canvas, "Center");
         setupExitEvents(canvas);
 
-        sceneGraphTree = makeSceneGraphTree();
-        setupUI();
-
         createAndStartAnimation(canvas);
-    }
-
-    private DefaultMutableTreeNode makeSceneGraphTree() {
-        return new DefaultMutableTreeNode("Root");
     }
 
     private void createAndStartAnimation(GLCanvas canvas) {
@@ -69,10 +60,12 @@ public class Assignment extends JFrame
         return new GLCanvas(caps);
     }
 
-    private void setupUI() {
+    private void setupUI(Scene scene) {
+        System.out.println("setupUI A");
         addMenuBar();
         addRotateButton();
-        addSceneGraphTree();
+        addSceneGraphTree(scene);
+        System.out.println("setupUI B");
     }
 
     private void addMenuBar() {
@@ -97,14 +90,23 @@ public class Assignment extends JFrame
         this.add(p, "South");
     }
 
-    private void addSceneGraphTree() {
+    private void addSceneGraphTree(Scene scene) {
         Panel p = new Panel();
-
-        sceneGraphJTree = new JTree(sceneGraphTree);
-        sceneGraphJTree.setShowsRootHandles(true);
-
+        JTree sceneGraphJTree = makeSceneGraphJTree(scene);
         p.add(sceneGraphJTree);
         this.add(p, "West");
+    }
+
+    private JTree makeSceneGraphJTree(Scene scene) {
+        DefaultMutableTreeNode result = scene.createSceneGraphTree();
+        JTree sceneGraphJTree = new JTree(result);
+
+        sceneGraphJTree.setShowsRootHandles(true);
+        for (int i = 0; i < sceneGraphJTree.getRowCount(); ++i) {
+            sceneGraphJTree.expandRow(i);
+        }
+
+        return sceneGraphJTree;
     }
 
     private void setupExitEvents(GLCanvas canvas) {
@@ -140,15 +142,8 @@ public class Assignment extends JFrame
         GL2 gl = drawable.getGL().getGL2();
 
         scene = new Scene(gl);
-        initSceneGraphJTree();
-    }
 
-    private void initSceneGraphJTree() {
-        scene.updateSceneGraphTree(sceneGraphTree);
-
-        for (int i = 0; i < sceneGraphJTree.getRowCount(); ++i) {
-            sceneGraphJTree.expandRow(i);
-        }
+        setupUI(scene);
     }
 
     @Override
