@@ -6,6 +6,7 @@ import lighting.PointLight;
 import math.Vector3;
 import renderer.Axes;
 import renderer.Cube;
+import renderer.Teapot;
 
 public class DefaultSceneGraph extends SceneGraph {
     private SceneGraphNode majorCube;
@@ -19,7 +20,7 @@ public class DefaultSceneGraph extends SceneGraph {
 
         SceneGraphNode cubeNode = new SceneGraphNode(gl);
         cubeNode.setRotation(new Vector3(0, 0, 1), 45.0f);
-        cubeNode.attachRenderable(new Cube(gl, glut));
+        cubeNode.attachRenderable(new Teapot(gl, glut));
         cubeNode.setScaling(new Vector3(0.5f, 0.5f, 0.5f));
 
         minorCubeSpin = new SceneGraphNode(gl);
