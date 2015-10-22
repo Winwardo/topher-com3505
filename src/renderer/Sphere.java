@@ -26,6 +26,6 @@ public class Sphere extends Renderable {
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
 
-        glut.glutSolidSphere(0.5, 256, 256);
+        glut.glutSolidSphere(0.5, 20, 20);
     }
 }

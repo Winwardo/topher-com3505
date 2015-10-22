@@ -7,9 +7,8 @@ import math.Vector3;
 import scenegraph.models.robot.Head;
 
 public class EditSceneGraph extends SceneGraph {
-    private SceneGraphNode majorCube;
-    private SceneGraphNode minorCubeSpin;
-    private float          rotate;
+    private final SceneGraphNode item;
+    private float                rotate;
 
     public EditSceneGraph(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -28,12 +27,13 @@ public class EditSceneGraph extends SceneGraph {
             root.attachNode(backLight);
         }
 
-        root.attachNode(new Head(gl, glut).root());
+        item = new Head(gl, glut).root();
+        root.attachNode(item);
     }
 
     @Override
     public void update() {
         rotate += 1f;
-        root.setRotation(new Vector3(0, 1, 0), rotate);
+        item.setRotation(new Vector3(0, 1, 0), rotate);
     }
 }

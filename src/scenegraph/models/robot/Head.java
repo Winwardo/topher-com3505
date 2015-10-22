@@ -37,6 +37,7 @@ public class Head extends SceneGraph {
     }
 
     public SceneGraphNode attachEye(float xOffset) {
+        System.out.println("hi");
         SceneGraphNode eye = new SceneGraphNode(gl);
         eye.attachRenderable(new Sphere(gl, glut));
         eye.setScaling(Vector3.all(0.2f));
