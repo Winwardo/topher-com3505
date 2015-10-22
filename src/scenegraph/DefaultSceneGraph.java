@@ -2,8 +2,7 @@ package scenegraph;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
-import lighting.DirectionalLight;
-import lighting.ILight;
+import lighting.PointLight;
 import math.Vector3;
 import renderer.Axes;
 import renderer.Cube;
@@ -31,11 +30,13 @@ public class DefaultSceneGraph extends SceneGraph {
         majorCube.attachNode(minorCubeSpin);
         majorCube.attachRenderable(new Cube(gl, glut));
 
+        SceneGraphNode lightOffset = new SceneGraphNode(gl);
+        lightOffset.setPosition(new Vector3(0, 1, 1));
+        lightOffset.attachLight(new PointLight(gl));
+
         root1.attachRenderable(new Axes(gl));
         root1.attachNode(majorCube);
-
-        ILight light1 = new DirectionalLight(gl);
-        root.attachLight(light1);
+        root1.attachNode(lightOffset);
 
         root.attachNode(root1);
     }
