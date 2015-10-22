@@ -54,6 +54,10 @@ public class Node implements Renderable {
         this.localRotationAmount = amount;
     }
 
+    public void setRotationAmount(float amount) {
+        this.localRotationAmount = amount;
+    }
+
     private void rotate() {
         gl.glRotatef(
             localRotationAmount,

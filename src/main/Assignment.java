@@ -18,13 +18,13 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
-import main.T1;
 
 public class Assignment extends Frame
     implements GLEventListener, ActionListener {
 
     private static final int   WIDTH     = 640;
     private static final int   HEIGHT    = 480;
+    private static final int   SCALING   = 2;
     private static final float NEAR_CLIP = 0.1f;
     private static final float FAR_CLIP  = 100.0f;
 
@@ -38,22 +38,27 @@ public class Assignment extends Frame
 
     public Assignment() {
         super("T1");
-        setSize(WIDTH, HEIGHT);
+        setSize(WIDTH * SCALING, HEIGHT * SCALING);
 
         GLProfile glp = GLProfile.getDefault();
         GLCapabilities caps = new GLCapabilities(glp);
         canvas = new GLCanvas(caps);
         add(canvas, "Center");
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
+        setupExitEvents();
+        setupUI();
 
-        canvas.addGLEventListener(this);
+        FPSAnimator animator = new FPSAnimator(canvas, 60);
 
+        animator.start();
+    }
+
+    private void setupUI() {
+        addMenuBar();
+        addRotateButton();
+    }
+
+    private void addMenuBar() {
         MenuBar menuBar = new MenuBar();
         this.setMenuBar(menuBar);
         Menu fileMenu = new Menu("File");
@@ -61,50 +66,50 @@ public class Assignment extends Frame
         quitItem.addActionListener(this);
         fileMenu.add(quitItem);
         menuBar.add(fileMenu);
+    }
 
+    private void addRotateButton() {
         Panel p = new Panel();
         Button rotate = new Button("Rotate");
         rotate.addActionListener(this);
         p.add(rotate);
         this.add(p, "South");
+    }
 
-        FPSAnimator animator = new FPSAnimator(canvas, 60);
-
-        animator.start();
+    private void setupExitEvents() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+        canvas.addGLEventListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equalsIgnoreCase("rotate")) {
             scene.rotate();
-            // canvas.repaint(); // if animator is not used
         } else
             if (e.getActionCommand().equalsIgnoreCase("quit")) System.exit(0);
     }
 
-    /*
-     * METHODS DEFINED BY GLEventListener
-     */
-
-    /* draw */
     @Override
     public void display(GLAutoDrawable drawable) {
-        GL2 gl = drawable.getGL().getGL2();
         scene.update();
-        scene.render(gl);
+        scene.render();
     }
 
     @Override
     public void dispose(GLAutoDrawable drawable) {
     }
 
-    /* initialisation */
     @Override
     public void init(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClearColor(0, 0, 0, 1); // black
         gl.glEnable(GL.GL_DEPTH_TEST);
-        scene = new Scene();
+        scene = new Scene(gl);
     }
 
     /* Called to indicate the drawing surface has been moved and/or resized */
