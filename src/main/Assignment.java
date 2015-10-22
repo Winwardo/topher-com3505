@@ -25,7 +25,7 @@ public class Assignment extends JFrame
 
     private static final long serialVersionUID = 1L;
 
-    private static final float FIELD_OF_VIEW     = 80.0f;
+    private static final float FIELD_OF_VIEW     = 90.0f;
     private static final int   WIDTH             = 640;
     private static final int   HEIGHT            = 480;
     private static final int   SCALING           = 2;

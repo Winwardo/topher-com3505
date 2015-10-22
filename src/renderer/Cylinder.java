@@ -3,22 +3,16 @@ package renderer;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 
-public class Sphere extends Renderable {
-    private static final float SPHERE_DEFAULT_RADIUS = 0.5f;
+public class Cylinder extends Renderable {
+    private final GLUT  glut;
+    private final float radius;
+    private final float height;
 
-    private static final int SPHERE_SUBDIVISION = 20;
-
-    private GLUT  glut;
-    private float radius;
-
-    public Sphere(GL2 gl, GLUT glut) {
-        this(gl, glut, SPHERE_DEFAULT_RADIUS);
-    }
-
-    public Sphere(GL2 gl, GLUT glut, float radius) {
+    public Cylinder(GL2 gl, GLUT glut, float radius, float height) {
         super(gl);
         this.glut = glut;
         this.radius = radius;
+        this.height = height;
     }
 
     @Override
@@ -36,6 +30,6 @@ public class Sphere extends Renderable {
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
 
-        glut.glutSolidSphere(radius, SPHERE_SUBDIVISION, SPHERE_SUBDIVISION);
+        glut.glutSolidCylinder(radius, height, 24, 16);
     }
 }
