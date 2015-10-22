@@ -11,12 +11,10 @@ public class PointLight extends Light {
     public void applyImpl() {
         int index = lightId;
 
-        gl.glEnable(index);
-
         float[] position = { 0, 0, 0, 1 };
-        float[] ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
+        float[] ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
         float[] diffuse = { 1, 1, 1, 1.0f };
-        float[] specular = { 0.3f, 0.3f, 0.3f, 1.0f };
+        float[] specular = { 0.2f, 0.2f, 0.2f, 1.0f };
 
         gl.glLightfv(index, GL2.GL_POSITION, position, 0);
         gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);

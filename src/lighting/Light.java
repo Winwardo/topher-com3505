@@ -1,7 +1,6 @@
 package lighting;
 
 import com.jogamp.opengl.GL2;
-import renderer.Axes;
 
 public abstract class Light implements ILight {
     protected final GL2 gl;
@@ -10,11 +9,12 @@ public abstract class Light implements ILight {
     public Light(GL2 gl, int lightId) {
         this.gl = gl;
         this.lightId = lightId;
+
+        gl.glEnable(lightId);
     }
 
     @Override
     public void apply() {
-        Axes.renderAxes(gl);
         applyImpl();
     }
 

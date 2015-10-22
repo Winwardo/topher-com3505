@@ -4,8 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 public class Sphere extends Renderable {
-    private GLUT  glut;
-    private float size;
+    private GLUT glut;
 
     public Sphere(GL2 gl, GLUT glut) {
         super(gl);
@@ -27,6 +26,6 @@ public class Sphere extends Renderable {
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
 
-        glut.glutSolidSphere(0.5, 64, 64);
+        glut.glutSolidSphere(0.5, 256, 256);
     }
 }
