@@ -3,13 +3,13 @@ package lighting;
 import com.jogamp.opengl.GL2;
 
 public class PointLight extends Light {
-    public PointLight(GL2 gl) {
-        super(gl);
+    public PointLight(GL2 gl, int lightId) {
+        super(gl, lightId);
     }
 
     @Override
     public void applyImpl() {
-        int index = GL2.GL_LIGHT0;
+        int index = lightId;
 
         gl.glEnable(index);
 

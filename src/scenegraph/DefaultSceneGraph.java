@@ -25,14 +25,15 @@ public class DefaultSceneGraph extends SceneGraph {
         minorCubeSpin = new SceneGraphNode(gl);
         minorCubeSpin.setPosition(new Vector3(0, 1, 0));
         minorCubeSpin.attachNode(cubeNode);
+        minorCubeSpin.attachLight(new PointLight(gl, gl.GL_LIGHT0));
 
         majorCube = new SceneGraphNode(gl);
         majorCube.attachNode(minorCubeSpin);
         majorCube.attachRenderable(new Cube(gl, glut));
 
         SceneGraphNode lightOffset = new SceneGraphNode(gl);
-        lightOffset.setPosition(new Vector3(0, 1, 1));
-        lightOffset.attachLight(new PointLight(gl));
+        lightOffset.setPosition(new Vector3(0, -1, 1));
+        lightOffset.attachLight(new PointLight(gl, gl.GL_LIGHT1));
 
         root1.attachRenderable(new Axes(gl));
         root1.attachNode(majorCube);

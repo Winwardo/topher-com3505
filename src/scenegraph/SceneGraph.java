@@ -13,7 +13,6 @@ public abstract class SceneGraph {
     }
 
     public void render() {
-        root.applyLights();
         root.render();
     }
 
