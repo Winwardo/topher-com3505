@@ -3,17 +3,20 @@ package scenegraph;
 import java.util.ArrayList;
 import java.util.List;
 import com.jogamp.opengl.GL2;
+import lighting.ILight;
 import math.Vector3;
 import renderer.IRenderable;
 
 public class SceneGraphNode {
     private List<IRenderable>    renderables;
     private List<SceneGraphNode> nodes;
-    private Vector3              localPosition;
-    private Vector3              localRotationAngle;
-    private float                localRotationAmount;
-    private Vector3              localScaling;
-    private GL2                  gl;
+    private List<ILight>         lights;
+
+    private Vector3 localPosition;
+    private Vector3 localRotationAngle;
+    private float   localRotationAmount;
+    private Vector3 localScaling;
+    private GL2     gl;
 
     public SceneGraphNode(Vector3 localPosition, Vector3 localRotation,
         float localRotationAmount, Vector3 localScaling, GL2 gl) {
@@ -21,6 +24,7 @@ public class SceneGraphNode {
 
         this.renderables = new ArrayList<>();
         this.nodes = new ArrayList<>();
+        this.lights = new ArrayList<>();
 
         this.localPosition = localPosition;
         this.localRotationAngle = localRotation;
@@ -36,18 +40,37 @@ public class SceneGraphNode {
     public void render() {
         gl.glPushMatrix();
         {
-            translate();
-            rotate();
-            scale();
+            transform();
 
-            for (IRenderable child : renderables) {
-                child.render();
+            for (IRenderable renderable : renderables) {
+                renderable.render();
             }
             for (SceneGraphNode node : nodes) {
                 node.render();
             }
         }
         gl.glPopMatrix();
+    }
+
+    public void applyLights() {
+        gl.glPushMatrix();
+        {
+            transform();
+
+            for (ILight light : lights) {
+                light.apply();
+            }
+            for (SceneGraphNode node : nodes) {
+                node.applyLights();
+            }
+        }
+        gl.glPopMatrix();
+    }
+
+    private void transform() {
+        translate();
+        rotate();
+        scale();
     }
 
     public void attachRenderable(IRenderable renderable) {
