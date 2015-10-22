@@ -31,6 +31,7 @@ public class SceneGraphNode {
         this.localRotationAngle = localRotation;
         this.localRotationAmount = localRotationAmount;
         this.localScaling = localScaling;
+
         this.gl = gl;
     }
 
