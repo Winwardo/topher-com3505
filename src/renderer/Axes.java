@@ -5,15 +5,24 @@ import com.jogamp.opengl.GL2;
 /**
  * A 3D axis. Renders fullbright, ignoring lighting.
  */
-public class Axes extends Renderable implements IRenderable {
-    private final GL2 gl;
-
+public class Axes extends Renderable {
     public Axes(GL2 gl) {
-        this.gl = gl;
+        super(gl);
     }
 
     @Override
-    public void render() {
+    public void renderImpl() {
+        renderAxes(gl);
+    }
+
+    /**
+     * renderAxes is a special case, which we can use as a debug. We can call
+     * Axes.renderAxes from anywhere and immediately get a useful Axes, without
+     * worrying about extra debug drawing on the axes themselves.
+     * 
+     * @param gl
+     */
+    public static void renderAxes(GL2 gl) {
         boolean isLit = gl.glIsEnabled(GL2.GL_LIGHTING);
         gl.glDisable(GL2.GL_LIGHTING);
 
