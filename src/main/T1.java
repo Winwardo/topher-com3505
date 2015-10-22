@@ -1,4 +1,5 @@
 package main;
+
 import java.awt.Button;
 import java.awt.Frame;
 import java.awt.Menu;
@@ -20,6 +21,9 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.gl2.GLUT;
+
+import renderer.Cube;
+import renderer.Renderable;
 
 public class T1 extends Frame implements GLEventListener, ActionListener {
 
@@ -46,6 +50,7 @@ public class T1 extends Frame implements GLEventListener, ActionListener {
 		add(canvas, "Center");
 
 		addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
@@ -72,6 +77,7 @@ public class T1 extends Frame implements GLEventListener, ActionListener {
 		animator.start();
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equalsIgnoreCase("rotate")) {
 			scene.rotate();
@@ -85,16 +91,19 @@ public class T1 extends Frame implements GLEventListener, ActionListener {
 	 */
 
 	/* draw */
+	@Override
 	public void display(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2();
 		scene.update();
 		scene.render(gl);
 	}
 
+	@Override
 	public void dispose(GLAutoDrawable drawable) {
 	}
 
 	/* initialisation */
+	@Override
 	public void init(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2();
 		gl.glClearColor(0, 0, 0, 1); // black
@@ -103,6 +112,7 @@ public class T1 extends Frame implements GLEventListener, ActionListener {
 	}
 
 	/* Called to indicate the drawing surface has been moved and/or resized */
+	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		GL2 gl = drawable.getGL().getGL2();
 
@@ -154,7 +164,10 @@ class Scene {
 		gl.glColor3d(1, 1, 1);
 		gl.glRotated(rotate, 0, 0, 1);
 
-		glut.glutWireCube(1);
+		Renderable cube = new Cube(glut, 2.0f);
+		cube.render();
+
+		// glut.glutWireCube(1);
 	}
 
 	private void drawAxes(GL2 gl) {

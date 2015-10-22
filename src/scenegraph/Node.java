@@ -12,16 +12,18 @@ public class Node implements Renderable {
 	private Optional<Renderable> toRender;
 	private List<Node> children;
 	private Vector3 localPosition;
-	private Vector3 localRotation;
+	private Vector3 localRotationAngle;
+	private float localRotationAmount;
 	private GL2 gl;
 
 	public Node(Optional<Renderable> toRender, List<Node> children, Vector3 localPosition, Vector3 localRotation,
-			GL2 gl) {
+			float localRotationAmount, GL2 gl) {
 		super();
 		this.toRender = toRender;
 		this.children = children;
 		this.localPosition = localPosition;
-		this.localRotation = localRotation;
+		this.localRotationAngle = localRotation;
+		this.localRotationAmount = localRotationAmount;
 		this.gl = gl;
 	}
 
@@ -29,7 +31,9 @@ public class Node implements Renderable {
 	public void render() {
 		gl.glPushMatrix();
 		{
-			// rotate and translate
+			rotate();
+			translate();
+
 			if (toRender.isPresent()) {
 				toRender.get().render();
 			}
@@ -39,6 +43,14 @@ public class Node implements Renderable {
 			}
 		}
 		gl.glPopMatrix();
+	}
+
+	private void rotate() {
+		gl.glRotatef(localRotationAmount, localRotationAngle.x(), localRotationAngle.y(), localRotationAngle.z());
+	}
+
+	private void translate() {
+		gl.glTranslatef(localPosition.x(), localPosition.y(), localPosition.z());
 	}
 
 }
