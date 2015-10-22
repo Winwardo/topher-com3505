@@ -1,5 +1,6 @@
 package main;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
@@ -84,5 +85,10 @@ class Scene {
         gl.glColor3d(1, 1, 1);
 
         sceneGraph.render();
+    }
+
+    public void updateSceneGraphTree(DefaultMutableTreeNode sceneGraphTree) {
+        sceneGraphTree.removeAllChildren();
+        sceneGraph.root().insertIntoSceneGraphTree(sceneGraphTree);
     }
 }

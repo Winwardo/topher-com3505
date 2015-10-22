@@ -3,7 +3,7 @@ package renderer;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 
-public class Cube implements Renderable {
+public class Cube extends Renderable implements IRenderable {
     private GL2   gl;
     private GLUT  glut;
     private float size;

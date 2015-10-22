@@ -5,7 +5,7 @@ import com.jogamp.opengl.GL2;
 /**
  * A 3D axis. Renders fullbright, ignoring lighting.
  */
-public class Axes implements Renderable {
+public class Axes extends Renderable implements IRenderable {
     private final GL2 gl;
 
     public Axes(GL2 gl) {

@@ -2,18 +2,19 @@ package scenegraph;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.tree.DefaultMutableTreeNode;
 import com.jogamp.opengl.GL2;
 import math.Vector3;
-import renderer.Renderable;
+import renderer.IRenderable;
 
-public class Node implements Renderable {
-    private List<Renderable> children;
-    private Vector3          localPosition;
-    private Vector3          localRotationAngle;
-    private float            localRotationAmount;
-    private GL2              gl;
+public class Node implements IRenderable {
+    private List<IRenderable> children;
+    private Vector3           localPosition;
+    private Vector3           localRotationAngle;
+    private float             localRotationAmount;
+    private GL2               gl;
 
-    public Node(List<Renderable> children, Vector3 localPosition,
+    public Node(List<IRenderable> children, Vector3 localPosition,
         Vector3 localRotation, float localRotationAmount, GL2 gl) {
         super();
         this.children = children;
@@ -34,14 +35,14 @@ public class Node implements Renderable {
             translate();
             rotate();
 
-            for (Renderable child : children) {
+            for (IRenderable child : children) {
                 child.render();
             }
         }
         gl.glPopMatrix();
     }
 
-    public void attachRenderable(Renderable renderable) {
+    public void attachRenderable(IRenderable renderable) {
         this.children.add(renderable);
     }
 
@@ -71,6 +72,18 @@ public class Node implements Renderable {
             localPosition.x(),
             localPosition.y(),
             localPosition.z());
+    }
+
+    @Override
+    public void insertIntoSceneGraphTree(
+        DefaultMutableTreeNode sceneGraphTree) {
+        DefaultMutableTreeNode current = new DefaultMutableTreeNode(this);
+
+        for (IRenderable node : children) {
+            node.insertIntoSceneGraphTree(current);
+        }
+
+        sceneGraphTree.add(current);
     }
 
 }
