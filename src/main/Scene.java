@@ -21,6 +21,15 @@ class Scene {
         this.gl = gl;
         this.glu = new GLU();
         this.glut = new GLUT();
+
+        setupGL(gl);
+    }
+
+    private void setupGL(GL2 gl) {
+        gl.glClearColor(0, 0, 0, 1);
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        // gl.glEnable(GL2.GL_LIGHTING);
+        // gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
     }
 
     public void rotate() {
