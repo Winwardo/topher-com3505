@@ -4,10 +4,7 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
-import math.Vector3;
-import renderer.Axes;
-import renderer.Cube;
-import scenegraph.Node;
+import scenegraph.DefaultSceneGraph;
 import scenegraph.SceneGraph;
 
 class Scene {
@@ -16,12 +13,6 @@ class Scene {
     private final GLUT glut;
 
     private final SceneGraph sceneGraph;
-
-    private Node majorCube;
-    private Node minorCubeSpin;
-
-    private static final double INC_ROTATE = 2;
-    private double              rotate     = 0;
 
     public Scene(GL2 gl) {
         this.gl = gl;
@@ -34,23 +25,7 @@ class Scene {
     }
 
     private SceneGraph makeSceneGraph() {
-        Node cubeNode = new Node(gl);
-        cubeNode.setRotation(new Vector3(0, 0, 1), 45.0f);
-        cubeNode.attachRenderable(new Cube(gl, glut, 0.5f));
-
-        minorCubeSpin = new Node(gl);
-        minorCubeSpin.setPosition(new Vector3(0, 1, 0));
-        minorCubeSpin.attachRenderable(cubeNode);
-
-        majorCube = new Node(gl);
-        majorCube.attachRenderable(minorCubeSpin);
-        majorCube.attachRenderable(new Cube(gl, glut, 1.0f));
-
-        Node root = new Node(gl);
-        root.attachRenderable(new Axes(gl));
-        root.attachRenderable(majorCube);
-
-        return new SceneGraph(root);
+        return new DefaultSceneGraph(gl, glut);
     }
 
     private void setupGL(GL2 gl) {
@@ -65,15 +40,8 @@ class Scene {
             0);
     }
 
-    public void rotate() {
-        rotate += INC_ROTATE;
-    }
-
     public void update() {
-        rotate();
-
-        minorCubeSpin.setRotation(new Vector3(0, 1, 0), (float) rotate);
-        majorCube.setRotation(new Vector3(0, 0, 1), (float) rotate);
+        sceneGraph.update();
     }
 
     public void render() {

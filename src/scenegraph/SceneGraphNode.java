@@ -6,14 +6,14 @@ import com.jogamp.opengl.GL2;
 import math.Vector3;
 import renderer.IRenderable;
 
-public class Node implements IRenderable {
+public class SceneGraphNode implements IRenderable {
     private List<IRenderable> children;
     private Vector3           localPosition;
     private Vector3           localRotationAngle;
     private float             localRotationAmount;
     private GL2               gl;
 
-    public Node(List<IRenderable> children, Vector3 localPosition,
+    public SceneGraphNode(List<IRenderable> children, Vector3 localPosition,
         Vector3 localRotation, float localRotationAmount, GL2 gl) {
         super();
         this.children = children;
@@ -23,7 +23,7 @@ public class Node implements IRenderable {
         this.gl = gl;
     }
 
-    public Node(GL2 gl) {
+    public SceneGraphNode(GL2 gl) {
         this(new ArrayList<>(), Vector3.zero(), Vector3.zero(), 0.0f, gl);
     }
 

@@ -4,10 +4,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import renderer.IRenderable;
 
-public class SceneGraph {
-    private final Node root;
+public abstract class SceneGraph {
+    protected final SceneGraphNode root;
 
-    public SceneGraph(Node root) {
+    public SceneGraph(SceneGraphNode root) {
         this.root = root;
     }
 
@@ -15,7 +15,7 @@ public class SceneGraph {
         root.render();
     }
 
-    public Node root() {
+    public SceneGraphNode root() {
         return root;
     }
 
@@ -24,6 +24,8 @@ public class SceneGraph {
         result.add(getCurrentAndChildren(root));
         return result;
     }
+
+    public abstract void update();
 
     private MutableTreeNode getCurrentAndChildren(IRenderable renderable) {
         DefaultMutableTreeNode result = new DefaultMutableTreeNode(renderable);

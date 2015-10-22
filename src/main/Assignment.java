@@ -61,11 +61,9 @@ public class Assignment extends JFrame
     }
 
     private void setupUI(Scene scene) {
-        System.out.println("setupUI A");
         addMenuBar();
         addRotateButton();
         addSceneGraphTree(scene);
-        System.out.println("setupUI B");
     }
 
     private void addMenuBar() {
@@ -124,10 +122,7 @@ public class Assignment extends JFrame
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equalsIgnoreCase("rotate")) {
-            scene.rotate();
-        } else
-            if (e.getActionCommand().equalsIgnoreCase("quit")) System.exit(0);
+        if (e.getActionCommand().equalsIgnoreCase("quit")) System.exit(0);
     }
 
     @Override
