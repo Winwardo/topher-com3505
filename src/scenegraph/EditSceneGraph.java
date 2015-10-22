@@ -32,7 +32,6 @@ public class EditSceneGraph extends SceneGraph {
         item = new Robot(gl, glut);
         itemNode = item.root();
         root.attachNode(itemNode);
-        itemNode.setScaling(Vector3.all(0.25f));
 
         root.attachRenderable(new Axes(gl));
     }

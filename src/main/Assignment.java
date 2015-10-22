@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Button;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -10,7 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JSlider;
 import javax.swing.JTree;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -21,7 +23,7 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
 
 public class Assignment extends JFrame
-    implements GLEventListener, ActionListener {
+    implements GLEventListener, ActionListener, ChangeListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,7 +66,7 @@ public class Assignment extends JFrame
 
     private void setupUI(Scene scene) {
         addMenuBar();
-        addRotateButton();
+        addZoomSlider();
         addSceneGraphTree(scene);
     }
 
@@ -82,11 +84,17 @@ public class Assignment extends JFrame
         this.setMenuBar(menuBar);
     }
 
-    private void addRotateButton() {
+    private void addZoomSlider() {
         Panel p = new Panel();
-        Button rotate = new Button("Rotate");
-        rotate.addActionListener(this);
-        p.add(rotate);
+
+        JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+        zoomSlider.setMinorTickSpacing(1);
+        zoomSlider.setMajorTickSpacing(10);
+        zoomSlider.setPaintTicks(true);
+        zoomSlider.setPaintLabels(true);
+        zoomSlider.addChangeListener(this);
+
+        p.add(zoomSlider);
         this.add(p, "South");
     }
 
@@ -166,5 +174,15 @@ public class Assignment extends JFrame
 
         gl.glFrustum(left, right, bottom, top, NEAR_CLIP, FAR_CLIP);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        Object source = e.getSource();
+        if (source instanceof JSlider) {
+            JSlider slider = (JSlider) source;
+            int zoom = slider.getValue() + 1;
+            scene.setZoom(zoom);
+        }
     }
 }

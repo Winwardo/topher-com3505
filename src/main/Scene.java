@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
+import math.Vector3;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 
@@ -57,5 +58,9 @@ class Scene {
 
     public SceneGraph sceneGraph() {
         return sceneGraph;
+    }
+
+    public void setZoom(float zoom) {
+        sceneGraph.root().setScaling(Vector3.all(zoom / 100));
     }
 }
