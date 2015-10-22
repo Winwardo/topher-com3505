@@ -103,6 +103,7 @@ public class Assignment extends JFrame
         JTree sceneGraphJTree = new JTree(result);
 
         sceneGraphJTree.setShowsRootHandles(true);
+        sceneGraphJTree.setRootVisible(false);
         for (int i = 0; i < sceneGraphJTree.getRowCount(); ++i) {
             sceneGraphJTree.expandRow(i);
         }

@@ -27,11 +27,15 @@ public abstract class SceneGraph {
 
     public abstract void update();
 
-    private MutableTreeNode getCurrentAndChildren(IRenderable renderable) {
-        DefaultMutableTreeNode result = new DefaultMutableTreeNode(renderable);
+    private MutableTreeNode getCurrentAndChildren(SceneGraphNode node) {
+        DefaultMutableTreeNode result = new DefaultMutableTreeNode(node);
 
-        for (IRenderable child : renderable.children()) {
+        for (SceneGraphNode child : node.children()) {
             result.add(getCurrentAndChildren(child));
+        }
+
+        for (IRenderable renderable : node.renderables()) {
+            result.add(new DefaultMutableTreeNode(renderable));
         }
 
         return result;

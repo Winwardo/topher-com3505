@@ -6,19 +6,22 @@ import com.jogamp.opengl.GL2;
 import math.Vector3;
 import renderer.IRenderable;
 
-public class SceneGraphNode implements IRenderable {
-    private List<IRenderable> children;
-    private Vector3           localPosition;
-    private Vector3           localRotationAngle;
-    private float             localRotationAmount;
-    private Vector3           localScaling;
-    private GL2               gl;
+public class SceneGraphNode {
+    private List<IRenderable>    renderables;
+    private List<SceneGraphNode> nodes;
+    private Vector3              localPosition;
+    private Vector3              localRotationAngle;
+    private float                localRotationAmount;
+    private Vector3              localScaling;
+    private GL2                  gl;
 
-    public SceneGraphNode(List<IRenderable> children, Vector3 localPosition,
-        Vector3 localRotation, float localRotationAmount, Vector3 localScaling,
-        GL2 gl) {
+    public SceneGraphNode(Vector3 localPosition, Vector3 localRotation,
+        float localRotationAmount, Vector3 localScaling, GL2 gl) {
         super();
-        this.children = children;
+
+        this.renderables = new ArrayList<>();
+        this.nodes = new ArrayList<>();
+
         this.localPosition = localPosition;
         this.localRotationAngle = localRotation;
         this.localRotationAmount = localRotationAmount;
@@ -27,16 +30,9 @@ public class SceneGraphNode implements IRenderable {
     }
 
     public SceneGraphNode(GL2 gl) {
-        this(
-            new ArrayList<>(),
-            Vector3.zero(),
-            Vector3.zero(),
-            0.0f,
-            Vector3.one(),
-            gl);
+        this(Vector3.zero(), Vector3.zero(), 0.0f, Vector3.one(), gl);
     }
 
-    @Override
     public void render() {
         gl.glPushMatrix();
         {
@@ -44,15 +40,22 @@ public class SceneGraphNode implements IRenderable {
             rotate();
             scale();
 
-            for (IRenderable child : children) {
+            for (IRenderable child : renderables) {
                 child.render();
+            }
+            for (SceneGraphNode node : nodes) {
+                node.render();
             }
         }
         gl.glPopMatrix();
     }
 
     public void attachRenderable(IRenderable renderable) {
-        this.children.add(renderable);
+        this.renderables.add(renderable);
+    }
+
+    public void attachNode(SceneGraphNode node) {
+        nodes.add(node);
     }
 
     public void setPosition(Vector3 position) {
@@ -91,9 +94,12 @@ public class SceneGraphNode implements IRenderable {
         gl.glScalef(localScaling.x(), localScaling.y(), localScaling.z());
     }
 
-    @Override
-    public List<IRenderable> children() {
-        return children;
+    public List<SceneGraphNode> children() {
+        return nodes;
+    }
+
+    public List<IRenderable> renderables() {
+        return renderables;
     }
 
 }

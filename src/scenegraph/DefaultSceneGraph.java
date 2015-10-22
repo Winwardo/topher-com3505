@@ -21,17 +21,17 @@ public class DefaultSceneGraph extends SceneGraph {
 
         minorCubeSpin = new SceneGraphNode(gl);
         minorCubeSpin.setPosition(new Vector3(0, 1, 0));
-        minorCubeSpin.attachRenderable(cubeNode);
+        minorCubeSpin.attachNode(cubeNode);
 
         majorCube = new SceneGraphNode(gl);
-        majorCube.attachRenderable(minorCubeSpin);
+        majorCube.attachNode(minorCubeSpin);
         majorCube.attachRenderable(new Cube(gl, glut));
 
         SceneGraphNode root1 = new SceneGraphNode(gl);
         root1.attachRenderable(new Axes(gl));
-        root1.attachRenderable(majorCube);
+        root1.attachNode(majorCube);
 
-        root.attachRenderable(root1);
+        root.attachNode(root1);
     }
 
     @Override
