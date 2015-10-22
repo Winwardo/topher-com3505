@@ -1,7 +1,5 @@
 package main;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
@@ -9,7 +7,6 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Axes;
 import renderer.Cube;
-import renderer.IRenderable;
 import scenegraph.Node;
 import scenegraph.SceneGraph;
 
@@ -89,19 +86,7 @@ class Scene {
         sceneGraph.render();
     }
 
-    public DefaultMutableTreeNode createSceneGraphTree() {
-        DefaultMutableTreeNode result = new DefaultMutableTreeNode();
-        result.add(getCurrentAndChildren(sceneGraph.root()));
-        return result;
-    }
-
-    private MutableTreeNode getCurrentAndChildren(IRenderable renderable) {
-        DefaultMutableTreeNode result = new DefaultMutableTreeNode(renderable);
-
-        for (IRenderable child : renderable.children()) {
-            result.add(getCurrentAndChildren(child));
-        }
-
-        return result;
+    public SceneGraph sceneGraph() {
+        return sceneGraph;
     }
 }

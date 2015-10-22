@@ -98,7 +98,10 @@ public class Assignment extends JFrame
     }
 
     private JTree makeSceneGraphJTree(Scene scene) {
-        DefaultMutableTreeNode result = scene.createSceneGraphTree();
+        DefaultMutableTreeNode result = scene
+            .sceneGraph()
+            .createSceneGraphTree();
+
         JTree sceneGraphJTree = new JTree(result);
 
         sceneGraphJTree.setShowsRootHandles(true);
