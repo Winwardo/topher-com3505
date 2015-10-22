@@ -31,8 +31,9 @@ public class Assignment extends JFrame
     private static final float NEAR_CLIP     = 0.1f;
     private static final float FAR_CLIP      = 100.0f;
 
-    private Scene                        scene;
-    private final DefaultMutableTreeNode sceneGraphTree;
+    private Scene                  scene;
+    private DefaultMutableTreeNode sceneGraphTree;
+    private JTree                  sceneGraphJTree;
 
     public static void main(String[] args) {
         Assignment t1 = new Assignment();
@@ -98,7 +99,11 @@ public class Assignment extends JFrame
 
     private void addSceneGraphTree() {
         Panel p = new Panel();
-        p.add(new JTree(sceneGraphTree));
+
+        sceneGraphJTree = new JTree(sceneGraphTree);
+        sceneGraphJTree.setShowsRootHandles(true);
+
+        p.add(sceneGraphJTree);
         this.add(p, "West");
     }
 
@@ -135,7 +140,15 @@ public class Assignment extends JFrame
         GL2 gl = drawable.getGL().getGL2();
 
         scene = new Scene(gl);
+        initSceneGraphJTree();
+    }
+
+    private void initSceneGraphJTree() {
         scene.updateSceneGraphTree(sceneGraphTree);
+
+        for (int i = 0; i < sceneGraphJTree.getRowCount(); ++i) {
+            sceneGraphJTree.expandRow(i);
+        }
     }
 
     @Override

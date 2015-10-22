@@ -1,9 +1,9 @@
 package renderer;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import java.util.List;
 
 public interface IRenderable {
     public void render();
 
-    public void insertIntoSceneGraphTree(DefaultMutableTreeNode sceneGraphTree);
+    public List<IRenderable> children();
 }

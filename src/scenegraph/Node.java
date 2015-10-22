@@ -2,7 +2,6 @@ package scenegraph;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.tree.DefaultMutableTreeNode;
 import com.jogamp.opengl.GL2;
 import math.Vector3;
 import renderer.IRenderable;
@@ -75,15 +74,8 @@ public class Node implements IRenderable {
     }
 
     @Override
-    public void insertIntoSceneGraphTree(
-        DefaultMutableTreeNode sceneGraphTree) {
-        DefaultMutableTreeNode current = new DefaultMutableTreeNode(this);
-
-        for (IRenderable node : children) {
-            node.insertIntoSceneGraphTree(current);
-        }
-
-        sceneGraphTree.add(current);
+    public List<IRenderable> children() {
+        return children;
     }
 
 }

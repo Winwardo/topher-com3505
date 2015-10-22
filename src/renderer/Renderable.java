@@ -1,13 +1,12 @@
 package renderer;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Renderable implements IRenderable {
 
     @Override
-    public void insertIntoSceneGraphTree(
-        DefaultMutableTreeNode sceneGraphTree) {
-        sceneGraphTree.add(new DefaultMutableTreeNode(this));
+    public List<IRenderable> children() {
+        return Collections.emptyList();
     }
-
 }
