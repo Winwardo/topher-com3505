@@ -11,20 +11,29 @@ public class SceneGraphNode implements IRenderable {
     private Vector3           localPosition;
     private Vector3           localRotationAngle;
     private float             localRotationAmount;
+    private Vector3           localScaling;
     private GL2               gl;
 
     public SceneGraphNode(List<IRenderable> children, Vector3 localPosition,
-        Vector3 localRotation, float localRotationAmount, GL2 gl) {
+        Vector3 localRotation, float localRotationAmount, Vector3 localScaling,
+        GL2 gl) {
         super();
         this.children = children;
         this.localPosition = localPosition;
         this.localRotationAngle = localRotation;
         this.localRotationAmount = localRotationAmount;
+        this.localScaling = localScaling;
         this.gl = gl;
     }
 
     public SceneGraphNode(GL2 gl) {
-        this(new ArrayList<>(), Vector3.zero(), Vector3.zero(), 0.0f, gl);
+        this(
+            new ArrayList<>(),
+            Vector3.zero(),
+            Vector3.zero(),
+            0.0f,
+            Vector3.one(),
+            gl);
     }
 
     @Override
@@ -33,6 +42,7 @@ public class SceneGraphNode implements IRenderable {
         {
             translate();
             rotate();
+            scale();
 
             for (IRenderable child : children) {
                 child.render();
@@ -71,6 +81,10 @@ public class SceneGraphNode implements IRenderable {
             localPosition.x(),
             localPosition.y(),
             localPosition.z());
+    }
+
+    private void scale() {
+        gl.glScalef(localScaling.x(), localScaling.y(), localScaling.z());
     }
 
     @Override
