@@ -22,14 +22,16 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 public class Assignment extends JFrame
     implements GLEventListener, ActionListener {
+
     private static final long serialVersionUID = 1L;
 
-    private static final float FIELD_OF_VIEW = 80.0f;
-    private static final int   WIDTH         = 640;
-    private static final int   HEIGHT        = 480;
-    private static final int   SCALING       = 2;
-    private static final float NEAR_CLIP     = 0.1f;
-    private static final float FAR_CLIP      = 100.0f;
+    private static final float FIELD_OF_VIEW     = 80.0f;
+    private static final int   WIDTH             = 640;
+    private static final int   HEIGHT            = 480;
+    private static final int   SCALING           = 2;
+    private static final float NEAR_CLIP         = 0.1f;
+    private static final float FAR_CLIP          = 100.0f;
+    private static final int   FRAMES_PER_SECOND = 60;
 
     private Scene scene;
 
@@ -50,7 +52,7 @@ public class Assignment extends JFrame
     }
 
     private void createAndStartAnimation(GLCanvas canvas) {
-        FPSAnimator animator = new FPSAnimator(canvas, 60);
+        FPSAnimator animator = new FPSAnimator(canvas, FRAMES_PER_SECOND);
         animator.start();
     }
 

@@ -16,7 +16,8 @@ public class SceneGraphNode {
     private Vector3 localRotationAngle;
     private float   localRotationAmount;
     private Vector3 localScaling;
-    private GL2     gl;
+
+    private GL2 gl;
 
     public SceneGraphNode(Vector3 localPosition, Vector3 localRotation,
         float localRotationAmount, Vector3 localScaling, GL2 gl) {

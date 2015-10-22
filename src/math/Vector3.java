@@ -24,10 +24,14 @@ public class Vector3 {
     }
 
     public static Vector3 zero() {
-        return new Vector3(0.0f, 0.0f, 0.0f);
+        return all(0);
     }
 
     public static Vector3 one() {
-        return new Vector3(1.0f, 1.0f, 1.0f);
+        return all(1);
+    }
+
+    public static Vector3 all(float f) {
+        return new Vector3(f, f, f);
     }
 }
