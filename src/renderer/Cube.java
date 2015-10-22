@@ -7,15 +7,14 @@ public class Cube extends Renderable {
     private GLUT  glut;
     private float size;
 
-    public Cube(GL2 gl, GLUT glut, float size) {
+    public Cube(GL2 gl, GLUT glut) {
         super(gl);
         this.glut = glut;
-        this.size = size;
     }
 
     @Override
     public void renderImpl() {
         gl.glColor3d(1, 1, 1);
-        glut.glutWireCube(size);
+        glut.glutWireCube(1);
     }
 }

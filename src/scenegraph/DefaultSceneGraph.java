@@ -7,16 +7,17 @@ import renderer.Axes;
 import renderer.Cube;
 
 public class DefaultSceneGraph extends SceneGraph {
-    private SceneGraphNode  majorCube;
-    private SceneGraphNode  minorCubeSpin;
-    private float rotate;
+    private SceneGraphNode majorCube;
+    private SceneGraphNode minorCubeSpin;
+    private float          rotate;
 
     public DefaultSceneGraph(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
 
         SceneGraphNode cubeNode = new SceneGraphNode(gl);
         cubeNode.setRotation(new Vector3(0, 0, 1), 45.0f);
-        cubeNode.attachRenderable(new Cube(gl, glut, 0.5f));
+        cubeNode.attachRenderable(new Cube(gl, glut));
+        cubeNode.setScaling(new Vector3(0.5f, 0.5f, 0.5f));
 
         minorCubeSpin = new SceneGraphNode(gl);
         minorCubeSpin.setPosition(new Vector3(0, 1, 0));
@@ -24,7 +25,7 @@ public class DefaultSceneGraph extends SceneGraph {
 
         majorCube = new SceneGraphNode(gl);
         majorCube.attachRenderable(minorCubeSpin);
-        majorCube.attachRenderable(new Cube(gl, glut, 1.0f));
+        majorCube.attachRenderable(new Cube(gl, glut));
 
         SceneGraphNode root1 = new SceneGraphNode(gl);
         root1.attachRenderable(new Axes(gl));

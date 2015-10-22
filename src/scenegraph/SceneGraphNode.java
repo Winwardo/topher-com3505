@@ -68,6 +68,10 @@ public class SceneGraphNode implements IRenderable {
         this.localRotationAmount = amount;
     }
 
+    public void setScaling(Vector3 scaling) {
+        this.localScaling = scaling;
+    }
+
     private void rotate() {
         gl.glRotatef(
             localRotationAmount,
