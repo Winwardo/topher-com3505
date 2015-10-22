@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
+import math.Vector3;
 import renderer.Axes;
 import renderer.Cube;
 import scenegraph.Node;

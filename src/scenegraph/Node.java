@@ -3,7 +3,7 @@ package scenegraph;
 import java.util.ArrayList;
 import java.util.List;
 import com.jogamp.opengl.GL2;
-import main.Vector3;
+import math.Vector3;
 import renderer.Renderable;
 
 public class Node implements Renderable {
