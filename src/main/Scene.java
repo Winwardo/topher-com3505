@@ -7,6 +7,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
+import scenegraph.models.robot.Robot;
 import shaders.Diffuse;
 import shaders.ShaderCore;
 
@@ -30,7 +31,7 @@ class Scene {
     }
 
     private SceneGraph makeSceneGraph() {
-        return new EditSceneGraph(gl, glut);
+        return new EditSceneGraph(gl, glut, new Robot(gl, glut));
     }
 
     private void setupGL() {

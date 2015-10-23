@@ -5,14 +5,13 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.PointLight;
 import math.Vector3;
 import renderer.primitives.Axes;
-import scenegraph.models.robot.Robot;
 
 public class EditSceneGraph extends SceneGraph {
     private final SceneGraph     item;
     private final SceneGraphNode itemNode;
     private float                rotate;
 
-    public EditSceneGraph(GL2 gl, GLUT glut) {
+    public EditSceneGraph(GL2 gl, GLUT glut, SceneGraph scene) {
         super(new SceneGraphNode(gl));
 
         SceneGraphNode frontLight = root.createAttachedNode();
@@ -27,7 +26,7 @@ public class EditSceneGraph extends SceneGraph {
         backLight.setPosition(new Vector3(4, -2, -4));
         backLight.attachLight(new PointLight(gl, gl.GL_LIGHT2));
 
-        item = new Robot(gl, glut);
+        item = scene;
         itemNode = root.createAttachedNodeFromSceneGraph(item);
 
         root.attachRenderable(new Axes(gl));
