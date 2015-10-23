@@ -3,7 +3,6 @@ package renderer.primitives;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import renderer.Renderable;
-import renderer.TextureLoader;
 
 public class TexturedCube extends Renderable {
     private GLUT  glut;
@@ -15,8 +14,8 @@ public class TexturedCube extends Renderable {
         super(gl);
         this.glut = glut;
 
-        currentTextureID = TextureLoader.get().loadBMP(
-            "C:\\Users\\Topher\\Documents\\GitHub\\topher-com3505\\res\\texture.bmp");
+        // currentTextureID = TextureLoader.get().loadBMP(
+        // "C:\\Users\\Topher\\Documents\\GitHub\\topher-com3505\\res\\texture.bmp");
     }
 
     @Override

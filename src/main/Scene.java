@@ -26,6 +26,8 @@ class Scene {
 
         setupGL();
         TextureLoader.setGlobal(new TextureLoader(gl));
+        TextureLoader.get().loadBMP(
+            "C:\\Users\\Topher\\Documents\\GitHub\\topher-com3505\\res\\texture23.bmp");
 
         sceneGraph = makeSceneGraph();
         setZoom(50);

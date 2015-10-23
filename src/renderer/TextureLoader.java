@@ -1,10 +1,11 @@
 package renderer;
 
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
-import main.IOStream;
 
 /**
  * TextureLoader provides a Singleton access to save on programming costs.
@@ -32,32 +33,36 @@ public class TextureLoader {
         }
     }
 
-    private GL2 gl;
-    private int BMPtexCount   = 30;
-    private int BMPtextures[] = new int[BMPtexCount];
+    private GL2       gl;
+    private final int BMPtexCount  = 30;
+    private int       textureCount = 0;
+    private int       textures[]   = new int[BMPtexCount];
 
     public TextureLoader(GL2 gl) {
         this.gl = gl;
     }
 
     public int loadBMP(String filename) {
+        return loadBMP(filename, 256, 256);
+    }
+
+    public int loadBMP(String filename, int width, int height) {
         try {
-            IOStream wdis = new IOStream(filename);
-            wdis.skipBytes(18);
-            int width = wdis.readIntW();
-            int height = wdis.readIntW();
-            wdis.skipBytes(28);
-            byte buf2[] = new byte[wdis.available()];
-            // ByteBuffer buf = BufferUtil.newByteBuffer(wdis.available());
+            DataInputStream dataStream = new DataInputStream(
+                new FileInputStream(filename));
+            dataStream.skipBytes(18 + 2 + 28); // why?
 
-            wdis.read(buf2);
-            wdis.close();
+            byte buf2[] = new byte[dataStream.available()];
 
-            int index = 0;
+            dataStream.read(buf2);
+            dataStream.close();
+
+            int index = textureCount;
+            textureCount++;
 
             ByteBuffer buf = ByteBuffer.wrap(buf2);
 
-            gl.glBindTexture(GL.GL_TEXTURE_2D, BMPtextures[index]);
+            gl.glBindTexture(GL.GL_TEXTURE_2D, textures[index]);
 
             gl.glTexImage2D(
                 GL.GL_TEXTURE_2D,
@@ -78,14 +83,12 @@ public class TextureLoader {
                 GL.GL_TEXTURE_2D,
                 GL.GL_TEXTURE_MIN_FILTER,
                 GL.GL_LINEAR);
-            return index;
 
-            // return currentTextureID;
+            return index;
         } catch (IOException ex) {
-            // Utils.msgBox("File Error\n" + fileName, "Error", Utils.MSG_WARN);
-            System.out.println("HOLY SHIT");
-            // return -1;
+            // default to white
+            ex.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 }
