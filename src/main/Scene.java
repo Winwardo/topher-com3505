@@ -5,7 +5,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
-import scenegraph.DefaultSceneGraph;
+import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import shaders.Diffuse;
 import shaders.ShaderCore;
@@ -30,7 +30,7 @@ class Scene {
     }
 
     private SceneGraph makeSceneGraph() {
-        return new DefaultSceneGraph(gl, glut);
+        return new EditSceneGraph(gl, glut);
     }
 
     private void setupGL() {
