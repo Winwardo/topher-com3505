@@ -17,21 +17,31 @@ public class Robot extends SceneGraph {
     private final SceneGraph rightArm;
     private final SceneGraph leftArm;
     private final SceneGraph body;
+    private final BallJoint  rollerBallJoint;
+
+    private float rotate = 0;
 
     public Robot(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
 
+        rollerBallJoint = new BallJoint(root);
+
         head = new Head(gl, glut);
-        root.createAttachedNodeFromSceneGraph(head).setPosition(
-            new Vector3(0, 3, 0));
+        rollerBallJoint
+            .get()
+            .createAttachedNodeFromSceneGraph(head)
+            .setPosition(new Vector3(0, 3, 0));
 
         body = new Body(gl, glut);
-        root.createAttachedNodeFromSceneGraph(body).setPosition(
-            new Vector3(0, 2.3f, 0));
+        rollerBallJoint
+            .get()
+            .createAttachedNodeFromSceneGraph(body)
+            .setPosition(new Vector3(0, 2.3f, 0));
 
-        SceneGraphNode arms = root
+        SceneGraphNode arms = rollerBallJoint
+            .get()
             .createAttachedNode()
             .setPosition(new Vector3(0, 2.0f, 0));
 
@@ -48,7 +58,7 @@ public class Robot extends SceneGraph {
             .setPosition(new Vector3(0, 0, ARM_OUT));
 
         roller = new Roller(gl, glut);
-        root.createAttachedNodeFromSceneGraph(roller);
+        rollerBallJoint.get().createAttachedNodeFromSceneGraph(roller);
     }
 
     @Override
@@ -58,5 +68,11 @@ public class Robot extends SceneGraph {
         rightArm.update();
         leftArm.update();
         body.update();
+
+        rotate += 1;
+        float rro = (float) Math.sin(rotate / 76);
+        float pp = rro * 10;
+
+        rollerBallJoint.get().setRotation(new Vector3(0, 0, 1), pp);
     }
 }
