@@ -8,7 +8,6 @@ import math.Vector3;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import shaders.Diffuse;
-import shaders.Phong;
 import shaders.ShaderCore;
 
 class Scene {
@@ -46,10 +45,10 @@ class Scene {
             0);
 
         shaderCore = new ShaderCore(gl);
-        int diffuse = shaderCore.setupShaders(Diffuse.fragment, Diffuse.vertex);
-        int phong = shaderCore.setupShaders(Phong.fragment, Phong.vertex);
+        int diffuse = shaderCore
+            .setupShaders(Diffuse.fragment2, Diffuse.vertex);
 
-        shaderCore.queueShader(phong);
+        shaderCore.queueShader(diffuse);
     }
 
     public void update() {
@@ -77,6 +76,6 @@ class Scene {
     }
 
     public void setShader(int value) {
-        shaderCore.queueShader(value / 3);
+        shaderCore.queueShader(value * 3);
     }
 }
