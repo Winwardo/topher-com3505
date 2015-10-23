@@ -16,6 +16,7 @@ class Scene {
     private final GLUT glut;
 
     private final SceneGraph sceneGraph;
+    private ShaderCore       shaderCore;
 
     public Scene(GL2 gl) {
         this.gl = gl;
@@ -43,9 +44,10 @@ class Scene {
             new float[] { 0.2f, 0.2f, 0.2f, 1.0f },
             0);
 
-        final ShaderCore shaderCore = new ShaderCore(gl);
+        shaderCore = new ShaderCore(gl);
         int phong = shaderCore.setupShaders(Diffuse.fragment, Diffuse.vertex);
-        shaderCore.useShader(phong);
+        System.out.println(phong);
+        shaderCore.queueShader(phong);
     }
 
     public void update() {
@@ -55,6 +57,7 @@ class Scene {
     public void render() {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
+        shaderCore.useQueuedShader();
         glu.gluLookAt(1.2, 1.0, 2.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
         gl.glColor3d(1, 1, 1);
@@ -68,5 +71,9 @@ class Scene {
 
     public void setZoom(float zoom) {
         sceneGraph.root().setScaling(Vector3.all(zoom / 100));
+    }
+
+    public void setShader(int value) {
+        shaderCore.queueShader(value);
     }
 }

@@ -67,6 +67,7 @@ public class Assignment extends JFrame
     private void setupUI(Scene scene) {
         addMenuBar();
         addZoomSlider();
+        addShaderSlider();
         addSceneGraphTree(scene);
     }
 
@@ -88,8 +89,23 @@ public class Assignment extends JFrame
         Panel p = new Panel();
 
         JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+        zoomSlider.setName("ZoomSlider");
         zoomSlider.setMinorTickSpacing(1);
         zoomSlider.setMajorTickSpacing(10);
+        zoomSlider.setPaintTicks(true);
+        zoomSlider.setPaintLabels(true);
+        zoomSlider.addChangeListener(this);
+
+        p.add(zoomSlider);
+        this.add(p, "South");
+    }
+
+    private void addShaderSlider() {
+        Panel p = new Panel();
+
+        JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 10, 0);
+        zoomSlider.setName("ShaderSlider");
+        zoomSlider.setMajorTickSpacing(1);
         zoomSlider.setPaintTicks(true);
         zoomSlider.setPaintLabels(true);
         zoomSlider.addChangeListener(this);
@@ -181,8 +197,15 @@ public class Assignment extends JFrame
         Object source = e.getSource();
         if (source instanceof JSlider) {
             JSlider slider = (JSlider) source;
-            int zoom = slider.getValue() + 1;
-            scene.setZoom(zoom);
+            switch (slider.getName()) {
+                case "ZoomSlider":
+                    int zoom = slider.getValue() + 1;
+                    scene.setZoom(zoom);
+                    break;
+                case "ShaderSlider":
+                    scene.setShader(slider.getValue());
+                    break;
+            }
         }
     }
 }

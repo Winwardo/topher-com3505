@@ -5,6 +5,7 @@ import com.jogamp.opengl.GL2ES2;
 
 public class ShaderCore {
     private final GL2 gl;
+    private int       queuedShader = -1;
 
     public ShaderCore(GL2 gl) {
         this.gl = gl;
@@ -19,15 +20,23 @@ public class ShaderCore {
         gl.glAttachShader(shaderProgram, fragShader);
 
         gl.glLinkProgram(shaderProgram);
+
+        gl.glDetachShader(shaderProgram, vertShader);
+        gl.glDetachShader(shaderProgram, fragShader);
+
+        gl.glDeleteShader(shaderProgram);
         return shaderProgram;
     }
 
-    public void useShader(int shaderProgram) {
+    private void useShader(int shaderProgram) {
         gl.glUseProgram(shaderProgram);
-    }
 
-    public void clearShader() {
-        useShader(0);
+        int error = gl.glGetError();
+        if (error > 0) {
+            System.err.format(
+                "Shader error, GL#%d. Most likely a missing shader number.\n",
+                error);
+        }
     }
 
     private int createShader(String source, int type) {
@@ -80,6 +89,17 @@ public class ShaderCore {
                 "Shader failed to compile: %s\n",
                 new String(shaderInfoLog));
             System.exit(1);
+        }
+    }
+
+    public void queueShader(int shader) {
+        queuedShader = shader;
+    }
+
+    public void useQueuedShader() {
+        if (queuedShader > -1) {
+            useShader(queuedShader);
+            queuedShader = -1;
         }
     }
 }
