@@ -15,22 +15,22 @@ public class Head extends SceneGraph {
     private GL2  gl;
     private GLUT glut;
 
-    private final BallJoint ballJoint;
+    private final BallJoint neck;
 
     public Head(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
 
-        ballJoint = new BallJoint(gl, glut, root);
-        SceneGraphNode wobblerNode = ballJoint.get();
+        neck = new BallJoint(gl, glut, root);
+        SceneGraphNode head = neck.get();
 
         // Core head
-        wobblerNode.setScaling(new Vector3(0.6f, 1, 1));
-        wobblerNode.attachRenderable(new Teapot(gl, glut));
+        head.setScaling(new Vector3(0.6f, 1, 1));
+        head.attachRenderable(new Teapot(gl, glut));
 
-        attachLeftEye(wobblerNode);
-        attachRightEye(wobblerNode);
+        attachLeftEye(head);
+        attachRightEye(head);
     }
 
     private void attachLeftEye(SceneGraphNode head) {
@@ -60,7 +60,7 @@ public class Head extends SceneGraph {
         float now = System.currentTimeMillis() % 100000;
         float smaller = now * 0.001f;
 
-        ballJoint.setYaw((float) Math.sin(smaller) * 25);
-        ballJoint.setPitch((float) Math.cos(smaller * 1.5f) * 15);
+        neck.setYaw((float) Math.sin(smaller) * 25);
+        neck.setPitch((float) Math.cos(smaller * 1.5f) * 15);
     }
 }

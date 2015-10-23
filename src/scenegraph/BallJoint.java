@@ -4,6 +4,13 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 
+/**
+ * BallJoint is a helper class for easily giving any object an independent
+ * pitch/yaw/roll.
+ * 
+ * @author Topher
+ *
+ */
 public class BallJoint {
     private final SceneGraphNode pitch;
     private final SceneGraphNode yaw;
