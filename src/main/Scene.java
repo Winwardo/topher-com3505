@@ -5,6 +5,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
+import renderer.TextureLoader;
 import scenegraph.DefaultSceneGraph;
 import scenegraph.SceneGraph;
 import shaders.Diffuse;
@@ -24,6 +25,7 @@ class Scene {
         this.glut = new GLUT();
 
         setupGL();
+        TextureLoader.setGlobal(new TextureLoader(gl));
 
         sceneGraph = makeSceneGraph();
         setZoom(50);
@@ -51,7 +53,7 @@ class Scene {
         int diffuse = shaderCore
             .setupShaders(Diffuse.fragment2, Diffuse.vertex);
 
-        // shaderCore.queueShader(diffuse);
+        shaderCore.queueShader(diffuse);
 
         // ShadowMapping sm = new ShadowMapping(gl, glu);
     }
