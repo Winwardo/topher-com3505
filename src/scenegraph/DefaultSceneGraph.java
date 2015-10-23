@@ -16,31 +16,25 @@ public class DefaultSceneGraph extends SceneGraph {
     public DefaultSceneGraph(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
 
-        SceneGraphNode root1 = new SceneGraphNode(gl);
+        SceneGraphNode root1 = root.createAttachedNode();
 
-        SceneGraphNode cubeNode = new SceneGraphNode(gl);
+        majorCube = root1.createAttachedNode();
+        majorCube.attachRenderable(new Cube(gl, glut));
+
+        minorCubeSpin = majorCube.createAttachedNode();
+        minorCubeSpin.setPosition(new Vector3(0, 1, 0));
+        minorCubeSpin.attachLight(new PointLight(gl, gl.GL_LIGHT0));
+
+        SceneGraphNode cubeNode = minorCubeSpin.createAttachedNode();
         cubeNode.setRotation(new Vector3(0, 0, 1), 45.0f);
         cubeNode.attachRenderable(new Teapot(gl, glut));
         cubeNode.setScaling(new Vector3(0.5f, 0.5f, 0.5f));
 
-        minorCubeSpin = new SceneGraphNode(gl);
-        minorCubeSpin.setPosition(new Vector3(0, 1, 0));
-        minorCubeSpin.attachNode(cubeNode);
-        minorCubeSpin.attachLight(new PointLight(gl, gl.GL_LIGHT0));
-
-        majorCube = new SceneGraphNode(gl);
-        majorCube.attachNode(minorCubeSpin);
-        majorCube.attachRenderable(new Cube(gl, glut));
-
-        SceneGraphNode lightOffset = new SceneGraphNode(gl);
+        SceneGraphNode lightOffset = root.createAttachedNode();
         lightOffset.setPosition(new Vector3(0, -1, 1));
         lightOffset.attachLight(new PointLight(gl, gl.GL_LIGHT1));
 
         root1.attachRenderable(new Axes(gl));
-        root1.attachNode(majorCube);
-        root1.attachNode(lightOffset);
-
-        root.attachNode(root1);
     }
 
     @Override

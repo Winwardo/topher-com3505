@@ -21,17 +21,14 @@ public class Roller extends SceneGraph {
         this.gl = gl;
         this.glut = glut;
 
-        ballNode = new SceneGraphNode(gl);
+        ballNode = root.createAttachedNode();
         ballNode.attachRenderable(new Sphere(gl, glut, 1.5f));
         ballNode.setScaling(new Vector3(0.75f, 0.75f, 1f));
 
-        SceneGraphNode axis = new SceneGraphNode(gl);
+        SceneGraphNode axis = root.createAttachedNode();
         final float rollerLength = 3.25f;
         axis.attachRenderable(new Cylinder(gl, glut, 0.35f, rollerLength));
         axis.setPosition(new Vector3(0, 0, -rollerLength / 2));
-
-        root.attachNode(ballNode);
-        root.attachNode(axis);
     }
 
     @Override

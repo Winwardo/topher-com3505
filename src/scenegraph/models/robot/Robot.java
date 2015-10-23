@@ -17,16 +17,16 @@ public class Robot extends SceneGraph {
         this.gl = gl;
         this.glut = glut;
 
-        SceneGraphNode head = new Head(gl, glut).root();
+        SceneGraphNode head = root
+            .createAttachedNodeFromSceneGraph(new Head(gl, glut));
         head.setPosition(new Vector3(0, 3, 0));
-        root.attachNode(head);
 
-        SceneGraphNode body = new Body(gl, glut).root();
+        SceneGraphNode body = root
+            .createAttachedNodeFromSceneGraph(new Body(gl, glut));
         body.setPosition(new Vector3(0, 2.3f, 0));
-        root.attachNode(body);
 
         roller = new Roller(gl, glut);
-        root.attachNode(roller.root());
+        root.createAttachedNodeFromSceneGraph(roller);
     }
 
     @Override

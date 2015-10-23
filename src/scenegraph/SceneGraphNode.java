@@ -78,8 +78,11 @@ public class SceneGraphNode {
         return newNode;
     }
 
-    public void attachNode(SceneGraphNode node) {
-        nodes.add(node);
+    public SceneGraphNode createAttachedNodeFromSceneGraph(
+        SceneGraph sceneGraph) {
+        SceneGraphNode node = sceneGraph.root();
+        attachNode(node);
+        return node;
     }
 
     public void attachLight(ILight light) {
@@ -101,6 +104,10 @@ public class SceneGraphNode {
 
     public void setScaling(Vector3 scaling) {
         this.localScaling = scaling;
+    }
+
+    private void attachNode(SceneGraphNode node) {
+        nodes.add(node);
     }
 
     private void rotate() {
