@@ -26,6 +26,7 @@ class Scene {
         setupGL();
 
         sceneGraph = makeSceneGraph();
+        setZoom(50);
     }
 
     private SceneGraph makeSceneGraph() {
@@ -49,6 +50,8 @@ class Scene {
             .setupShaders(Diffuse.fragment2, Diffuse.vertex);
 
         shaderCore.queueShader(diffuse);
+
+        // ShadowMapping sm = new ShadowMapping(gl, glu);
     }
 
     public void update() {
@@ -60,7 +63,7 @@ class Scene {
         gl.glLoadIdentity();
         shaderCore.useQueuedShader();
 
-        glu.gluLookAt(1.2, 1.0, 2.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+        glu.gluLookAt(1.2, 1.0, 2.5, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0);
 
         gl.glColor3d(1, 1, 1);
 

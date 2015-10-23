@@ -88,7 +88,7 @@ public class Assignment extends JFrame
     private void addZoomSlider() {
         Panel p = new Panel();
 
-        JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+        JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         zoomSlider.setName("ZoomSlider");
         zoomSlider.setMinorTickSpacing(1);
         zoomSlider.setMajorTickSpacing(10);
