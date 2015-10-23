@@ -22,7 +22,7 @@ public class Head extends SceneGraph {
         this.gl = gl;
         this.glut = glut;
 
-        neck = new BallJoint(gl, glut, root);
+        neck = new BallJoint(root);
         SceneGraphNode head = neck.get();
 
         // Core head

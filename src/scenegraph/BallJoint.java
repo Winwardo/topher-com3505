@@ -1,7 +1,5 @@
 package scenegraph;
 
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 
 /**
@@ -19,7 +17,7 @@ public class BallJoint {
     private final SceneGraphNode roll;
     private final SceneGraphNode get;
 
-    public BallJoint(GL2 gl, GLUT glut, SceneGraphNode toAttachTo) {
+    public BallJoint(SceneGraphNode toAttachTo) {
         pitch = toAttachTo.setRotation(new Vector3(0, 0, 1), 0);
         yaw = pitch.createAttachedNode().setRotation(new Vector3(0, 1, 0), 0);
         roll = yaw.createAttachedNode().setRotation(new Vector3(1, 0, 0), 0);

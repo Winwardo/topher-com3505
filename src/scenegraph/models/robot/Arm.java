@@ -21,21 +21,28 @@ public class Arm extends SceneGraph {
     private final SceneGraphNode elbowBall;
     private final SceneGraphNode forearm;
 
+    private final BallJoint shoulderJoint;
     private final BallJoint elbowJoint;
-    private float           rotate = 0;
+
+    private float rotateShoulder = 0;
+    private float rotateElbow    = 0;
 
     public Arm(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
 
-        root.attachRenderable(
+        shoulderJoint = new BallJoint(root);
+
+        shoulderJoint.get().attachRenderable(
             new Cylinder(gl, glut, ARM_THICKNESS, UPPER_ARM_LENGTH));
 
-        SceneGraphNode elbowOffset = root.createAttachedNode().setPosition(
-            new Vector3(0, 0, UPPER_ARM_LENGTH + ELBOW_OFFSET));
+        SceneGraphNode elbowOffset = shoulderJoint
+            .get()
+            .createAttachedNode()
+            .setPosition(new Vector3(0, 0, UPPER_ARM_LENGTH + ELBOW_OFFSET));
 
-        elbowJoint = new BallJoint(gl, glut, elbowOffset);
+        elbowJoint = new BallJoint(elbowOffset);
 
         elbowBall = elbowJoint.get().createAttachedNode();
         elbowBall.attachRenderable(new Sphere(gl, glut, 0.25f));
@@ -43,14 +50,21 @@ public class Arm extends SceneGraph {
         forearm = elbowBall.createAttachedNode();
         forearm.attachRenderable(
             new Cylinder(gl, glut, ARM_THICKNESS / 2, LOWER_ARM_LENGTH));
-        // forearm.setPosition(new Vector3(0, 0, ELBOW_OFFSET + 0.1f));
-        // forearm.setRotation(new Vector3(1, 0, 0), 45);
     }
 
     @Override
     public void update() {
-        rotate += 1;
+        rotateShoulder += 1;
+        float ro = (float) Math.sin(rotateShoulder / 50);
+        float p = ro * 10;
+        shoulderJoint.setRoll(35 + p);
+
+        float rro = (float) Math.sin(rotateShoulder / 76);
+        float pp = rro * 20;
+        shoulderJoint.setYaw(pp);
+
+        rotateElbow += 1;
         elbowJoint.setYaw(20);
-        elbowJoint.setPitch(rotate);
+        elbowJoint.setPitch(rotateElbow);
     }
 }
