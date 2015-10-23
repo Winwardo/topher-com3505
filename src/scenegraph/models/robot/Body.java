@@ -8,20 +8,22 @@ import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
 public class Body extends SceneGraph {
-    private GL2  gl;
-    private GLUT glut;
+    private float rotate = 0;
 
     public Body(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
-        this.gl = gl;
-        this.glut = glut;
 
         root.setRotation(new Vector3(1, 0, 0), 90f);
         root.setScaling(new Vector3(1, 1.5f, 1));
-        root.attachRenderable(new Cylinder(gl, glut, 0.5f, 1.2f));
+        root.attachRenderable(new Cylinder(gl, glut, 0.5f, 1.4f));
     }
 
     @Override
     public void update() {
+        rotate += 1;
+        float ro = (float) Math.sin(rotate / 50);
+        float p = ro * 7;
+
+        root.setRotationAmount(90 + p);
     }
 }

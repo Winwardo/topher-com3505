@@ -16,6 +16,7 @@ public class Head extends SceneGraph {
     private GLUT glut;
 
     private final BallJoint neck;
+    private float           rotate = 0;
 
     public Head(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -57,10 +58,14 @@ public class Head extends SceneGraph {
 
     @Override
     public void update() {
-        float now = System.currentTimeMillis() % 100000;
-        float smaller = now * 0.001f;
+        rotate += 1;
 
-        neck.setYaw((float) Math.sin(smaller) * 25);
-        neck.setPitch((float) Math.cos(smaller * 1.5f) * 15);
+        float ro = (float) Math.sin(rotate / 50);
+        float p = ro * 30;
+        neck.setYaw(p);
+
+        float rro = (float) Math.sin(rotate / 76);
+        float pp = rro * 5;
+        neck.setPitch(pp);
     }
 }
