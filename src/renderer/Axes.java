@@ -1,6 +1,9 @@
 package renderer;
 
+import java.nio.IntBuffer;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GL2ES2;
+import com.sun.prism.impl.BufferUtil;
 
 /**
  * A 3D axis. Renders fullbright, ignoring lighting.
@@ -25,6 +28,13 @@ public class Axes extends Renderable {
     public static void renderAxes(GL2 gl) {
         boolean isLit = gl.glIsEnabled(GL2.GL_LIGHTING);
         gl.glDisable(GL2.GL_LIGHTING);
+        IntBuffer currentShaderBuffer = BufferUtil.newIntBuffer(1);
+        gl.glGetIntegerv(GL2ES2.GL_CURRENT_PROGRAM, currentShaderBuffer);
+        int currentShader = currentShaderBuffer.get(0);
+
+        if (currentShader != 0) {
+            gl.glUseProgram(0);
+        }
 
         double x = 1.5, y = 1.5, z = 1.5;
         gl.glLineWidth(4);
@@ -40,6 +50,10 @@ public class Axes extends Renderable {
         gl.glVertex3d(0, 0, z);
         gl.glEnd();
         gl.glLineWidth(1);
+
+        if (currentShader != 0) {
+            gl.glUseProgram(currentShader);
+        }
 
         if (isLit) {
             gl.glEnable(GL2.GL_LIGHTING);
