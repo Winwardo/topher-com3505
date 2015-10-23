@@ -85,25 +85,30 @@ public class SceneGraphNode {
         return node;
     }
 
-    public void attachLight(ILight light) {
+    public SceneGraphNode attachLight(ILight light) {
         lights.add(light);
+        return this;
     }
 
-    public void setPosition(Vector3 position) {
+    public SceneGraphNode setPosition(Vector3 position) {
         this.localPosition = position;
+        return this;
     }
 
-    public void setRotation(Vector3 angle, float amount) {
+    public SceneGraphNode setRotation(Vector3 angle, float amount) {
         this.localRotationAngle = angle;
         this.localRotationAmount = amount;
+        return this;
     }
 
-    public void setRotationAmount(float amount) {
+    public SceneGraphNode setRotationAmount(float amount) {
         this.localRotationAmount = amount;
+        return this;
     }
 
-    public void setScaling(Vector3 scaling) {
+    public SceneGraphNode setScaling(Vector3 scaling) {
         this.localScaling = scaling;
+        return this;
     }
 
     private void attachNode(SceneGraphNode node) {
