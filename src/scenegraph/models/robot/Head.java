@@ -5,6 +5,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Sphere;
 import renderer.Teapot;
+import scenegraph.BallJoint;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
@@ -14,20 +15,15 @@ public class Head extends SceneGraph {
     private GL2  gl;
     private GLUT glut;
 
-    private final SceneGraphNode pitch;
-    private final SceneGraphNode yaw;
-    private final SceneGraphNode roll;
+    private final BallJoint ballJoint;
 
     public Head(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
 
-        pitch = root.setRotation(new Vector3(0, 0, 1), 0);
-        yaw = pitch.createAttachedNode().setRotation(new Vector3(0, 1, 0), 0);
-        roll = yaw.createAttachedNode().setRotation(new Vector3(1, 0, 0), 0);
-
-        SceneGraphNode wobblerNode = roll.createAttachedNode();
+        ballJoint = new BallJoint(gl, glut, root);
+        SceneGraphNode wobblerNode = ballJoint.get();
 
         // Core head
         wobblerNode.setScaling(new Vector3(0.6f, 1, 1));
@@ -63,11 +59,8 @@ public class Head extends SceneGraph {
     public void update() {
         float now = System.currentTimeMillis() % 100000;
         float smaller = now * 0.001f;
-        float rotate = (float) Math.sin(smaller);
 
-        // wobbler.update();
-
-        yaw.setRotationAmount((float) Math.sin(smaller) * 25);
-        pitch.setRotationAmount((float) Math.cos(smaller * 1.5f) * 15);
+        ballJoint.setYaw((float) Math.sin(smaller) * 25);
+        ballJoint.setPitch((float) Math.cos(smaller * 1.5f) * 15);
     }
 }
