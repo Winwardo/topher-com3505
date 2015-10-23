@@ -5,9 +5,8 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
-import scenegraph.EditSceneGraph;
+import scenegraph.DefaultSceneGraph;
 import scenegraph.SceneGraph;
-import scenegraph.models.robot.Robot;
 import shaders.Diffuse;
 import shaders.ShaderCore;
 
@@ -31,7 +30,8 @@ class Scene {
     }
 
     private SceneGraph makeSceneGraph() {
-        return new EditSceneGraph(gl, glut, new Robot(gl, glut));
+        return new DefaultSceneGraph(gl, glut);
+        // return new EditSceneGraph(gl, glut, new Robot(gl, glut));
     }
 
     private void setupGL() {
@@ -39,6 +39,7 @@ class Scene {
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable(GL2.GL_LIGHTING);
         gl.glEnable(GL2.GL_NORMALIZE);
+        gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
         gl.glMaterialfv(
             GL.GL_FRONT,
@@ -50,7 +51,7 @@ class Scene {
         int diffuse = shaderCore
             .setupShaders(Diffuse.fragment2, Diffuse.vertex);
 
-        shaderCore.queueShader(diffuse);
+        // shaderCore.queueShader(diffuse);
 
         // ShadowMapping sm = new ShadowMapping(gl, glu);
     }

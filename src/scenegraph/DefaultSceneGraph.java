@@ -5,8 +5,8 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.PointLight;
 import math.Vector3;
 import renderer.primitives.Axes;
-import renderer.primitives.Cube;
 import renderer.primitives.Teapot;
+import renderer.primitives.TexturedCube;
 
 public class DefaultSceneGraph extends SceneGraph {
     private SceneGraphNode majorCube;
@@ -19,7 +19,7 @@ public class DefaultSceneGraph extends SceneGraph {
         SceneGraphNode root1 = root.createAttachedNode();
 
         majorCube = root1.createAttachedNode();
-        majorCube.attachRenderable(new Cube(gl, glut));
+        majorCube.attachRenderable(new TexturedCube(gl, glut));
 
         minorCubeSpin = majorCube.createAttachedNode();
         minorCubeSpin.setPosition(new Vector3(0, 1, 0));
