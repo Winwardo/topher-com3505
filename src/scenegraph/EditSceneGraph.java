@@ -17,14 +17,14 @@ public class EditSceneGraph extends SceneGraph {
 
         {
             SceneGraphNode frontLight = new SceneGraphNode(gl);
-            frontLight.setPosition(new Vector3(0, 0, 4));
+            frontLight.setPosition(new Vector3(0, 1, 4));
             frontLight.attachLight(new PointLight(gl, gl.GL_LIGHT0));
             root.attachNode(frontLight);
         }
 
         {
             SceneGraphNode backLight = new SceneGraphNode(gl);
-            backLight.setPosition(new Vector3(0, 2, -1));
+            backLight.setPosition(new Vector3(0, 10, -2.5f));
             backLight.attachLight(new PointLight(gl, gl.GL_LIGHT1));
             root.attachNode(backLight);
         }

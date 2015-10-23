@@ -111,7 +111,7 @@ public class Assignment extends JFrame
         zoomSlider.addChangeListener(this);
 
         p.add(zoomSlider);
-        this.add(p, "South");
+        this.add(p, "North");
     }
 
     private void addSceneGraphTree(Scene scene) {

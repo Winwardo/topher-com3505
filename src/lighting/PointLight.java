@@ -14,7 +14,7 @@ public class PointLight extends Light {
         float[] position = { 0, 0, 0, 1 };
         float[] ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
         float[] diffuse = { 1, 1, 1, 1.0f };
-        float[] specular = { 0.2f, 0.2f, 0.2f, 1.0f };
+        float[] specular = { 0.8f, 0.8f, 0.7f, 1.0f };
 
         gl.glLightfv(index, GL2.GL_POSITION, position, 0);
         gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);

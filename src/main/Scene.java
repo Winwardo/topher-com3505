@@ -8,6 +8,7 @@ import math.Vector3;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import shaders.Diffuse;
+import shaders.Phong;
 import shaders.ShaderCore;
 
 class Scene {
@@ -45,8 +46,9 @@ class Scene {
             0);
 
         shaderCore = new ShaderCore(gl);
-        int phong = shaderCore.setupShaders(Diffuse.fragment, Diffuse.vertex);
-        System.out.println(phong);
+        int diffuse = shaderCore.setupShaders(Diffuse.fragment, Diffuse.vertex);
+        int phong = shaderCore.setupShaders(Phong.fragment, Phong.vertex);
+
         shaderCore.queueShader(phong);
     }
 
@@ -58,6 +60,7 @@ class Scene {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
         shaderCore.useQueuedShader();
+
         glu.gluLookAt(1.2, 1.0, 2.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
         gl.glColor3d(1, 1, 1);
@@ -74,6 +77,6 @@ class Scene {
     }
 
     public void setShader(int value) {
-        shaderCore.queueShader(value);
+        shaderCore.queueShader(value / 3);
     }
 }

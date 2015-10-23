@@ -11,7 +11,7 @@ public abstract class Renderable implements IRenderable {
 
     @Override
     public void render() {
-        Axes.renderAxes(gl);
+        // Axes.renderAxes(gl);
         renderImpl();
     }
 
