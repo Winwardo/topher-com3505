@@ -3,8 +3,8 @@ package scenegraph.models.robot;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
-import renderer.Cylinder;
-import renderer.Sphere;
+import renderer.primitives.Cylinder;
+import renderer.primitives.Sphere;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 

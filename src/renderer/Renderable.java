@@ -1,6 +1,7 @@
 package renderer;
 
 import com.jogamp.opengl.GL2;
+import renderer.primitives.Axes;
 
 public abstract class Renderable implements IRenderable {
     protected final GL2 gl;
@@ -15,5 +16,5 @@ public abstract class Renderable implements IRenderable {
         renderImpl();
     }
 
-    abstract void renderImpl();
+    protected abstract void renderImpl();
 }

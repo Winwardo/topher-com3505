@@ -1,7 +1,8 @@
-package renderer;
+package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
+import renderer.Renderable;
 
 public class Cylinder extends Renderable {
     private final GLUT  glut;

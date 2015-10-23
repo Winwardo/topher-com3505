@@ -1,9 +1,10 @@
-package renderer;
+package renderer.primitives;
 
 import java.nio.IntBuffer;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2ES2;
 import com.sun.prism.impl.BufferUtil;
+import renderer.Renderable;
 
 /**
  * A 3D axis. Renders fullbright, ignoring lighting.

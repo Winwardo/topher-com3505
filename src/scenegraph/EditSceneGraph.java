@@ -4,7 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.PointLight;
 import math.Vector3;
-import renderer.Axes;
+import renderer.primitives.Axes;
 import scenegraph.models.robot.Robot;
 
 public class EditSceneGraph extends SceneGraph {

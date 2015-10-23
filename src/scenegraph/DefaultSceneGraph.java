@@ -4,9 +4,9 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.PointLight;
 import math.Vector3;
-import renderer.Axes;
-import renderer.Cube;
-import renderer.Teapot;
+import renderer.primitives.Axes;
+import renderer.primitives.Cube;
+import renderer.primitives.Teapot;
 
 public class DefaultSceneGraph extends SceneGraph {
     private SceneGraphNode majorCube;
