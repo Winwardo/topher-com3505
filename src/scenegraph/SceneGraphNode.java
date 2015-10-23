@@ -72,6 +72,12 @@ public class SceneGraphNode {
         renderables.add(renderable);
     }
 
+    public SceneGraphNode createAttachedNode() {
+        SceneGraphNode newNode = new SceneGraphNode(gl);
+        attachNode(newNode);
+        return newNode;
+    }
+
     public void attachNode(SceneGraphNode node) {
         nodes.add(node);
     }

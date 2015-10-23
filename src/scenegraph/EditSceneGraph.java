@@ -5,7 +5,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.PointLight;
 import math.Vector3;
 import renderer.Axes;
-import scenegraph.models.robot.Robot;
+import scenegraph.models.robot.Arm;
 
 public class EditSceneGraph extends SceneGraph {
     private final SceneGraph     item;
@@ -36,7 +36,7 @@ public class EditSceneGraph extends SceneGraph {
             root.attachNode(backLight);
         }
 
-        item = new Robot(gl, glut);
+        item = new Arm(gl, glut);
         itemNode = item.root();
         root.attachNode(itemNode);
 
