@@ -9,8 +9,10 @@ import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
 public class Arm extends SceneGraph {
-    private static final float UPPER_ARM_LENGTH = 1.5f;
-    private static final float LOWER_ARM_LENGTH = 1.5f;
+    private static final float ELBOW_OFFSET     = 0.1f;
+    private static final float UPPER_ARM_LENGTH = 1.0f;
+    private static final float LOWER_ARM_LENGTH = 0.75f;
+    private static final float ARM_THICKNESS    = 0.25f;
 
     private GL2  gl;
     private GLUT glut;
@@ -23,15 +25,18 @@ public class Arm extends SceneGraph {
         this.gl = gl;
         this.glut = glut;
 
-        root.attachRenderable(new Cylinder(gl, glut, 0.25f, UPPER_ARM_LENGTH));
+        root.attachRenderable(
+            new Cylinder(gl, glut, ARM_THICKNESS, UPPER_ARM_LENGTH));
 
         elbow = root.createAttachedNode();
-        elbow.setPosition(new Vector3(0, 0, UPPER_ARM_LENGTH + 0.1f));
+        elbow.setPosition(new Vector3(0, 0, UPPER_ARM_LENGTH + ELBOW_OFFSET));
         elbow.attachRenderable(new Sphere(gl, glut, 0.25f));
 
         forearm = elbow.createAttachedNode();
-        forearm
-            .attachRenderable(new Cylinder(gl, glut, 0.15f, LOWER_ARM_LENGTH));
+        forearm.attachRenderable(
+            new Cylinder(gl, glut, ARM_THICKNESS / 2, LOWER_ARM_LENGTH));
+        forearm.setPosition(new Vector3(0, 0, ELBOW_OFFSET + 0.1f));
+        forearm.setRotation(new Vector3(1, 0, 0), 45);
     }
 
     @Override
