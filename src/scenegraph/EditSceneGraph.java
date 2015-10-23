@@ -23,9 +23,16 @@ public class EditSceneGraph extends SceneGraph {
         }
 
         {
+            SceneGraphNode topLight = new SceneGraphNode(gl);
+            topLight.setPosition(new Vector3(0, 10, -2.5f));
+            topLight.attachLight(new PointLight(gl, gl.GL_LIGHT1));
+            root.attachNode(topLight);
+        }
+
+        {
             SceneGraphNode backLight = new SceneGraphNode(gl);
-            backLight.setPosition(new Vector3(0, 10, -2.5f));
-            backLight.attachLight(new PointLight(gl, gl.GL_LIGHT1));
+            backLight.setPosition(new Vector3(4, -2, -4));
+            backLight.attachLight(new PointLight(gl, gl.GL_LIGHT2));
             root.attachNode(backLight);
         }
 
