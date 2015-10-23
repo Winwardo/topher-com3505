@@ -13,6 +13,8 @@ public class Robot extends SceneGraph {
 
     private final SceneGraph roller;
     private final SceneGraph head;
+    private final SceneGraph leftArm;
+    private final SceneGraph rightArm;
 
     public Robot(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -30,14 +32,15 @@ public class Robot extends SceneGraph {
             .createAttachedNode()
             .setPosition(new Vector3(0, 2.0f, 0));
 
-        SceneGraphNode leftArm = arms
-            .createAttachedNodeFromSceneGraph(new Arm(gl, glut));
-        leftArm.setPosition(new Vector3(0, 0, ARM_OUT));
+        leftArm = new Arm(gl, glut);
+        arms.createAttachedNodeFromSceneGraph(leftArm).setPosition(
+            new Vector3(0, 0, ARM_OUT));
 
-        SceneGraphNode rightArm = arms
-            .createAttachedNodeFromSceneGraph(new Arm(gl, glut));
-        rightArm.setPosition(new Vector3(0, 0, -ARM_OUT));
-        rightArm.setRotation(new Vector3(1, 0, 0), 180);
+        rightArm = new Arm(gl, glut);
+        arms
+            .createAttachedNodeFromSceneGraph(rightArm)
+            .setPosition(new Vector3(0, 0, -ARM_OUT))
+            .setRotation(new Vector3(1, 0, 0), 180);
 
         roller = new Roller(gl, glut);
         root.createAttachedNodeFromSceneGraph(roller);
@@ -47,5 +50,7 @@ public class Robot extends SceneGraph {
     public void update() {
         roller.update();
         head.update();
+        leftArm.update();
+        rightArm.update();
     }
 }

@@ -8,6 +8,8 @@ import math.Vector3;
  * BallJoint is a helper class for easily giving any object an independent
  * pitch/yaw/roll.
  * 
+ * Attach any future nodes to .get()
+ * 
  * @author Topher
  *
  */
@@ -15,27 +17,17 @@ public class BallJoint {
     private final SceneGraphNode pitch;
     private final SceneGraphNode yaw;
     private final SceneGraphNode roll;
+    private final SceneGraphNode get;
 
     public BallJoint(GL2 gl, GLUT glut, SceneGraphNode toAttachTo) {
         pitch = toAttachTo.setRotation(new Vector3(0, 0, 1), 0);
         yaw = pitch.createAttachedNode().setRotation(new Vector3(0, 1, 0), 0);
         roll = yaw.createAttachedNode().setRotation(new Vector3(1, 0, 0), 0);
-    }
-
-    public SceneGraphNode pitch() {
-        return pitch;
-    }
-
-    public SceneGraphNode yaw() {
-        return yaw;
-    }
-
-    public SceneGraphNode roll() {
-        return roll;
+        get = roll.createAttachedNode();
     }
 
     public SceneGraphNode get() {
-        return roll;
+        return get;
     }
 
     public BallJoint setPitch(float amount) {

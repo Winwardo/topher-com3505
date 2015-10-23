@@ -5,6 +5,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Cylinder;
 import renderer.Sphere;
+import scenegraph.BallJoint;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
@@ -17,8 +18,11 @@ public class Arm extends SceneGraph {
     private GL2  gl;
     private GLUT glut;
 
-    private final SceneGraphNode elbow;
+    private final SceneGraphNode elbowBall;
     private final SceneGraphNode forearm;
+
+    private final BallJoint elbowJoint;
+    private float           rotate = 0;
 
     public Arm(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -28,18 +32,25 @@ public class Arm extends SceneGraph {
         root.attachRenderable(
             new Cylinder(gl, glut, ARM_THICKNESS, UPPER_ARM_LENGTH));
 
-        elbow = root.createAttachedNode();
-        elbow.setPosition(new Vector3(0, 0, UPPER_ARM_LENGTH + ELBOW_OFFSET));
-        elbow.attachRenderable(new Sphere(gl, glut, 0.25f));
+        SceneGraphNode elbowOffset = root.createAttachedNode().setPosition(
+            new Vector3(0, 0, UPPER_ARM_LENGTH + ELBOW_OFFSET));
 
-        forearm = elbow.createAttachedNode();
+        elbowJoint = new BallJoint(gl, glut, elbowOffset);
+
+        elbowBall = elbowJoint.get().createAttachedNode();
+        elbowBall.attachRenderable(new Sphere(gl, glut, 0.25f));
+
+        forearm = elbowBall.createAttachedNode();
         forearm.attachRenderable(
             new Cylinder(gl, glut, ARM_THICKNESS / 2, LOWER_ARM_LENGTH));
-        forearm.setPosition(new Vector3(0, 0, ELBOW_OFFSET + 0.1f));
-        forearm.setRotation(new Vector3(1, 0, 0), 45);
+        // forearm.setPosition(new Vector3(0, 0, ELBOW_OFFSET + 0.1f));
+        // forearm.setRotation(new Vector3(1, 0, 0), 45);
     }
 
     @Override
     public void update() {
+        rotate += 1;
+        elbowJoint.setYaw(20);
+        elbowJoint.setPitch(rotate);
     }
 }
