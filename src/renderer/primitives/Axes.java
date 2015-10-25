@@ -29,6 +29,10 @@ public class Axes extends Renderable {
     public static void renderAxes(GL2 gl) {
         boolean isLit = gl.glIsEnabled(GL2.GL_LIGHTING);
         gl.glDisable(GL2.GL_LIGHTING);
+
+        boolean isTextured = gl.glIsEnabled(GL2.GL_TEXTURE_2D);
+        gl.glDisable(GL2.GL_TEXTURE_2D);
+
         IntBuffer currentShaderBuffer = BufferUtil.newIntBuffer(1);
         gl.glGetIntegerv(GL2ES2.GL_CURRENT_PROGRAM, currentShaderBuffer);
         int currentShader = currentShaderBuffer.get(0);
@@ -54,6 +58,10 @@ public class Axes extends Renderable {
 
         if (currentShader != 0) {
             gl.glUseProgram(currentShader);
+        }
+
+        if (isTextured) {
+            gl.glEnable(GL2.GL_TEXTURE_2D);
         }
 
         if (isLit) {
