@@ -6,8 +6,9 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.TextureLoader;
-import scenegraph.DefaultSceneGraph;
+import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
+import scenegraph.models.robot.Robot;
 import shaders.Diffuse;
 import shaders.ShaderCore;
 
@@ -27,19 +28,19 @@ class Scene {
         setupGL();
         TextureLoader.setGlobal(new TextureLoader(gl));
         TextureLoader.get().loadBMP(
-            "C:\\Users\\Topher\\Documents\\GitHub\\topher-com3505\\res\\texture23.bmp");
+            "C:\\Users\\Topher\\Documents\\GitHub\\topher-com3505\\res\\texture2.bmp");
 
         sceneGraph = makeSceneGraph();
         setZoom(50);
     }
 
     private SceneGraph makeSceneGraph() {
-        return new DefaultSceneGraph(gl, glut);
-        // return new EditSceneGraph(gl, glut, new Robot(gl, glut));
+        // return new DefaultSceneGraph(gl, glut);
+        return new EditSceneGraph(gl, glut, new Robot(gl, glut));
     }
 
     private void setupGL() {
-        gl.glClearColor(0, 0, 0, 1);
+        gl.glClearColor(0.39f, 0.58f, 0.92f, 1);
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable(GL2.GL_LIGHTING);
         gl.glEnable(GL2.GL_NORMALIZE);

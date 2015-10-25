@@ -26,8 +26,9 @@ public class Diffuse {
         + " for (int i = 0; i < 3; i++) {"
         + "   vec3 L = normalize(gl_LightSource[i].position.xyz - v);   "
         + "   vec4 Idiff = gl_FrontLightProduct[i].diffuse * max(dot(N,L), 0.0);  "
-        + "   Idiff = clamp(Idiff, 0.0, 1.0); " + "     finalColor += Idiff;"
+        + "   Idiff = clamp(Idiff, 0.1, 1.0); " + "     finalColor += Idiff;"
         + "}"
-        + "   gl_FragColor =  texture2D(tex,gl_TexCoord[0].st)*finalColor;"
+        + "     vec4 MaterialAmbientColor = vec4(0.1,0.1,0.1,1) * finalColor;"
+        + "     gl_FragColor =  texture2D(tex,gl_TexCoord[0].st)*finalColor + MaterialAmbientColor;"
         + "}";
 }
