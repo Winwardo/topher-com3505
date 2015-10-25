@@ -45,7 +45,7 @@ public class Arm extends SceneGraph {
         elbowJoint = new BallJoint(elbowOffset);
 
         elbowBall = elbowJoint.get().createAttachedNode();
-        elbowBall.attachRenderable(new Sphere(gl, glut, 0.25f));
+        elbowBall.attachRenderable(new Sphere(gl, 0.25f));
 
         forearm = elbowBall.createAttachedNode();
         forearm.attachRenderable(

@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.TreeMap;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 
@@ -33,20 +35,21 @@ public class TextureLoader {
         }
     }
 
-    private GL2       gl;
-    private final int BMPtexCount  = 30;
-    private int       textureCount = 0;
-    private int       textures[]   = new int[BMPtexCount];
+    private GL2                        gl;
+    private int                        textureCount = 0;
+    private final Map<String, Integer> textures;
 
     public TextureLoader(GL2 gl) {
         this.gl = gl;
+        this.textures = new TreeMap<>();
     }
 
-    public int loadBMP(String filename) {
-        return loadBMP(filename, 256, 256);
+    public int loadBMP(String textureName, String filename) {
+        return loadBMP(textureName, filename, 256, 256);
     }
 
-    public int loadBMP(String filename, int width, int height) {
+    public int loadBMP(String textureName, String filename, int width,
+        int height) {
         try {
             DataInputStream dataStream = new DataInputStream(
                 new FileInputStream(filename));
@@ -57,12 +60,12 @@ public class TextureLoader {
             dataStream.read(buf2);
             dataStream.close();
 
-            int index = textureCount;
+            final int index = textureCount;
             textureCount++;
 
             ByteBuffer buf = ByteBuffer.wrap(buf2);
 
-            gl.glBindTexture(GL.GL_TEXTURE_2D, textures[index]);
+            gl.glBindTexture(GL.GL_TEXTURE_2D, index);
 
             gl.glTexImage2D(
                 GL.GL_TEXTURE_2D,
@@ -84,11 +87,35 @@ public class TextureLoader {
                 GL.GL_TEXTURE_MIN_FILTER,
                 GL.GL_LINEAR);
 
+            gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+
+            this.textures.put(textureName, index);
+
+            System.out.format(
+                "Loaded texture `%s` successfully. Bound to texture #%d.\n",
+                textureName,
+                index);
+
             return index;
         } catch (IOException ex) {
-            // default to white
             ex.printStackTrace();
             return 0;
         }
+    }
+
+    public int get(String textureName) {
+        final Integer texture = textures.get(textureName);
+        if (texture == null) {
+            System.out.println(
+                "Tried to load non-existent texture. Using default texture.");
+            final Integer defaultTexture = textures.get("default");
+            if (defaultTexture == null) {
+                System.err.println(
+                    "Could not load default texture. Using whatever other texture is available.");
+                return 0;
+            }
+            return defaultTexture;
+        }
+        return texture;
     }
 }

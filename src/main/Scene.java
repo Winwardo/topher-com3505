@@ -26,9 +26,7 @@ class Scene {
         this.glut = new GLUT();
 
         setupGL();
-        TextureLoader.setGlobal(new TextureLoader(gl));
-        TextureLoader.get().loadBMP(
-            "C:\\Users\\Topher\\Documents\\GitHub\\topher-com3505\\res\\texture2.bmp");
+        setupTextures();
 
         sceneGraph = makeSceneGraph();
         setZoom(50);
@@ -59,6 +57,16 @@ class Scene {
         shaderCore.queueShader(diffuse);
 
         // ShadowMapping sm = new ShadowMapping(gl, glu);
+    }
+
+    private void setupTextures() {
+        TextureLoader textureLoader = new TextureLoader(gl);
+        TextureLoader.setGlobal(textureLoader);
+        textureLoader.loadBMP("default", "res\\purple.bmp");
+        textureLoader.loadBMP("white", "res\\white.bmp");
+        textureLoader.loadBMP("black", "res\\black.bmp");
+        textureLoader.loadBMP("metal", "res\\metal.bmp");
+        textureLoader.loadBMP("nyan", "res\\texture2.bmp");
     }
 
     public void update() {
