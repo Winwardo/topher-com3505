@@ -68,7 +68,7 @@ public class Assignment extends JFrame
         addMenuBar();
         addZoomSlider();
         addShaderSlider();
-        addSceneGraphTree(scene);
+        // addSceneGraphTree(scene);
     }
 
     private void addMenuBar() {

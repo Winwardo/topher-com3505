@@ -27,7 +27,7 @@ public class DefaultSceneGraph extends SceneGraph {
 
         SceneGraphNode cubeNode = minorCubeSpin.createAttachedNode();
         cubeNode.setRotation(new Vector3(0, 0, 1), 45.0f);
-        cubeNode.attachRenderable(new Teapot(gl, glut));
+        cubeNode.attachRenderable(new Teapot(gl, glut, 0));
         cubeNode.setScaling(new Vector3(0.5f, 0.5f, 0.5f));
 
         SceneGraphNode lightOffset = root.createAttachedNode();

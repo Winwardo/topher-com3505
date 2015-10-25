@@ -34,7 +34,7 @@ public class EditSceneGraph extends SceneGraph {
 
     @Override
     public void update() {
-        rotate += 0.5f;
+        rotate -= 0.5f;
         itemNode.setRotation(new Vector3(0, 1, 0), rotate);
 
         item.update();

@@ -5,12 +5,13 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import renderer.Renderable;
 
 public class Teapot extends Renderable {
-    private GLUT  glut;
-    private float size;
+    private GLUT      glut;
+    private final int textureId;
 
-    public Teapot(GL2 gl, GLUT glut) {
+    public Teapot(GL2 gl, GLUT glut, int textureId) {
         super(gl);
         this.glut = glut;
+        this.textureId = textureId;
     }
 
     @Override
@@ -28,6 +29,7 @@ public class Teapot extends Renderable {
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
 
+        gl.glBindTexture(gl.GL_TEXTURE_2D, textureId);
         glut.glutSolidTeapot(1);
     }
 }

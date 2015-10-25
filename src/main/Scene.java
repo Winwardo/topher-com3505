@@ -41,7 +41,7 @@ class Scene {
         gl.glClearColor(0.39f, 0.58f, 0.92f, 1);
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable(GL2.GL_LIGHTING);
-        gl.glEnable(GL2.GL_NORMALIZE);
+        // gl.glEnable(GL2.GL_NORMALIZE);
         gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
         gl.glMaterialfv(
@@ -67,6 +67,8 @@ class Scene {
         textureLoader.loadBMP("black", "res\\black.bmp");
         textureLoader.loadBMP("metal", "res\\metal.bmp");
         textureLoader.loadBMP("nyan", "res\\texture2.bmp");
+        textureLoader.loadBMP("eye_right", "res\\eye_right.bmp");
+        textureLoader.loadBMP("eye_left", "res\\eye_left.bmp");
     }
 
     public void update() {
