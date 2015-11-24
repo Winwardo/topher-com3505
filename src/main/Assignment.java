@@ -25,7 +25,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 public class Assignment extends JFrame
     implements GLEventListener, ActionListener, ChangeListener {
 
-    private static final long serialVersionUID = 1L;
+    private static final long  serialVersionUID  = 1L;
 
     private static final float FIELD_OF_VIEW     = 90.0f;
     private static final int   WIDTH             = 640;
@@ -35,7 +35,7 @@ public class Assignment extends JFrame
     private static final float FAR_CLIP          = 100.0f;
     private static final int   FRAMES_PER_SECOND = 60;
 
-    private Scene scene;
+    private Scene              scene;
 
     public static void main(String[] args) {
         Assignment t1 = new Assignment();
@@ -61,6 +61,8 @@ public class Assignment extends JFrame
     private GLCanvas makeGLCanvas() {
         GLProfile glp = GLProfile.getDefault();
         GLCapabilities caps = new GLCapabilities(glp);
+        caps.setNumSamples(4);
+        caps.setSampleBuffers(true);
         return new GLCanvas(caps);
     }
 

@@ -3,6 +3,7 @@ package scenegraph.models.robot;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
+import renderer.TextureLoader;
 import renderer.primitives.Sphere;
 import renderer.primitives.Teapot;
 import scenegraph.BallJoint;
@@ -28,32 +29,28 @@ public class Head extends SceneGraph {
 
         // Core head
         head.setScaling(new Vector3(0.6f, 1, 1));
-        head.attachRenderable(new Teapot(gl, glut));
+        head.attachRenderable(
+            new Teapot(gl, glut, TextureLoader.get().get("metal")));
 
         attachLeftEye(head);
         attachRightEye(head);
     }
 
     private void attachLeftEye(SceneGraphNode head) {
-        attachEye(-eyeOffset, head);
+        attachEye(-eyeOffset, head, "eye_left");
     }
 
     private void attachRightEye(SceneGraphNode head) {
-        attachEye(eyeOffset, head);
+        attachEye(eyeOffset, head, "eye_right");
     }
 
-    public void attachEye(float xOffset, SceneGraphNode head) {
+    public void attachEye(float xOffset, SceneGraphNode head, String texture) {
         SceneGraphNode eye = head.createAttachedNode();
-        eye.attachRenderable(new Sphere(gl));
-        eye.setScaling(Vector3.all(0.2f));
+        eye.attachRenderable(
+            new Sphere(gl, 0.5f, TextureLoader.get().get(texture)));
+        eye.setScaling(Vector3.all(0.4f));
         eye.setPosition(new Vector3(0.7f, 0.2f, xOffset));
-
-        {
-            SceneGraphNode pupil = head.createAttachedNode();
-            pupil.attachRenderable(new Sphere(gl));
-            pupil.setScaling(Vector3.all(0.25f));
-            pupil.setPosition(new Vector3(0.5f, 0, 0));
-        }
+        eye.setRotation(new Vector3(0, 1, 1), 180);
     }
 
     @Override

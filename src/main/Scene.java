@@ -13,9 +13,9 @@ import shaders.Diffuse;
 import shaders.ShaderCore;
 
 class Scene {
-    private final GL2  gl;
-    private final GLU  glu;
-    private final GLUT glut;
+    private final GL2        gl;
+    private final GLU        glu;
+    private final GLUT       glut;
 
     private final SceneGraph sceneGraph;
     private ShaderCore       shaderCore;
@@ -41,8 +41,10 @@ class Scene {
         gl.glClearColor(0.39f, 0.58f, 0.92f, 1);
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable(GL2.GL_LIGHTING);
-        // gl.glEnable(GL2.GL_NORMALIZE);
         gl.glEnable(GL2.GL_TEXTURE_2D);
+        gl.glEnable(GL2.GL_MULTISAMPLE);
+        gl.glEnable(GL2.GL_POINT_SMOOTH);
+        gl.glEnable(GL2.GL_LINE_SMOOTH);
         gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
         gl.glMaterialfv(
             GL.GL_FRONT,
@@ -78,6 +80,7 @@ class Scene {
     public void render() {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
+        gl.glEnable(GL.GL_MULTISAMPLE);
         shaderCore.useQueuedShader();
 
         glu.gluLookAt(1.2, 1.0, 2.5, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0);
@@ -85,6 +88,7 @@ class Scene {
         gl.glColor3d(1, 1, 1);
 
         sceneGraph.render();
+        gl.glDisable(GL.GL_MULTISAMPLE);
     }
 
     public SceneGraph sceneGraph() {
