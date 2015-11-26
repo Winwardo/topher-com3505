@@ -9,8 +9,11 @@ import renderer.TextureLoader;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import scenegraph.models.robot.Robot;
+import shaders.Albedo;
+import shaders.All;
 import shaders.Diffuse;
 import shaders.ShaderCore;
+import shaders.Specular;
 
 class Scene {
     private final GL2        gl;
@@ -39,6 +42,7 @@ class Scene {
 
     private void setupGL() {
         gl.glClearColor(0.39f, 0.58f, 0.92f, 1);
+        gl.glClearColor(0.09f, 0.08f, 0.12f, 1);
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable(GL2.GL_LIGHTING);
         gl.glEnable(GL2.GL_TEXTURE_2D);
@@ -53,10 +57,14 @@ class Scene {
             0);
 
         shaderCore = new ShaderCore(gl);
+        int albedo = shaderCore.setupShaders(Albedo.fragment, Albedo.vertex);
         int diffuse = shaderCore
             .setupShaders(Diffuse.fragment2, Diffuse.vertex);
+        int specular = shaderCore
+            .setupShaders(Specular.fragment, Specular.vertex);
+        int all = shaderCore.setupShaders(All.fragment, All.vertex);
 
-        shaderCore.queueShader(diffuse);
+        shaderCore.queueShader(all);
 
         // ShadowMapping sm = new ShadowMapping(gl, glu);
     }
