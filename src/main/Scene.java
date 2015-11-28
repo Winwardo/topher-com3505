@@ -12,12 +12,8 @@ import renderer.TextureLoader;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import scenegraph.models.robot.Robot;
-import shaders.Albedo;
-import shaders.All;
-import shaders.Diffuse;
 import shaders.ShaderCore;
 import shaders.ShadowMapping;
-import shaders.Specular;
 
 class Scene {
     private final GL2        gl;
@@ -69,10 +65,33 @@ class Scene {
 
     private void setupShaders() {
         shaderCore = new ShaderCore(gl);
-        shaderCore.setupShaders(Albedo.fragment, Albedo.vertex);
-        shaderCore.setupShaders(Diffuse.fragment2, Diffuse.vertex);
-        shaderCore.setupShaders(Specular.fragment, Specular.vertex);
-        int all = shaderCore.setupShaders(All.fragment, All.vertex);
+
+        String maxlights = "3";
+
+        int albedo = shaderCore.setupShaders(
+            "phong",
+            null,
+            new String[] { maxlights, "2", "0", "0", "0" });
+
+        int ambient = shaderCore.setupShaders(
+            "phong",
+            null,
+            new String[] { maxlights, "0", "1", "0", "0" });
+
+        int diffuse = shaderCore.setupShaders(
+            "phong",
+            null,
+            new String[] { maxlights, "0", "0", "1", "0" });
+
+        int specular = shaderCore.setupShaders(
+            "phong",
+            null,
+            new String[] { maxlights, "0", "0", "0", "1" });
+
+        int all = shaderCore.setupShaders(
+            "phong",
+            null,
+            new String[] { maxlights, "1", "1", "1", "1" });
 
         currentShader = all;
         shaderCore.queueShader(all);

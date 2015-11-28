@@ -1,5 +1,8 @@
 package shaders;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2ES2;
 
@@ -102,5 +105,42 @@ public class ShaderCore {
             useShader(queuedShader);
             queuedShader = -1;
         }
+    }
+
+    public int setupShaders(String shaderName, String[] vertexParams,
+        String[] fragmentParams) {
+        String vertexLocation = "res\\" + shaderName + ".vs";
+        String fragmentLocation = "res\\" + shaderName + ".fs";
+
+        if (vertexParams == null) {
+            vertexParams = new String[0];
+        }
+        if (fragmentParams == null) {
+            fragmentParams = new String[0];
+        }
+
+        try {
+            byte[] fileBytesVertex = Files
+                .readAllBytes(Paths.get(vertexLocation));
+            String vertexInfoRaw = new String(fileBytesVertex);
+            String vertexInfo = String.format(vertexInfoRaw, vertexParams);
+
+            byte[] fileBytesFragment = Files
+                .readAllBytes(Paths.get(fragmentLocation));
+            String fragmentInfoRaw = new String(fileBytesFragment);
+            String fragmentInfo = String
+                .format(fragmentInfoRaw, fragmentParams);
+
+            System.out.println(fragmentInfo);
+
+            return setupShaders(fragmentInfo, vertexInfo);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int setupShaders(String shaderName) {
+        return setupShaders(shaderName, null, null);
     }
 }
