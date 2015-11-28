@@ -29,7 +29,6 @@ class Scene {
 
     private int              currentShader;
     private FBO              fbo;
-    private int              texRender_RB;
 
     public Scene(GL2 gl) {
         this.gl = gl;
@@ -64,11 +63,6 @@ class Scene {
         gl.glEnable(GL2.GL_POINT_SMOOTH);
         gl.glEnable(GL2.GL_LINE_SMOOTH);
         gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
-        gl.glMaterialfv(
-            GL.GL_FRONT,
-            GL2.GL_AMBIENT_AND_DIFFUSE,
-            new float[] { 0.2f, 0.2f, 0.2f, 1.0f },
-            0);
 
         ShadowMapping sm = new ShadowMapping(gl, glu);
     }
