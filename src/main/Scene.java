@@ -11,7 +11,7 @@ import renderer.Materials;
 import renderer.TextureLoader;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
-import scenegraph.models.robot.Robot;
+import scenegraph.models.room.Room;
 import shaders.ShaderCore;
 import shaders.ShadowMapping;
 
@@ -46,7 +46,7 @@ class Scene {
 
     private SceneGraph makeSceneGraph() {
         // return new DefaultSceneGraph(gl, glut);
-        return new EditSceneGraph(gl, glut, new Robot(gl, glut));
+        return new EditSceneGraph(gl, glut, new Room(gl, glut));
     }
 
     private void setupGL() {
@@ -113,6 +113,7 @@ class Scene {
         textureLoader.loadBMP("black", "res\\black.bmp");
         textureLoader.loadBMP("eye_right", "res\\eye_right.bmp");
         textureLoader.loadBMP("eye_left", "res\\eye_left.bmp");
+        textureLoader.loadBMP("hardwood", "res\\hardwood.bmp");
     }
 
     private void setupMaterials() {
@@ -126,15 +127,36 @@ class Scene {
             "metal");
 
         materials.addNew(
+            "wood",
+            new float[] { 0.25f, 0.25f, 0.25f, 1.0f },
+            new float[] { 0.8f, 0.8f, 0.8f, 1.0f },
+            new float[] { 0.0f, 0.02f, 0.0f, 1.0f },
+            100f,
+            "hardwood");
+
+        materials.addNew(
             "tvscreen",
-            new float[] { 1, 1, 1, 1.0f },
+            new float[] { 10, 10, 10, 1.0f },
             new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
             new float[] { 2.0f, 1.0f, 1.0f, 1.0f },
             100f,
             "rendertex");
 
-        materials.addNew("eye_left", "eye_left");
-        materials.addNew("eye_right", "eye_right");
+        materials.addNew(
+            "eye_left",
+            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
+            new float[] { 0.6f, 0.6f, 0.6f, 1.0f },
+            new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
+            10f,
+            "eye_left");
+
+        materials.addNew(
+            "eye_right",
+            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
+            new float[] { 0.6f, 0.6f, 0.6f, 1.0f },
+            new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
+            10f,
+            "eye_right");
     }
 
     public void update() {

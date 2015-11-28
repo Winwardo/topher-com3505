@@ -131,8 +131,6 @@ public class ShaderCore {
             String fragmentInfo = String
                 .format(fragmentInfoRaw, fragmentParams);
 
-            System.out.println(fragmentInfo);
-
             return setupShaders(fragmentInfo, vertexInfo);
         } catch (IOException ex) {
             ex.printStackTrace();
