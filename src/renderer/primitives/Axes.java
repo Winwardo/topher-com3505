@@ -4,6 +4,7 @@ import java.nio.IntBuffer;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2ES2;
 import com.sun.prism.impl.BufferUtil;
+import renderer.Material;
 import renderer.Renderable;
 
 /**
@@ -11,7 +12,7 @@ import renderer.Renderable;
  */
 public class Axes extends Renderable {
     public Axes(GL2 gl) {
-        super(gl);
+        super(gl, Material.empty(gl));
     }
 
     @Override

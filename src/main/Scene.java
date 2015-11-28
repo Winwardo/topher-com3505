@@ -7,8 +7,8 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Cameras;
 import renderer.FBO;
-import renderer.TextureLoader;
 import renderer.Materials;
+import renderer.TextureLoader;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import scenegraph.models.robot.Robot;
@@ -103,12 +103,16 @@ class Scene {
         Materials materials = Materials.get();
 
         materials.addNew(
-            "headmetal",
+            "shinymetal",
             new float[] { 0.25f, 0.25f, 0.25f, 1.0f },
             new float[] { 0.5f, 0.5f, 0.5f, 1.0f },
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             100f,
             "metal");
+
+        materials.addNew("tvscreen", "rendertex");
+        materials.addNew("eye_left", "eye_left");
+        materials.addNew("eye_right", "eye_right");
     }
 
     public void update() {

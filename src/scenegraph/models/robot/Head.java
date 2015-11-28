@@ -3,7 +3,6 @@ package scenegraph.models.robot;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
-import renderer.TextureLoader;
 import renderer.Materials;
 import renderer.primitives.Sphere;
 import renderer.primitives.Teapot;
@@ -32,7 +31,7 @@ public class Head extends SceneGraph {
         head.setScaling(new Vector3(0.6f, 1, 1));
 
         head.attachRenderable(
-            new Teapot(gl, glut, Materials.get().get("headmetal")));
+            new Teapot(gl, glut, Materials.get().get("shinymetal")));
 
         attachLeftEye(head);
         attachRightEye(head);
@@ -49,7 +48,7 @@ public class Head extends SceneGraph {
     public void attachEye(float xOffset, SceneGraphNode head, String texture) {
         SceneGraphNode eye = head.createAttachedNode();
         eye.attachRenderable(
-            new Sphere(gl, 0.5f, TextureLoader.get().get(texture)));
+            new Sphere(gl, 0.5f, Materials.get().get(texture)));
         eye.setScaling(Vector3.all(0.4f));
         eye.setPosition(new Vector3(0.7f, 0.2f, xOffset));
         eye.setRotation(new Vector3(0, 1, 1), 180);

@@ -20,7 +20,8 @@ public class DefaultSceneGraph extends SceneGraph {
         SceneGraphNode root1 = root.createAttachedNode();
 
         majorCube = root1.createAttachedNode();
-        majorCube.attachRenderable(new TexturedCube(gl, glut));
+        majorCube
+            .attachRenderable(new TexturedCube(gl, glut, Material.empty(gl)));
 
         minorCubeSpin = majorCube.createAttachedNode();
         minorCubeSpin.setPosition(new Vector3(0, 1, 0));

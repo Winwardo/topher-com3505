@@ -34,7 +34,7 @@ public class All {
         + "             * pow(max(dot(R,E),0.0),0.3*gl_FrontMaterial.shininess);"
         + "Idiff =smoothstep(0.2, 0.8, Idiff);" + ""
         + "Idiff = clamp(Idiff, 0.1, 1.0);  "
-        + "Ispec = smoothstep(0.5, 1.1, Ispec); "
+        + "Ispec = smoothstep(0.1, 0.2, Ispec); "
         + "      finalColor += Iamb + Idiff + Ispec;\n" + " " + "  }" + "   "
         + " //gl_FragColor = gl_FrontLightModelProduct.sceneColor + finalColor; \n"
         + "     gl_FragColor =  texture2D(tex,gl_TexCoord[0].st) * finalColor;"

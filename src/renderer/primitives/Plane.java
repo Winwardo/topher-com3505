@@ -2,6 +2,7 @@ package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
+import renderer.Material;
 import renderer.Renderable;
 
 public class Plane extends Renderable {
@@ -9,8 +10,8 @@ public class Plane extends Renderable {
     private float size;
     private int   textureId;
 
-    public Plane(GL2 gl, GLUT glut, int textureId) {
-        super(gl);
+    public Plane(GL2 gl, GLUT glut, Material mat) {
+        super(gl, mat);
         this.glut = glut;
         this.textureId = textureId;
 
@@ -31,8 +32,6 @@ public class Plane extends Renderable {
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, matDiffuse, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, 0);
-
-        gl.glBindTexture(gl.GL_TEXTURE_2D, textureId);
 
         double x1 = 0;
         double y1 = 0;

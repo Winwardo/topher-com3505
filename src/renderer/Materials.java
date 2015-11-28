@@ -35,6 +35,12 @@ public class Materials {
         this.materials = new TreeMap<>();
     }
 
+    public Material addNew(String materialName, String textureName) {
+        Material newMaterial = new Material(gl, textureName);
+        materials.put(materialName, newMaterial);
+        return newMaterial;
+    }
+
     public Material addNew(String materialName, float[] ambient,
         float[] diffuse, float[] specular, float shininess,
         String textureName) {

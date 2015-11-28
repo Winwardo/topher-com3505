@@ -3,7 +3,7 @@ package scenegraph.models.robot;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
-import renderer.TextureLoader;
+import renderer.Materials;
 import renderer.primitives.Cylinder;
 import renderer.primitives.Sphere;
 import scenegraph.SceneGraph;
@@ -11,8 +11,8 @@ import scenegraph.SceneGraphNode;
 
 public class Roller extends SceneGraph {
 
-    private GL2  gl;
-    private GLUT glut;
+    private GL2                  gl;
+    private GLUT                 glut;
 
     private final SceneGraphNode ballNode;
     private float                rotation = 0;
@@ -24,12 +24,18 @@ public class Roller extends SceneGraph {
 
         ballNode = root.createAttachedNode();
         ballNode.attachRenderable(
-            new Sphere(gl, 1.5f, TextureLoader.get().get("metal")));
+            new Sphere(gl, 1.5f, Materials.get().get("shinymetal")));
         ballNode.setScaling(new Vector3(0.75f, 0.75f, 1f));
 
         SceneGraphNode axis = root.createAttachedNode();
         final float rollerLength = 3.25f;
-        axis.attachRenderable(new Cylinder(gl, glut, 0.35f, rollerLength));
+        axis.attachRenderable(
+            new Cylinder(
+                gl,
+                glut,
+                0.35f,
+                rollerLength,
+                Materials.get().get("shinymetal")));
         axis.setPosition(new Vector3(0, 0, -rollerLength / 2));
     }
 

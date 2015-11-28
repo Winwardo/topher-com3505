@@ -2,22 +2,19 @@ package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
-import renderer.Renderable;
 import renderer.Material;
+import renderer.Renderable;
 
 public class Teapot extends Renderable {
-    private GLUT          glut;
-    private final Material tex;
+    private GLUT glut;
 
-    public Teapot(GL2 gl, GLUT glut, Material tex) {
-        super(gl);
+    public Teapot(GL2 gl, GLUT glut, Material mat) {
+        super(gl, mat);
         this.glut = glut;
-        this.tex = tex;
     }
 
     @Override
     public void renderImpl() {
-        tex.apply();
         glut.glutSolidTeapot(1);
     }
 }
