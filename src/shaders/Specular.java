@@ -22,6 +22,6 @@ public class Specular {
         + " for (int i = 0; i < 3; i++) {" + "// calculate Specular Term:\n"
         + "vec4 Ispec = gl_FrontLightProduct[i].specular "
         + "* pow(max(dot(R,E),0.0),0.3*gl_FrontMaterial.shininess); "
-        + "Ispec = clamp(Ispec, 0.0, 1.0); " + "finalColor += Ispec;" + "}"
-        + "gl_FragColor = finalColor * 0.5;" + "}";
+        + "Ispec = smoothstep(0.1, 0.2, Ispec); " + "finalColor += Ispec;" + "}"
+        + "gl_FragColor = finalColor;" + "}";
 }

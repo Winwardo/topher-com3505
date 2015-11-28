@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.TextureLoader;
+import renderer.Materials;
 import renderer.primitives.Sphere;
 import renderer.primitives.Teapot;
 import scenegraph.BallJoint;
@@ -13,11 +14,11 @@ import scenegraph.SceneGraphNode;
 public class Head extends SceneGraph {
     private static final float eyeOffset = 0.5f;
 
-    private GL2  gl;
-    private GLUT glut;
+    private GL2                gl;
+    private GLUT               glut;
 
-    private final BallJoint neck;
-    private float           rotate = 0;
+    private final BallJoint    neck;
+    private float              rotate    = 0;
 
     public Head(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -29,8 +30,9 @@ public class Head extends SceneGraph {
 
         // Core head
         head.setScaling(new Vector3(0.6f, 1, 1));
+
         head.attachRenderable(
-            new Teapot(gl, glut, TextureLoader.get().get("metal")));
+            new Teapot(gl, glut, Materials.get().get("headmetal")));
 
         attachLeftEye(head);
         attachRightEye(head);

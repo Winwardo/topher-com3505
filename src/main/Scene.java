@@ -8,6 +8,7 @@ import math.Vector3;
 import renderer.Cameras;
 import renderer.FBO;
 import renderer.TextureLoader;
+import renderer.Materials;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import scenegraph.models.robot.Robot;
@@ -36,6 +37,7 @@ class Scene {
         this.glut = new GLUT();
 
         Cameras.setGlobal(new Cameras());
+        Materials.setGlobal(new Materials(gl));
 
         setupGL();
         setupShaders();
@@ -60,9 +62,9 @@ class Scene {
         gl.glEnable(GL2.GL_MULTISAMPLE);
         gl.glEnable(GL2.GL_POINT_SMOOTH);
         gl.glEnable(GL2.GL_LINE_SMOOTH);
-        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        gl.glPolygonMode(GL.GL_FRONT, GL2.GL_FILL);
         gl.glMaterialfv(
-            GL.GL_FRONT_AND_BACK,
+            GL.GL_FRONT,
             GL2.GL_AMBIENT_AND_DIFFUSE,
             new float[] { 0.2f, 0.2f, 0.2f, 1.0f },
             0);
@@ -97,6 +99,16 @@ class Scene {
         textureLoader.loadBMP("black", "res\\black.bmp");
         textureLoader.loadBMP("eye_right", "res\\eye_right.bmp");
         textureLoader.loadBMP("eye_left", "res\\eye_left.bmp");
+
+        Materials materials = Materials.get();
+
+        materials.addNew(
+            "headmetal",
+            new float[] { 0.25f, 0.25f, 0.25f, 1.0f },
+            new float[] { 0.5f, 0.5f, 0.5f, 1.0f },
+            new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
+            100f,
+            "metal");
     }
 
     public void update() {
@@ -115,6 +127,7 @@ class Scene {
         gl.glEnable(GL.GL_MULTISAMPLE);
 
         gl.glClearColor(1.f, 1.f, 0.f, 1.f);
+        gl.glClearColor(0.f, 0.f, 0.f, 1.f);
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
         gl.glBindTexture(gl.GL_TEXTURE_2D, 1);
 

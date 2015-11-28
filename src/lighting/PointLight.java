@@ -1,10 +1,19 @@
 package lighting;
 
 import com.jogamp.opengl.GL2;
+import math.Vector3;
 
 public class PointLight extends Light {
-    public PointLight(GL2 gl, int lightId) {
+    private float[] color;
+
+    public PointLight(GL2 gl, int lightId, Vector3 color) {
         super(gl, lightId);
+
+        this.color = new float[] { color.x(), color.y(), color.z(), 1.0f };
+    }
+
+    public PointLight(GL2 gl, int lightId) {
+        this(gl, lightId, new Vector3(1, 1, 1));
     }
 
     @Override
@@ -18,8 +27,8 @@ public class PointLight extends Light {
 
         gl.glLightfv(index, GL2.GL_POSITION, position, 0);
         gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);
-        gl.glLightfv(index, GL2.GL_DIFFUSE, diffuse, 0);
-        gl.glLightfv(index, GL2.GL_SPECULAR, specular, 0);
+        gl.glLightfv(index, GL2.GL_DIFFUSE, color, 0);
+        gl.glLightfv(index, GL2.GL_SPECULAR, color, 0);
 
         // gl.glLightf(index, GL2.GL_SPOT_CUTOFF, angle);
         // gl.glLightfv(index, GL2.GL_SPOT_DIRECTION, direction, 0);
