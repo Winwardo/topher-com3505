@@ -41,7 +41,7 @@ class Scene {
         setupFbos();
 
         sceneGraph = makeSceneGraph();
-        setZoom(50);
+        setZoom(30);
     }
 
     private SceneGraph makeSceneGraph() {
@@ -58,6 +58,7 @@ class Scene {
         gl.glEnable(GL2.GL_MULTISAMPLE);
         gl.glEnable(GL2.GL_POINT_SMOOTH);
         gl.glEnable(GL2.GL_LINE_SMOOTH);
+        gl.glEnable(GL2.GL_NORMALIZE);
         gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
 
         ShadowMapping sm = new ShadowMapping(gl, glu);
@@ -157,6 +158,8 @@ class Scene {
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             10f,
             "eye_right");
+
+        materials.addNew("nyan", "nyan");
     }
 
     public void update() {

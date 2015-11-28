@@ -2,6 +2,9 @@ package scenegraph.models.room;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
+import math.Vector3;
+import renderer.Materials;
+import renderer.primitives.Plane;
 import scenegraph.BallJoint;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
@@ -23,6 +26,14 @@ public class Room extends SceneGraph {
         rollerBallJoint = new BallJoint(root);
 
         root.createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut));
+
+        root
+            .createAttachedNode()
+            .attachRenderable(
+                new Plane(gl, glut, Materials.get().get("wood"), 2, 2))
+            .setRotation(new Vector3(1, 0, 0), 90)
+            .setPosition(new Vector3(0, -1, 0))
+            .setScaling(new Vector3(25, 25, 1));
     }
 
     @Override

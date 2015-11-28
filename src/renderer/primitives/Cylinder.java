@@ -33,7 +33,6 @@ public class Cylinder extends Renderable {
         glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
         glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);
         glu.gluQuadricTexture(quadric, true);
-
         glu.gluCylinder(quadric, radius, radius, height, SUBDIVISIONS, 24);
     }
 }
