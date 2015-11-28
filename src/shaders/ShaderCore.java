@@ -34,8 +34,9 @@ public class ShaderCore {
         int error = gl.glGetError();
         if (error > 0) {
             System.err.format(
-                "Shader error, GL#%d. Most likely a missing shader number.\n",
-                error);
+                "Shader error, GL#%d. Most likely a missing shader number `%d`.\n",
+                error,
+                shaderProgram);
         }
     }
 

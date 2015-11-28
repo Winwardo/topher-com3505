@@ -12,14 +12,14 @@ public class Robot extends SceneGraph {
     private GL2                gl;
     private GLUT               glut;
 
-    private final SceneGraph roller;
-    private final SceneGraph head;
-    private final SceneGraph rightArm;
-    private final SceneGraph leftArm;
-    private final SceneGraph body;
-    private final BallJoint  rollerBallJoint;
+    private final SceneGraph   roller;
+    private final SceneGraph   head;
+    private final SceneGraph   rightArm;
+    private final SceneGraph   leftArm;
+    private final SceneGraph   body;
+    private final BallJoint    rollerBallJoint;
 
-    private float rotate = 0;
+    private float              rotate  = 0;
 
     public Robot(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));

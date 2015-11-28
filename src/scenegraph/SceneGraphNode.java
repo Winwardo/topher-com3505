@@ -12,12 +12,12 @@ public class SceneGraphNode {
     private final List<SceneGraphNode> nodes;
     private final List<ILight>         lights;
 
-    private Vector3 localPosition;
-    private Vector3 localRotationAngle;
-    private float   localRotationAmount;
-    private Vector3 localScaling;
+    private Vector3                    localPosition;
+    private Vector3                    localRotationAngle;
+    private float                      localRotationAmount;
+    private Vector3                    localScaling;
 
-    private GL2 gl;
+    private GL2                        gl;
 
     public SceneGraphNode(Vector3 localPosition, Vector3 localRotation,
         float localRotationAmount, Vector3 localScaling, GL2 gl) {
@@ -68,8 +68,9 @@ public class SceneGraphNode {
         scale();
     }
 
-    public void attachRenderable(IRenderable renderable) {
+    public SceneGraphNode attachRenderable(IRenderable renderable) {
         renderables.add(renderable);
+        return this;
     }
 
     public SceneGraphNode createAttachedNode() {
@@ -109,6 +110,18 @@ public class SceneGraphNode {
     public SceneGraphNode setScaling(Vector3 scaling) {
         this.localScaling = scaling;
         return this;
+    }
+
+    public Vector3 rotation() {
+        return this.localRotationAngle;
+    }
+
+    public float rotationAmount() {
+        return this.localRotationAmount;
+    }
+
+    public Vector3 position() {
+        return this.localPosition;
     }
 
     private void attachNode(SceneGraphNode node) {
