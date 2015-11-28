@@ -42,6 +42,7 @@ class Scene {
         setupGL();
         setupShaders();
         setupTextures();
+        setupMaterials();
         setupFbos();
 
         sceneGraph = makeSceneGraph();
@@ -62,7 +63,7 @@ class Scene {
         gl.glEnable(GL2.GL_MULTISAMPLE);
         gl.glEnable(GL2.GL_POINT_SMOOTH);
         gl.glEnable(GL2.GL_LINE_SMOOTH);
-        gl.glPolygonMode(GL.GL_FRONT, GL2.GL_FILL);
+        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
         gl.glMaterialfv(
             GL.GL_FRONT,
             GL2.GL_AMBIENT_AND_DIFFUSE,
@@ -99,18 +100,26 @@ class Scene {
         textureLoader.loadBMP("black", "res\\black.bmp");
         textureLoader.loadBMP("eye_right", "res\\eye_right.bmp");
         textureLoader.loadBMP("eye_left", "res\\eye_left.bmp");
+    }
 
+    private void setupMaterials() {
         Materials materials = Materials.get();
-
         materials.addNew(
             "shinymetal",
             new float[] { 0.25f, 0.25f, 0.25f, 1.0f },
-            new float[] { 0.5f, 0.5f, 0.5f, 1.0f },
+            new float[] { 0.8f, 0.8f, 0.8f, 1.0f },
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             100f,
             "metal");
 
-        materials.addNew("tvscreen", "rendertex");
+        materials.addNew(
+            "tvscreen",
+            new float[] { 1, 1, 1, 1.0f },
+            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
+            new float[] { 2.0f, 1.0f, 1.0f, 1.0f },
+            100f,
+            "rendertex");
+
         materials.addNew("eye_left", "eye_left");
         materials.addNew("eye_right", "eye_right");
     }

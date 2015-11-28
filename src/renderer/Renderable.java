@@ -15,7 +15,10 @@ public abstract class Renderable implements IRenderable {
     public void render() {
         // Axes.renderAxes(gl);
         mat.apply();
+
+        gl.glPushMatrix();
         renderImpl();
+        gl.glPopMatrix();
     }
 
     protected abstract void renderImpl();

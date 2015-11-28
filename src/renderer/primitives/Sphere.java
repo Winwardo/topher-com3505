@@ -44,7 +44,6 @@ public class Sphere extends Renderable {
 
     @Override
     public void renderImpl() {
-
         gl.glCallList(mysphereID);
     }
 }

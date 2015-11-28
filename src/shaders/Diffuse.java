@@ -26,7 +26,7 @@ public class Diffuse {
         + " for (int i = 0; i < 3; i++) {"
         + "   vec3 L = normalize(gl_LightSource[i].position.xyz - v);   "
         + "   vec4 Idiff = gl_FrontLightProduct[i].diffuse * max(dot(N,L), 0.0);  "
-        + "Idiff =smoothstep(0.2, 0.3, Idiff);"
+        + "Idiff =smoothstep(0.2, 0.8, Idiff);"
         + "   Idiff = clamp(Idiff, 0.1, 1.0); " + "     finalColor += Idiff;"
         + "}"
         + "     vec4 MaterialAmbientColor = vec4(0.1,0.1,0.1,1) * finalColor;"

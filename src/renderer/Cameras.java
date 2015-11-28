@@ -44,9 +44,11 @@ public class Cameras {
     }
 
     public void apply(int cameraId) {
-        final Camera camera = get(cameraId);
-        if (camera != null) {
-            camera.apply();
+        if (cameraId < cameras.size() && cameraId >= 0) {
+            final Camera camera = get(cameraId);
+            if (camera != null) {
+                camera.apply();
+            }
         }
     }
 }
