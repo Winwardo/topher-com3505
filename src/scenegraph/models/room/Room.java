@@ -30,10 +30,10 @@ public class Room extends SceneGraph {
         root
             .createAttachedNode()
             .attachRenderable(
-                new Plane(gl, glut, Materials.get().get("wood"), 2, 2))
+                new Plane(gl, glut, Materials.get().get("wood"), 4, 4))
             .setRotation(new Vector3(1, 0, 0), 90)
-            .setPosition(new Vector3(0, -1, 0))
-            .setScaling(new Vector3(25, 25, 1));
+            .setPosition(new Vector3(-25, -1, -25))
+            .setScaling(new Vector3(50, 50, 1));
     }
 
     @Override

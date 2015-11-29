@@ -18,11 +18,13 @@ public class TexturedCube extends Renderable {
 
     @Override
     public void renderImpl() {
-        gl.glPushMatrix();
+        // gl.glPushMatrix();
         {
             gl.glScalef(0.5f, 0.5f, 0.5f);
             gl.glBegin(gl.GL_QUADS);
+
             // Front Face
+            gl.glNormal3f(0, 0, 1);
             gl.glTexCoord2f(0.0f, 0.0f);
             gl.glVertex3f(-1.0f, -1.0f, 1.0f);
             gl.glTexCoord2f(1.0f, 0.0f);
@@ -31,7 +33,9 @@ public class TexturedCube extends Renderable {
             gl.glVertex3f(1.0f, 1.0f, 1.0f);
             gl.glTexCoord2f(0.0f, 1.0f);
             gl.glVertex3f(-1.0f, 1.0f, 1.0f);
+
             // Back Face
+            gl.glNormal3f(0, 0, -1);
             gl.glTexCoord2f(1.0f, 0.0f);
             gl.glVertex3f(-1.0f, -1.0f, -1.0f);
             gl.glTexCoord2f(1.0f, 1.0f);
@@ -40,7 +44,9 @@ public class TexturedCube extends Renderable {
             gl.glVertex3f(1.0f, 1.0f, -1.0f);
             gl.glTexCoord2f(0.0f, 0.0f);
             gl.glVertex3f(1.0f, -1.0f, -1.0f);
+
             // Top Face
+            gl.glNormal3f(0, 1, 0);
             gl.glTexCoord2f(0.0f, 1.0f);
             gl.glVertex3f(-1.0f, 1.0f, -1.0f);
             gl.glTexCoord2f(0.0f, 0.0f);
@@ -49,7 +55,9 @@ public class TexturedCube extends Renderable {
             gl.glVertex3f(1.0f, 1.0f, 1.0f);
             gl.glTexCoord2f(1.0f, 1.0f);
             gl.glVertex3f(1.0f, 1.0f, -1.0f);
+
             // Bottom Face
+            gl.glNormal3f(0, -1, 0);
             gl.glTexCoord2f(1.0f, 1.0f);
             gl.glVertex3f(-1.0f, -1.0f, -1.0f);
             gl.glTexCoord2f(0.0f, 1.0f);
@@ -58,7 +66,9 @@ public class TexturedCube extends Renderable {
             gl.glVertex3f(1.0f, -1.0f, 1.0f);
             gl.glTexCoord2f(1.0f, 0.0f);
             gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+
             // Right face
+            gl.glNormal3f(1, 0, 0);
             gl.glTexCoord2f(1.0f, 0.0f);
             gl.glVertex3f(1.0f, -1.0f, -1.0f);
             gl.glTexCoord2f(1.0f, 1.0f);
@@ -67,7 +77,9 @@ public class TexturedCube extends Renderable {
             gl.glVertex3f(1.0f, 1.0f, 1.0f);
             gl.glTexCoord2f(0.0f, 0.0f);
             gl.glVertex3f(1.0f, -1.0f, 1.0f);
+
             // Left Face
+            gl.glNormal3f(-1, 0, 0);
             gl.glTexCoord2f(0.0f, 0.0f);
             gl.glVertex3f(-1.0f, -1.0f, -1.0f);
             gl.glTexCoord2f(1.0f, 0.0f);
@@ -78,6 +90,6 @@ public class TexturedCube extends Renderable {
             gl.glVertex3f(-1.0f, 1.0f, -1.0f);
             gl.glEnd();
         }
-        gl.glPopMatrix();
+        // gl.glPopMatrix();
     }
 }
