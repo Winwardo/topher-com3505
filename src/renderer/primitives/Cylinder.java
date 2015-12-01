@@ -30,6 +30,36 @@ public class Cylinder extends Renderable {
 
     @Override
     public void renderImpl() {
+        drawTube();
+
+        gl.glPushMatrix();
+        {
+            // Top circle
+            drawCircle();
+
+            // Bottom circle
+            gl.glRotatef(180, 0, 1, 0);
+            gl.glTranslatef(0, 0, -height);
+            drawCircle();
+        }
+        gl.glPopMatrix();
+
+    }
+
+    private void drawCircle() {
+        gl.glBegin(gl.GL_TRIANGLE_FAN);
+        gl.glNormal3f(0, 0, -1);
+        gl.glVertex3f(0, 0, 0);
+        float twicePi = (float) Math.PI * 2;
+        for (int i = 0; i <= SUBDIVISIONS; i++) {
+            gl.glVertex2f(
+                (float) (radius * Math.cos(i * twicePi / SUBDIVISIONS)),
+                (float) (radius * Math.sin(i * twicePi / SUBDIVISIONS)));
+        }
+        gl.glEnd();
+    }
+
+    private void drawTube() {
         glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
         glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);
         glu.gluQuadricTexture(quadric, true);
