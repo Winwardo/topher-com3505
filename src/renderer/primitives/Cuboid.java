@@ -1,23 +1,22 @@
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
+import math.Vector3;
 import renderer.Material;
 import renderer.Renderable;
 
-public class TexturedCube extends Renderable {
-    private GLUT      glut;
-    private float     size;
+public class Cuboid extends Renderable {
+    private final Vector3 scale;
 
-    public static int currentTextureID = 0;
-
-    public TexturedCube(GL2 gl, GLUT glut, Material mat) {
+    public Cuboid(GL2 gl, Vector3 scale, Material mat) {
         super(gl, mat);
-        this.glut = glut;
+        this.scale = scale;
     }
 
     @Override
     public void renderImpl() {
+        gl.glScalef(scale.x(), scale.y(), scale.z());
+
         gl.glScalef(0.5f, 0.5f, 0.5f);
         gl.glBegin(gl.GL_QUADS);
 
