@@ -11,7 +11,7 @@ import renderer.Materials;
 import renderer.TextureLoader;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
-import scenegraph.models.Wineglass;
+import scenegraph.models.PlateWithGlasses;
 import shaders.ShaderCore;
 import shaders.ShadowMapping;
 
@@ -47,7 +47,7 @@ class Scene {
     private SceneGraph makeSceneGraph() {
         // return new Animation1(gl, glut);
         // return new DefaultSceneGraph(gl, glut);
-        return new EditSceneGraph(gl, glut, new Wineglass(gl, glut));
+        return new EditSceneGraph(gl, glut, new PlateWithGlasses(gl, glut));
     }
 
     private void setupGL() {
@@ -118,6 +118,7 @@ class Scene {
         textureLoader.loadBMP("eye_left", "res\\eye_left.bmp");
         textureLoader.loadBMP("hardwood", "res\\hardwood.bmp");
         textureLoader.loadBMP("glass", "res\\glass.bmp");
+        textureLoader.loadBMP("plate", "res\\plate.bmp");
     }
 
     private void setupMaterials() {
@@ -153,6 +154,14 @@ class Scene {
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             100f,
             "glass");
+
+        materials.addNew(
+            "plastic_plate",
+            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
+            new float[] { 1f, 0.85f, 0.85f, 1.0f },
+            new float[] { 0.8f, 0.9f, 0.9f, 1.0f },
+            80f,
+            "plate");
 
         materials.addNew(
             "eye_left",
