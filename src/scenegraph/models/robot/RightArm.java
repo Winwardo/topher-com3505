@@ -9,8 +9,9 @@ import renderer.primitives.Sphere;
 import scenegraph.BallJoint;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
+import scenegraph.models.PlateWithGlasses;
 
-public class Arm extends SceneGraph {
+public class RightArm extends SceneGraph {
     private static final float   ELBOW_OFFSET     = 0.1f;
     private static final float   UPPER_ARM_LENGTH = 1.0f;
     private static final float   LOWER_ARM_LENGTH = 0.75f;
@@ -28,7 +29,7 @@ public class Arm extends SceneGraph {
     private float                rotateShoulder   = 0;
     private float                rotateElbow      = 0;
 
-    public Arm(GL2 gl, GLUT glut) {
+    public RightArm(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
@@ -61,10 +62,23 @@ public class Arm extends SceneGraph {
                 ARM_THICKNESS / 2,
                 LOWER_ARM_LENGTH,
                 Materials.get().get("shinymetal")));
+
+        forearm
+            .createAttachedNodeFromSceneGraph(new PlateWithGlasses(gl, glut))
+            .setRotation(new Vector3(1, 0, 0), 90)
+            .setPosition(new Vector3(0, 0, LOWER_ARM_LENGTH))
+            .setScaling(Vector3.all(0.75f));
     }
 
     @Override
     public void update() {
+
+        // elbowJoint.setYaw(45);
+        elbowJoint.setRoll(-90);
+
+        if (true) {
+            return;
+        }
         rotateShoulder += 1;
         float ro = (float) Math.sin(rotateShoulder / 50);
         float p = ro * 10;

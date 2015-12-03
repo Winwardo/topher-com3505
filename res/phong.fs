@@ -27,7 +27,8 @@ void main (void) {
                 Idiff = Idiff * DIFFUSE_CONSTANT;
 
                 vec4 Ispec = gl_FrontLightProduct[i].specular * pow(max(dot(R,E),0.0),0.3*gl_FrontMaterial.shininess);                
-                Ispec = smoothstep(0.3, 0.4, Ispec);
+                //Ispec = smoothstep(0.3, 0.4, Ispec);
+                Ispec = smoothstep(0.3, 0.7, Ispec);
                 Ispec = Ispec * SPECULAR_CONSTANT;
 
                 finalColor += Iamb + Idiff + Ispec;

@@ -11,7 +11,7 @@ import renderer.Materials;
 import renderer.TextureLoader;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
-import scenegraph.models.PlateWithGlasses;
+import scenegraph.models.room.Room;
 import shaders.ShaderCore;
 import shaders.ShadowMapping;
 
@@ -47,7 +47,7 @@ class Scene {
     private SceneGraph makeSceneGraph() {
         // return new Animation1(gl, glut);
         // return new DefaultSceneGraph(gl, glut);
-        return new EditSceneGraph(gl, glut, new PlateWithGlasses(gl, glut));
+        return new EditSceneGraph(gl, glut, new Room(gl, glut));
     }
 
     private void setupGL() {

@@ -45,17 +45,13 @@ public class Robot extends SceneGraph {
             .createAttachedNode()
             .setPosition(new Vector3(0, 2.0f, 0));
 
-        rightArm = new Arm(gl, glut);
+        rightArm = new RightArm(gl, glut);
         arms.createAttachedNodeFromSceneGraph(rightArm).setPosition(
             new Vector3(0, 0, ARM_OUT));
 
-        leftArm = new Arm(gl, glut);
-
-        BallJoint leftArmRotator = new BallJoint(arms).setYaw(180);
-        leftArmRotator
-            .get()
-            .createAttachedNodeFromSceneGraph(leftArm)
-            .setPosition(new Vector3(0, 0, ARM_OUT));
+        leftArm = new LeftArm(gl, glut);
+        arms.createAttachedNodeFromSceneGraph(leftArm).setPosition(
+            new Vector3(0, 0, -ARM_OUT));
 
         roller = new Roller(gl, glut);
         rollerBallJoint.get().createAttachedNodeFromSceneGraph(roller);
