@@ -22,12 +22,12 @@ public class EditSceneGraph extends SceneGraph {
         SceneGraphNode frontLight = root.createAttachedNode();
         frontLight.setPosition(new Vector3(0, 1, 4));
         frontLight.attachLight(
-            new PointLight(gl, gl.GL_LIGHT0, new Vector3(1, 0.75f, 0.75f)));
+            new PointLight(gl, gl.GL_LIGHT0, new Vector3(0.75f, 1, 0.75f)));
 
         SceneGraphNode topLight = root.createAttachedNode();
         topLight.setPosition(new Vector3(0, 10, -2.5f));
         topLight.attachLight(
-            new PointLight(gl, gl.GL_LIGHT1, new Vector3(0.75f, 1, 0.75f)));
+            new PointLight(gl, gl.GL_LIGHT1, new Vector3(1f, 0.95f, 0.95f)));
 
         SceneGraphNode backLight = root.createAttachedNode();
         backLight.setPosition(new Vector3(4, -2, -4));

@@ -11,7 +11,8 @@ public class Cylinder extends Renderable {
     private static final int SUBDIVISIONS = 16;
 
     private final GLUT       glut;
-    private final float      radius;
+    private final float      radius1;
+    private final float      radius2;
     private final float      height;
 
     private final GLU        glu;
@@ -19,9 +20,15 @@ public class Cylinder extends Renderable {
 
     public Cylinder(GL2 gl, GLUT glut, float radius, float height,
         Material mat) {
+        this(gl, glut, radius, radius, height, mat);
+    }
+
+    public Cylinder(GL2 gl, GLUT glut, float radius1, float radius2,
+        float height, Material mat) {
         super(gl, mat);
         this.glut = glut;
-        this.radius = radius;
+        this.radius1 = radius1;
+        this.radius2 = radius2;
         this.height = height;
 
         this.glu = new GLU();
@@ -35,18 +42,18 @@ public class Cylinder extends Renderable {
         gl.glPushMatrix();
         {
             // Top circle
-            drawCircle();
+            drawCircle(radius1);
 
             // Bottom circle
             gl.glRotatef(180, 0, 1, 0);
             gl.glTranslatef(0, 0, -height);
-            drawCircle();
+            drawCircle(radius2);
         }
         gl.glPopMatrix();
 
     }
 
-    private void drawCircle() {
+    private void drawCircle(float radius) {
         gl.glBegin(gl.GL_TRIANGLE_FAN);
         gl.glNormal3f(0, 0, -1);
         gl.glTexCoord2f(0.5f, 0.5f);
@@ -69,6 +76,6 @@ public class Cylinder extends Renderable {
         glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
         glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);
         glu.gluQuadricTexture(quadric, true);
-        glu.gluCylinder(quadric, radius, radius, height, SUBDIVISIONS, 24);
+        glu.gluCylinder(quadric, radius1, radius2, height, SUBDIVISIONS, 24);
     }
 }
