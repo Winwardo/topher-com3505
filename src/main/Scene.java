@@ -11,7 +11,7 @@ import renderer.Materials;
 import renderer.TextureLoader;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
-import scenegraph.models.room.Room;
+import scenegraph.models.Plate;
 import shaders.ShaderCore;
 import shaders.ShadowMapping;
 
@@ -41,12 +41,13 @@ class Scene {
         setupFbos();
 
         sceneGraph = makeSceneGraph();
-        setZoom(30);
+        setZoom(50);
     }
 
     private SceneGraph makeSceneGraph() {
+        // return new Animation1(gl, glut);
         // return new DefaultSceneGraph(gl, glut);
-        return new EditSceneGraph(gl, glut, new Room(gl, glut));
+        return new EditSceneGraph(gl, glut, new Plate(gl, glut));
     }
 
     private void setupGL() {
@@ -55,11 +56,12 @@ class Scene {
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable(GL2.GL_LIGHTING);
         gl.glEnable(GL2.GL_TEXTURE_2D);
-        gl.glEnable(GL2.GL_MULTISAMPLE);
         gl.glEnable(GL2.GL_POINT_SMOOTH);
         gl.glEnable(GL2.GL_LINE_SMOOTH);
         gl.glEnable(GL2.GL_NORMALIZE);
-        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        // gl.glFrontFace(GL2.GL_CCW);
+        // gl.glDisable(GL2.GL_CULL_FACE);
+        gl.glPolygonMode(GL.GL_FRONT, GL2.GL_FILL);
 
         ShadowMapping sm = new ShadowMapping(gl, glu);
     }

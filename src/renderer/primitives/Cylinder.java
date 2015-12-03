@@ -8,7 +8,7 @@ import renderer.Material;
 import renderer.Renderable;
 
 public class Cylinder extends Renderable {
-    private static final int SUBDIVISIONS = 14;
+    private static final int SUBDIVISIONS = 16;
 
     private final GLUT       glut;
     private final float      radius;
@@ -49,12 +49,18 @@ public class Cylinder extends Renderable {
     private void drawCircle() {
         gl.glBegin(gl.GL_TRIANGLE_FAN);
         gl.glNormal3f(0, 0, -1);
+        gl.glTexCoord2f(0.5f, 0.5f);
         gl.glVertex3f(0, 0, 0);
         float twicePi = (float) Math.PI * 2;
         for (int i = 0; i <= SUBDIVISIONS; i++) {
-            gl.glVertex2f(
-                (float) (radius * Math.cos(i * twicePi / SUBDIVISIONS)),
-                (float) (radius * Math.sin(i * twicePi / SUBDIVISIONS)));
+            float x = (float) (radius * Math.cos(i * twicePi / SUBDIVISIONS));
+            float y = (float) (radius * Math.sin(i * twicePi / SUBDIVISIONS));
+
+            float texX = (x + 1) / 2;
+            float texY = (y + 1) / 2;
+
+            gl.glTexCoord2f(texX, texY);
+            gl.glVertex2f(x, y);
         }
         gl.glEnd();
     }

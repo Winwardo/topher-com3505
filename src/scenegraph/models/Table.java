@@ -9,11 +9,8 @@ import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
 public class Table extends SceneGraph {
-    private static final float ARM_OUT = 0.65f;
-    private GL2                gl;
-    private GLUT               glut;
-
-    private float              rotate  = 0;
+    private GL2  gl;
+    private GLUT glut;
 
     public Table(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
