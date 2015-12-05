@@ -1,9 +1,9 @@
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
+import renderer.DisplayList;
 import renderer.Material;
 import renderer.Renderable;
-import renderer.DisplayList;
 
 public class Plane extends Renderable {
     private final DisplayList displayList;
@@ -11,7 +11,7 @@ public class Plane extends Renderable {
     public Plane(GL2 gl, Material mat, int xRepeats, int yRepeats) {
         super(gl, mat);
 
-        displayList = new DisplayList(gl, (x) -> {
+        displayList = new DisplayList(gl, () -> {
             generateAndDraw(xRepeats, yRepeats);
         });
     }

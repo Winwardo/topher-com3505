@@ -22,7 +22,7 @@ public class Cylinder extends Renderable {
         float height, Material mat) {
         super(gl, mat);
 
-        displayList = new DisplayList(gl, (x) -> {
+        displayList = new DisplayList(gl, () -> {
             drawCylinder(radius1, radius2, height);
         });
     }

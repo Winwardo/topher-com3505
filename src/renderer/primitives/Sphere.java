@@ -25,7 +25,7 @@ public class Sphere extends Renderable {
     public Sphere(GL2 gl, float radius, Material mat) {
         super(gl, mat);
 
-        displayList = new DisplayList(gl, (x) -> {
+        displayList = new DisplayList(gl, () -> {
             GLU glu = new GLU();
             GLUquadric sphere = glu.gluNewQuadric();
 
