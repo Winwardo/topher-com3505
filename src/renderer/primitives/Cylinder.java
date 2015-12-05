@@ -4,19 +4,14 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
 import com.jogamp.opengl.util.gl2.GLUT;
+import renderer.DisplayList;
 import renderer.Material;
 import renderer.Renderable;
 
 public class Cylinder extends Renderable {
-    private static final int SUBDIVISIONS = 16;
+    private static final int  SUBDIVISIONS = 16;
 
-    private final GLUT       glut;
-    private final float      radius1;
-    private final float      radius2;
-    private final float      height;
-
-    private final GLU        glu;
-    private final GLUquadric quadric;
+    private final DisplayList displayList;
 
     public Cylinder(GL2 gl, GLUT glut, float radius, float height,
         Material mat) {
@@ -26,18 +21,19 @@ public class Cylinder extends Renderable {
     public Cylinder(GL2 gl, GLUT glut, float radius1, float radius2,
         float height, Material mat) {
         super(gl, mat);
-        this.glut = glut;
-        this.radius1 = radius1;
-        this.radius2 = radius2;
-        this.height = height;
 
-        this.glu = new GLU();
-        this.quadric = glu.gluNewQuadric();
+        displayList = new DisplayList(gl, (x) -> {
+            drawCylinder(radius1, radius2, height);
+        });
     }
 
     @Override
     public void renderImpl() {
-        drawTube();
+        displayList.call();
+    }
+
+    private void drawCylinder(float radius1, float radius2, float height) {
+        drawTube(radius1, radius2, height);
 
         gl.glPushMatrix();
         {
@@ -50,7 +46,6 @@ public class Cylinder extends Renderable {
             drawCircle(radius2);
         }
         gl.glPopMatrix();
-
     }
 
     private void drawCircle(float radius) {
@@ -72,7 +67,9 @@ public class Cylinder extends Renderable {
         gl.glEnd();
     }
 
-    private void drawTube() {
+    private void drawTube(float radius1, float radius2, float height) {
+        GLU glu = new GLU();
+        GLUquadric quadric = glu.gluNewQuadric();
         glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
         glu.gluQuadricNormals(quadric, GLU.GLU_SMOOTH);
         glu.gluQuadricTexture(quadric, true);
