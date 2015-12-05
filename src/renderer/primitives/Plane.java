@@ -1,34 +1,34 @@
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import renderer.Material;
 import renderer.Renderable;
+import renderer.DisplayList;
 
 public class Plane extends Renderable {
-    private GLUT  glut;
+    private final DisplayList displayList;
 
-    private int   xRepeats;
-    private int   yRepeats;
-    private float xStep;
-    private float yStep;
-
-    public Plane(GL2 gl, GLUT glut, Material mat, int xRepeats, int yRepeats) {
+    public Plane(GL2 gl, Material mat, int xRepeats, int yRepeats) {
         super(gl, mat);
-        this.glut = glut;
 
-        this.xRepeats = xRepeats;
-        this.yRepeats = yRepeats;
-        this.xStep = 1.0f / xRepeats;
-        this.yStep = 1.0f / yRepeats;
+        displayList = new DisplayList(gl, (x) -> {
+            generateAndDraw(xRepeats, yRepeats);
+        });
     }
 
-    public Plane(GL2 gl, GLUT glut, Material mat) {
-        this(gl, glut, mat, 1, 1);
+    public Plane(GL2 gl, Material mat) {
+        this(gl, mat, 1, 1);
     }
 
     @Override
     public void renderImpl() {
+        displayList.call();
+    }
+
+    private void generateAndDraw(int xRepeats, int yRepeats) {
+        float xStep = 1.0f / xRepeats;
+        float yStep = 1.0f / yRepeats;
+
         float y = 0;
 
         for (int y_ = 0; y_ < yRepeats; y_++) {
@@ -65,6 +65,5 @@ public class Plane extends Renderable {
 
             y += yStep;
         }
-
     }
 }

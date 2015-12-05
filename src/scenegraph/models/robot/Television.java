@@ -16,8 +16,7 @@ public class Television extends SceneGraph {
 
         twister
             .createAttachedNode()
-            .attachRenderable(
-                new Plane(gl, glut, Materials.get().get("tvscreen")))
+            .attachRenderable(new Plane(gl, Materials.get().get("tvscreen")))
             .setRotation(new Vector3(1, 0, 0), 90)
             .setPosition(new Vector3(-1, -0.6f, -0.6f));
         twister.setRotation(new Vector3(0, 1, 0), 90);
