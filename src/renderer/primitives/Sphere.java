@@ -27,18 +27,18 @@ public class Sphere extends Renderable {
 
         displayList = new DisplayList(gl, (x) -> {
             GLU glu = new GLU();
-
             GLUquadric sphere = glu.gluNewQuadric();
 
-            glu.gluQuadricDrawStyle(sphere, glu.GLU_FILL);
+            glu.gluQuadricDrawStyle(sphere, GLU.GLU_FILL);
             glu.gluQuadricTexture(sphere, true);
-            glu.gluQuadricNormals(sphere, glu.GLU_SMOOTH);
+            glu.gluQuadricNormals(sphere, GLU.GLU_SMOOTH);
 
             glu.gluSphere(
                 sphere,
                 radius,
                 SPHERE_SUBDIVISION,
                 SPHERE_SUBDIVISION);
+
             glu.gluDeleteQuadric(sphere);
         });
     }
