@@ -26,7 +26,10 @@ public class Robot extends SceneGraph {
         this.gl = gl;
         this.glut = glut;
 
-        rollerBallJoint = new BallJoint(root);
+        SceneGraphNode root1 = root.createAttachedNode();
+        root1.setPosition(new Vector3(0, 1, 0));
+
+        rollerBallJoint = new BallJoint(root1);
 
         head = new Head(gl, glut);
         rollerBallJoint

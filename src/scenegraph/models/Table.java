@@ -17,8 +17,11 @@ public class Table extends SceneGraph {
         this.gl = gl;
         this.glut = glut;
 
+        SceneGraphNode root1 = root.createAttachedNode();
+        root1.setPosition(new Vector3(0, -0.2f, 0));
+
         // Top
-        root
+        root1
             .createAttachedNode()
             .setPosition(new Vector3(0, 1, 0))
             .attachRenderable(
@@ -32,7 +35,7 @@ public class Table extends SceneGraph {
         final float legHeight = 0.8f;
         final float legWidth = 0.075f;
         final float legDistanceFromCentre = 0.9f;
-        root
+        root1
             .createAttachedNode()
             .setPosition(
                 new Vector3(
@@ -44,7 +47,7 @@ public class Table extends SceneGraph {
                     gl,
                     new Vector3(legWidth, legHeight, legWidth),
                     Materials.get().get("wood")));
-        root
+        root1
             .createAttachedNode()
             .setPosition(
                 new Vector3(
@@ -56,7 +59,7 @@ public class Table extends SceneGraph {
                     gl,
                     new Vector3(legWidth, legHeight, legWidth),
                     Materials.get().get("wood")));
-        root
+        root1
             .createAttachedNode()
             .setPosition(
                 new Vector3(
@@ -68,7 +71,7 @@ public class Table extends SceneGraph {
                     gl,
                     new Vector3(legWidth, legHeight, legWidth),
                     Materials.get().get("wood")));
-        root
+        root1
             .createAttachedNode()
             .setPosition(
                 new Vector3(

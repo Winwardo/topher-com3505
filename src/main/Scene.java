@@ -10,9 +10,8 @@ import renderer.Materials;
 import renderer.TextureLoader;
 import renderer.cameras.Cameras;
 import renderer.cameras.RotateAroundPointCamera;
-import scenegraph.EditSceneGraph;
+import scenegraph.Animation2;
 import scenegraph.SceneGraph;
-import scenegraph.models.room.Room;
 import shaders.ShaderCore;
 import shaders.ShadowMapping;
 
@@ -54,12 +53,20 @@ class Scene {
                 10,
                 10,
                 45));
+
+        Cameras.get().append(
+            new RotateAroundPointCamera(
+                gl,
+                new Vector3(0, 2.5f, 0f),
+                10,
+                10,
+                45));
     }
 
     private SceneGraph makeSceneGraph() {
-        // return new Animation1(gl, glut);
+        return new Animation2(gl, glut);
         // return new DefaultSceneGraph(gl, glut);
-        return new EditSceneGraph(gl, glut, new Room(gl, glut));
+        // return new EditSceneGraph(gl, glut, new Room(gl, glut));
     }
 
     private void setupGL() {
@@ -203,7 +210,7 @@ class Scene {
         shaderCore.queueShader(currentShader);
         shaderCore.useQueuedShader();
 
-        renderCameraToFbo(1, fbo);
+        renderCameraToFbo(Cameras.ROBOT_CAMERA, fbo);
 
         // Only multisample the final render, don't waste render time on the
         // robot camera view
