@@ -26,14 +26,16 @@ void main (void) {
                 Idiff = clamp(Idiff, 0.0, 1.0);
                 Idiff = Idiff * DIFFUSE_CONSTANT;
 
-                vec4 Ispec = gl_FrontMaterial.specular * pow(max(dot(R,E),0.0),0.3*gl_FrontMaterial.shininess);                
+                vec4 Ispec = gl_FrontLightProduct[i].specular * gl_FrontMaterial.specular * pow(max(dot(R,E),0.0),0.3*gl_FrontMaterial.shininess);                
                 //Ispec = smoothstep(0.3, 0.4, Ispec);
                 Ispec = smoothstep(0.3, 0.6, Ispec);
+                // Ispec = clamp(Ispec, 0, 1);
                 Ispec = Ispec * SPECULAR_CONSTANT;
 
                 float dist = distance(gl_LightSource[i].position, v);
                 float att =1.0/(1.0+0.1*dist+0.01*dist*dist);//= 1/(d*d);
-                finalColor += (Idiff + Ispec) * att;
+                // att = 1;
+                finalColor += (Idiff*att + Ispec*att);
         }
 
         vec4 ambientComp = clamp(gl_FrontMaterial.ambient, 0.05, 1.0) * AMBIENT_CONSTANT;

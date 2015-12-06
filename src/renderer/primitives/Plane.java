@@ -45,16 +45,21 @@ public class Plane extends Renderable {
                     // Draw square
                     // Without setting the correct normal manually, the lighting
                     // calculations will be incorrect
-                    gl.glNormal3f(0, 0, -1);
+                    gl.glNormal3f(0, 0, 1);
+
+                    // a
                     gl.glTexCoord2f(0, 0);
                     gl.glVertex3d(x1, y1, 0);
 
+                    // b
                     gl.glTexCoord2f(1, 0);
                     gl.glVertex3d(x2, y1, 0);
 
+                    // c
                     gl.glTexCoord2f(1, 1);
                     gl.glVertex3d(x2, y2, 0);
 
+                    // d
                     gl.glTexCoord2f(0, 1);
                     gl.glVertex3d(x1, y2, 0);
                 }

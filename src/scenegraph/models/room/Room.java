@@ -7,7 +7,7 @@ import lighting.PointLight;
 import math.Vector3;
 import renderer.Materials;
 import renderer.cameras.Cameras;
-import renderer.cameras.RotateAroundPointCamera;
+import renderer.cameras.FromPointCamera;
 import renderer.primitives.Plane;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
@@ -22,18 +22,24 @@ public class Room extends SceneGraph {
     private final SceneGraphNode realtime;
     private final Robot          robot1;
 
-    final int                    roomWidth  = 50;
-    final int                    roomDepth  = 35;
-    final int                    roomHeight = 12;
+    private int                  go     = 0;
+
+    public static final int      DEPTH  = 50;
+    public static final int      WIDTH  = 35;
+    public static final int      HEIGHT = 12;
 
     public Room(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
 
+        root.setPosition(Vector3.all(0));
+        root.setRotation(new Vector3(0, 1, 0), 0);
+        root.setScaling(Vector3.one());
+
         robotNode = root
             .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut))
-            .setPosition(new Vector3(0, 0, 0))
+            .setPosition(new Vector3(20, 0, 10))
             .setRotation(new Vector3(0, 0, 0), 0);
 
         // Floor
@@ -41,15 +47,44 @@ public class Room extends SceneGraph {
             .createAttachedNode()
             .attachRenderable(
                 new Plane(gl, Materials.get().get("marbletile"), 4, 4))
+            .setRotation(new Vector3(1, 0, 0), -90)
+            .setPosition(new Vector3(0, 0, WIDTH))
+            .setScaling(new Vector3(DEPTH, WIDTH, 1));
+
+        // Ceiling
+        root
+            .createAttachedNode()
+            .attachRenderable(new Plane(gl, Materials.get().get("wood"), 4, 4))
             .setRotation(new Vector3(1, 0, 0), 90)
-            .setPosition(new Vector3(0, 0, 0))
-            .setScaling(new Vector3(roomWidth, roomDepth, 1));
+            .setPosition(new Vector3(0, HEIGHT, 0))
+            .setScaling(new Vector3(DEPTH, WIDTH, 1));
 
         // Walls
         root
             .createAttachedNode()
-            .attachRenderable(new Plane(gl, Materials.get().get("nyan"), 4, 4))
-            .setScaling(new Vector3(roomWidth, roomHeight, 1));
+            .setScaling(new Vector3(DEPTH, HEIGHT, 1))
+            .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
+
+        root
+            .createAttachedNode()
+            .setScaling(new Vector3(WIDTH, HEIGHT, 1))
+            .setRotation(new Vector3(0, 1, 0), 90)
+            .setPosition(new Vector3(0, 0, WIDTH))
+            .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
+
+        root
+            .createAttachedNode()
+            .setScaling(new Vector3(DEPTH, HEIGHT, 1))
+            .setRotation(new Vector3(0, 1, 0), 180)
+            .setPosition(new Vector3(DEPTH, 0, WIDTH))
+            .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
+
+        root
+            .createAttachedNode()
+            .setScaling(new Vector3(WIDTH, HEIGHT, 1))
+            .setRotation(new Vector3(0, 1, 0), 270)
+            .setPosition(new Vector3(DEPTH, 0, 0))
+            .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
 
         // Tables
         root
@@ -66,37 +101,70 @@ public class Room extends SceneGraph {
 
         root
             .createAttachedNodeFromSceneGraph(new Table(gl, glut))
-            .setPosition(new Vector3(roomDepth, 1.5f, 20))
+            .setPosition(new Vector3(WIDTH, 1.5f, 20))
             .setRotation(new Vector3(1, 0, 0), 89)
             .setScaling(Vector3.all(3));
 
+        // TV on wall
+
+        realtime = root
+            .createAttachedNode()
+            .setScaling(new Vector3(WIDTH, HEIGHT, 1))
+            .setRotation(new Vector3(0, 1, 0), 270)
+            .setPosition(new Vector3(DEPTH, 0, 0))
+            .attachRenderable(
+                new Plane(gl, Materials.get().get("tvscreen"), 1, 1));
+
         // Lights
         Lights lights = Lights.get();
-        final PointLight tableLight = new PointLight(
+
+        final PointLight mainLight1 = new PointLight(
             gl,
             lights.newLightId(),
-            Vector3.all(1));
-        realtime = root.createAttachedNode().attachLight(tableLight);
-        lights.append(tableLight);
+            new Vector3(2.5f, 2.25f, 2.0f));
+        root.createAttachedNode().attachLight(mainLight1).setPosition(
+            new Vector3(35, 10, 2));
+        lights.append(mainLight1);
+
+        final PointLight mainLight2 = new PointLight(
+            gl,
+            lights.newLightId(),
+            new Vector3(2.5f, 2.25f, 2.0f));
+        root.createAttachedNode().attachLight(mainLight2).setPosition(
+            new Vector3(15, 10, 2));
+
+        lights.append(mainLight2);
     }
 
     @Override
     public void update() {
+        go++;
         robot1.update();
 
-        RotateAroundPointCamera c = (RotateAroundPointCamera) Cameras
+        float point = (float) Math.sin(go);
+
+        FromPointCamera c = (FromPointCamera) Cameras
             .get()
             .get(Cameras.ROBOT_CAMERA);
 
+        robotNode.setPosition(new Vector3(20, 0, 10));
+        robotNode.setRotation(new Vector3(0, 1, 0), go);
         Vector3 robotPosition = robotNode.position();
+
         Vector3 cameraAim = new Vector3(
             robotPosition.x(),
-            robotPosition.y() + 1.5f,
+            robotPosition.y() + 4,
             robotPosition.z());
 
-        c.setLookAt(cameraAim);
-        c.setTargetCircleAngle(-robotNode.rotationAmount() + 180);
+        // c.setLookAt(cameraAim);
+        c.setDistance(2);
+        c.setPosition(cameraAim);
+        c.setHeightAngle(0);
+        c.setCircleAngle(-robotNode.rotationAmount());
 
-        realtime.setPosition(new Vector3(25, 10, 10));
+        // c.setTargetCircleAngle(-robotNode.rotationAmount() + 180);
+
+        realtime.setPosition(new Vector3(DEPTH - 1, 2, 10)).setScaling(
+            new Vector3(15, 7.5f, 1));
     }
 }

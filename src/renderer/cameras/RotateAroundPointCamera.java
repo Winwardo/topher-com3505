@@ -67,9 +67,12 @@ public class RotateAroundPointCamera implements Camera {
     }
 
     private Vector3 createPosition() {
-        float x = (float) Math.cos(Math.toRadians(circleAngle)) * distance;
-        float y = (float) Math.cos(Math.toRadians(heightAngle)) * distance;
-        float z = (float) Math.sin(Math.toRadians(circleAngle)) * distance;
+        float x = lookAt.x()
+            + (float) Math.cos(Math.toRadians(circleAngle)) * distance;
+        float y = lookAt.y()
+            + (float) Math.sin(Math.toRadians(heightAngle)) * distance;
+        float z = lookAt.z()
+            + (float) Math.sin(Math.toRadians(circleAngle)) * distance;
 
         return new Vector3(x, y, z);
     }

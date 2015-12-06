@@ -30,6 +30,7 @@ public class Cylinder extends Renderable {
     @Override
     public void renderImpl() {
         displayList.call();
+
     }
 
     private void drawCylinder(float radius1, float radius2, float height) {
@@ -54,7 +55,7 @@ public class Cylinder extends Renderable {
         gl.glTexCoord2f(0.5f, 0.5f);
         gl.glVertex3f(0, 0, 0);
         float twicePi = (float) Math.PI * 2;
-        for (int i = 0; i <= SUBDIVISIONS; i++) {
+        for (int i = SUBDIVISIONS; i >= 0; i--) {
             float x = (float) (radius * Math.cos(i * twicePi / SUBDIVISIONS));
             float y = (float) (radius * Math.sin(i * twicePi / SUBDIVISIONS));
 

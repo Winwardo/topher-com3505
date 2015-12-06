@@ -10,9 +10,11 @@ import renderer.FBO;
 import renderer.Materials;
 import renderer.TextureLoader;
 import renderer.cameras.Cameras;
+import renderer.cameras.FromPointCamera;
 import renderer.cameras.RotateAroundPointCamera;
 import scenegraph.Animation2;
 import scenegraph.SceneGraph;
+import scenegraph.models.room.Room;
 import shaders.ShaderCore;
 import shaders.ShadowMapping;
 
@@ -44,25 +46,20 @@ class Scene {
         setupCameras();
 
         sceneGraph = makeSceneGraph();
-        setZoom(50);
+        setZoom(100);
     }
 
     private void setupCameras() {
         Cameras.get().append(
             new RotateAroundPointCamera(
                 gl,
-                new Vector3(0, 2.5f, 0f),
+                new Vector3(Room.DEPTH / 2, Room.HEIGHT / 2, Room.WIDTH / 2),
                 10,
                 10,
                 45));
 
         Cameras.get().append(
-            new RotateAroundPointCamera(
-                gl,
-                new Vector3(0, 2.5f, 0f),
-                10,
-                10,
-                45));
+            new FromPointCamera(gl, new Vector3(0, 2.5f, 0f), 10, 10, 45));
     }
 
     private SceneGraph makeSceneGraph() {
@@ -80,9 +77,12 @@ class Scene {
         gl.glEnable(GL2.GL_POINT_SMOOTH);
         gl.glEnable(GL2.GL_LINE_SMOOTH);
         gl.glEnable(GL2.GL_NORMALIZE);
+        gl.glEnable(GL2.GL_RESCALE_NORMAL);
         // gl.glFrontFace(GL2.GL_CCW);
-        // gl.glDisable(GL2.GL_CULL_FACE);
-        gl.glPolygonMode(GL.GL_FRONT, GL2.GL_FILL);
+        gl.glEnable(GL2.GL_CULL_FACE);
+        // gl.glCullFace(GL2.GL_BACK);
+
+        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
 
         ShadowMapping sm = new ShadowMapping(gl, glu);
     }
@@ -141,6 +141,7 @@ class Scene {
         textureLoader.loadBMP("glass", "res\\glass.bmp");
         textureLoader.loadBMP("plate", "res\\plate.bmp");
         textureLoader.loadBMP("tiles", "res\\marbletile.bmp");
+        textureLoader.loadBMP("red_wall", "res\\red_wall.bmp");
     }
 
     private void setupMaterials() {
@@ -161,16 +162,16 @@ class Scene {
             "wood",
             defaultAmbience,
             defaultDiffuse,
-            new float[] { 0.0f, 0.0f, 0.0f, 1.0f },
-            100f,
+            new float[] { 0.4f, 0.4f, 0.4f, 1.0f },
+            127,
             "hardwood");
 
         materials.addNew(
             "tvscreen",
-            new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
+            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
             defaultDiffuse,
-            new float[] { 2.0f, 1.0f, 1.0f, 1.0f },
-            100f,
+            new float[] { 4.0f, 4.0f, 4.0f, 1.0f },
+            2f,
             "rendertex");
 
         materials.addNew(
@@ -196,6 +197,14 @@ class Scene {
             new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
             0.078125f * 128,
             "tiles");
+
+        materials.addNew(
+            "wall",
+            defaultAmbience,
+            defaultDiffuse,
+            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
+            128,
+            "red_wall");
 
         materials.addNew(
             "eye_left",
@@ -250,7 +259,7 @@ class Scene {
 
         gl.glBindTexture(gl.GL_TEXTURE_2D, 0);
         gl.glBindFramebuffer(GL.GL_DRAW_FRAMEBUFFER, fbo.id());
-        gl.glClearColor(1.f, 0.f, 0.f, 1.f);
+        // gl.glClearColor(1.f, 0.f, 0.f, 1.f);
 
         renderCamera(cameraId);
 

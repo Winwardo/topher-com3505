@@ -15,6 +15,8 @@ public class Teapot extends Renderable {
 
     @Override
     public void renderImpl() {
+        gl.glDisable(GL2.GL_CULL_FACE);
         glut.glutSolidTeapot(1);
+        gl.glEnable(GL2.GL_CULL_FACE);
     }
 }
