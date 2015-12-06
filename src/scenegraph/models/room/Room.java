@@ -4,6 +4,8 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Materials;
+import renderer.cameras.Cameras;
+import renderer.cameras.RotateAroundPointCamera;
 import renderer.primitives.Plane;
 import scenegraph.BallJoint;
 import scenegraph.SceneGraph;
@@ -12,12 +14,13 @@ import scenegraph.models.Table;
 import scenegraph.models.robot.Robot;
 
 public class Room extends SceneGraph {
-    private static final float ARM_OUT = 0.65f;
-    private GL2                gl;
-    private GLUT               glut;
+    private static final float   ARM_OUT = 0.65f;
+    private GL2                  gl;
+    private GLUT                 glut;
 
-    private final BallJoint    rollerBallJoint;
-    private final Robot        robot1;
+    private final BallJoint      rollerBallJoint;
+    private final SceneGraphNode robotNode;
+    private final Robot          robot1;
 
     public Room(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -26,9 +29,10 @@ public class Room extends SceneGraph {
 
         rollerBallJoint = new BallJoint(root);
 
-        root
+        robotNode = root
             .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut))
-            .setPosition(new Vector3(0, 1, 0));
+            .setPosition(new Vector3(0, 1, 0))
+            .setRotation(new Vector3(0, 1, 0), 0);
 
         root
             .createAttachedNode()
@@ -46,5 +50,18 @@ public class Room extends SceneGraph {
     @Override
     public void update() {
         robot1.update();
+
+        RotateAroundPointCamera c = (RotateAroundPointCamera) Cameras
+            .get()
+            .get(1);
+
+        Vector3 robotPosition = robotNode.position();
+        Vector3 cameraAim = new Vector3(
+            robotPosition.x(),
+            robotPosition.y() + 1.5f,
+            robotPosition.z());
+
+        c.setLookAt(cameraAim);
+        c.setTargetCircleAngle(-robotNode.rotationAmount() + 180);
     }
 }

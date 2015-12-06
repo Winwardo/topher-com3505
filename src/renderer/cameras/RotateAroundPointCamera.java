@@ -5,14 +5,15 @@ import com.jogamp.opengl.glu.GLU;
 import math.Vector3;
 
 public class RotateAroundPointCamera implements Camera {
-    private final GL2 gl;
-    private final GLU glu;
-    private Vector3   position;
+    private static final int CATCHUP_FACTOR = 32;
+    private final GL2        gl;
+    private final GLU        glu;
+    private Vector3          position;
 
-    private Vector3   lookAt;
-    private float     distance;
-    private float     circleAngle;
-    private float     heightAngle;
+    private Vector3          lookAt;
+    private float            distance;
+    private float            circleAngle;
+    private float            heightAngle;
 
     /**
      * 
@@ -47,9 +48,17 @@ public class RotateAroundPointCamera implements Camera {
         position = createPosition();
     }
 
+    public float circleAngle() {
+        return circleAngle;
+    }
+
     public void setCircleAngle(float circleAngle) {
         this.circleAngle = circleAngle;
         position = createPosition();
+    }
+
+    public float heightAngle() {
+        return heightAngle;
     }
 
     public void setHeightAngle(float heightAngle) {
@@ -86,5 +95,15 @@ public class RotateAroundPointCamera implements Camera {
     public void addRotation(float dx, float dy) {
         setCircleAngle(this.circleAngle + dx * 100);
         setHeightAngle(this.heightAngle - dy * 100);
+    }
+
+    public void setTargetCircleAngle(float targetAngle) {
+        setTargetCircleAngle(targetAngle, CATCHUP_FACTOR);
+    }
+
+    public void setTargetCircleAngle(float targetAngle, float catchupFactor) {
+        float difference = targetAngle - circleAngle;
+        float finalAngle = circleAngle + difference / catchupFactor;
+        setCircleAngle(finalAngle);
     }
 }
