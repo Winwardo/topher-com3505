@@ -142,6 +142,7 @@ class Scene {
         textureLoader.loadBMP("plate", "res\\plate.bmp");
         textureLoader.loadBMP("tiles", "res\\marbletile.bmp");
         textureLoader.loadBMP("red_wall", "res\\red_wall.bmp");
+        textureLoader.loadBMP("chest_light", "res\\chest_light.bmp");
     }
 
     private void setupMaterials() {
@@ -152,7 +153,7 @@ class Scene {
 
         materials.addNew(
             "shinymetal",
-            new float[] { 0.25f, 0.25f, 0.25f, 1.0f },
+            new float[] { 0.15f, 0.15f, 0.15f, 1.0f },
             defaultDiffuse,
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             100f,
@@ -205,6 +206,22 @@ class Scene {
             new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
             128,
             "red_wall");
+
+        materials.addNew(
+            "white",
+            new float[] { 1, 1, 1, 1 },
+            defaultDiffuse,
+            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
+            128,
+            "white");
+
+        materials.addNew(
+            "chest_light",
+            new float[] { 1, 1, 1, 1 },
+            defaultDiffuse,
+            new float[] { 0.75f, 0.75f, 0.75f, 1.0f },
+            128,
+            "chest_light");
 
         materials.addNew(
             "eye_left",

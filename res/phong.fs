@@ -9,6 +9,8 @@ uniform sampler2D tex;
 #define DIFFUSE_CONSTANT %s
 #define SPECULAR_CONSTANT %s
 
+// https://stackoverflow.com/questions/11434233/shader-for-a-spotlight
+
 void main (void) { 
         vec4 finalColor = vec4(0.0, 0.0, 0.0, 0.0);
         vec4 albedo = texture2D(tex,gl_TexCoord[0].st);
@@ -18,8 +20,18 @@ void main (void) {
                 vec3 E = normalize(-v); // we are in Eye Coordinates, so EyePos is (0,0,0)
                 vec3 R = normalize(-reflect(L,N));
 
-                // vec4 Iamb = gl_FrontMaterial.ambient;
-                // Iamb = Iamb * AMBIENT_CONSTANT;
+
+                float q = 1;
+
+                vec3 spotlightdir = gl_LightSource[i].spotDirection;
+
+                float spotEffect = dot(normalize(spotlightdir), normalize(-L));
+                float cutoff = gl_LightSource[i].spotCosCutoff;
+
+                if (spotEffect < cutoff) {
+                        q = 0;
+                        continue;
+                }
 
                 vec4 Idiff = gl_FrontLightProduct[i].diffuse * gl_FrontMaterial.diffuse * max(dot(N,L), 0.0);
                 // Idiff = smoothstep(0.2, 0.8, Idiff);
@@ -35,7 +47,7 @@ void main (void) {
                 float dist = distance(gl_LightSource[i].position, v);
                 float att =1.0/(1.0+0.1*dist+0.01*dist*dist);//= 1/(d*d);
                 // att = 1;
-                finalColor += (Idiff*att + Ispec*att);
+                finalColor += (Idiff*att + Ispec*att) * q;
         }
 
         vec4 ambientComp = clamp(gl_FrontMaterial.ambient, 0.05, 1.0) * AMBIENT_CONSTANT;
