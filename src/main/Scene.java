@@ -36,6 +36,7 @@ class Scene {
 
         setupGL();
         setupShaders();
+        setupLights();
         setupTextures();
         setupMaterials();
         setupFbos();
@@ -43,6 +44,20 @@ class Scene {
 
         sceneGraph = makeSceneGraph();
         setZoom(50);
+    }
+
+    private void setupLights() {
+        int lightId = GL2.GL_LIGHT0;
+        while (lightId <= GL2.GL_LIGHT7) {
+            float[] zero = new float[] { 0, 0, 0, 0 };
+
+            gl.glLightfv(lightId, GL2.GL_POSITION, zero, 0);
+            gl.glLightfv(lightId, GL2.GL_AMBIENT, zero, 0);
+            gl.glLightfv(lightId, GL2.GL_DIFFUSE, zero, 0);
+            gl.glLightfv(lightId, GL2.GL_SPECULAR, zero, 0);
+
+            lightId++;
+        }
     }
 
     private void setupCameras() {
@@ -88,7 +103,7 @@ class Scene {
     private void setupShaders() {
         shaderCore = new ShaderCore(gl);
 
-        String maxlights = "3";
+        String maxlights = "8";
 
         int albedo = shaderCore.setupShaders(
             "phong",
