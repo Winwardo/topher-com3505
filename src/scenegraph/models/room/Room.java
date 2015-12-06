@@ -31,8 +31,8 @@ public class Room extends SceneGraph {
 
         robotNode = root
             .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut))
-            .setPosition(new Vector3(0, 1, 0))
-            .setRotation(new Vector3(0, 1, 0), 0);
+            .setPosition(new Vector3(0, 0, 0))
+            .setRotation(new Vector3(0, 0, 0), 0);
 
         root
             .createAttachedNode()
@@ -44,7 +44,7 @@ public class Room extends SceneGraph {
         root
             .createAttachedNodeFromSceneGraph(new Table(gl, glut))
             .setPosition(new Vector3(20, 0, 10))
-            .setScaling(Vector3.all(2));
+            .setScaling(Vector3.all(3));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Room extends SceneGraph {
 
         RotateAroundPointCamera c = (RotateAroundPointCamera) Cameras
             .get()
-            .get(1);
+            .get(Cameras.ROBOT_CAMERA);
 
         Vector3 robotPosition = robotNode.position();
         Vector3 cameraAim = new Vector3(

@@ -229,7 +229,7 @@ public class Assignment extends JFrame implements GLEventListener,
 
         RotateAroundPointCamera camera = (RotateAroundPointCamera) Cameras
             .get()
-            .get(0);
+            .get(Cameras.MAIN_CAMERA);
 
         if (event.getModifiers() == MouseEvent.BUTTON1_MASK) {
             camera.addRotation(dx, dy);

@@ -42,25 +42,4 @@ public class EditSceneGraph extends SceneGraph {
 
         item.update();
     }
-
-    private void printmat(float[] q) {
-        System.out.format(
-            "%.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f\n%.2f %.2f %.2f %.2f\n",
-            q[0],
-            q[1],
-            q[2],
-            q[3],
-            q[4],
-            q[5],
-            q[6],
-            q[7],
-            q[8],
-            q[9],
-            q[10],
-            q[11],
-            q[12],
-            q[13],
-            q[14],
-            q[15]);
-    }
 }

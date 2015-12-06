@@ -14,6 +14,9 @@ import java.util.List;
  *
  */
 public class Cameras {
+    public static int      MAIN_CAMERA  = 0;
+    public static int      ROBOT_CAMERA = 1;
+
     private static Cameras _cameras;
 
     public static void setGlobal(Cameras cameras) {
