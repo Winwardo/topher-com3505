@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
+import lighting.Lights;
 import math.Vector3;
 import renderer.FBO;
 import renderer.Materials;
@@ -33,10 +34,10 @@ class Scene {
 
         Cameras.setGlobal(new Cameras());
         Materials.setGlobal(new Materials(gl));
+        Lights.setGlobal(new Lights(gl));
 
         setupGL();
         setupShaders();
-        setupLights();
         setupTextures();
         setupMaterials();
         setupFbos();
@@ -44,20 +45,6 @@ class Scene {
 
         sceneGraph = makeSceneGraph();
         setZoom(50);
-    }
-
-    private void setupLights() {
-        int lightId = GL2.GL_LIGHT0;
-        while (lightId <= GL2.GL_LIGHT7) {
-            float[] zero = new float[] { 0, 0, 0, 0 };
-
-            gl.glLightfv(lightId, GL2.GL_POSITION, zero, 0);
-            gl.glLightfv(lightId, GL2.GL_AMBIENT, zero, 0);
-            gl.glLightfv(lightId, GL2.GL_DIFFUSE, zero, 0);
-            gl.glLightfv(lightId, GL2.GL_SPECULAR, zero, 0);
-
-            lightId++;
-        }
     }
 
     private void setupCameras() {
@@ -153,37 +140,42 @@ class Scene {
         textureLoader.loadBMP("hardwood", "res\\hardwood.bmp");
         textureLoader.loadBMP("glass", "res\\glass.bmp");
         textureLoader.loadBMP("plate", "res\\plate.bmp");
+        textureLoader.loadBMP("tiles", "res\\marbletile.bmp");
     }
 
     private void setupMaterials() {
         Materials materials = Materials.get();
+
+        final float[] defaultAmbience = new float[] { 0.f, 0.f, 0.f, 1.0f };
+        final float[] defaultDiffuse = new float[] { 0.8f, 0.8f, 0.8f, 1.0f };
+
         materials.addNew(
             "shinymetal",
             new float[] { 0.25f, 0.25f, 0.25f, 1.0f },
-            new float[] { 0.8f, 0.8f, 0.8f, 1.0f },
+            defaultDiffuse,
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             100f,
             "metal");
 
         materials.addNew(
             "wood",
-            new float[] { 0.25f, 0.25f, 0.25f, 1.0f },
-            new float[] { 0.8f, 0.8f, 0.8f, 1.0f },
-            new float[] { 0.0f, 0.02f, 0.0f, 1.0f },
+            defaultAmbience,
+            defaultDiffuse,
+            new float[] { 0.0f, 0.0f, 0.0f, 1.0f },
             100f,
             "hardwood");
 
         materials.addNew(
             "tvscreen",
-            new float[] { 10, 10, 10, 1.0f },
-            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
+            new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
+            defaultDiffuse,
             new float[] { 2.0f, 1.0f, 1.0f, 1.0f },
             100f,
             "rendertex");
 
         materials.addNew(
             "glass",
-            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
+            defaultAmbience,
             new float[] { 0.95f, 0.95f, 1.0f, 1.0f },
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             100f,
@@ -191,11 +183,19 @@ class Scene {
 
         materials.addNew(
             "plastic_plate",
-            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
-            new float[] { 1f, 0.85f, 0.85f, 1.0f },
-            new float[] { 0.8f, 0.9f, 0.9f, 1.0f },
-            80f,
+            defaultAmbience,
+            new float[] { 0.85f, 0.85f, 0.85f, 1.0f },
+            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
+            .25f * 128,
             "plate");
+
+        materials.addNew(
+            "marbletile",
+            defaultAmbience,
+            defaultDiffuse,
+            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
+            0.078125f * 128,
+            "tiles");
 
         materials.addNew(
             "eye_left",

@@ -2,6 +2,8 @@ package scenegraph.models.room;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
+import lighting.Lights;
+import lighting.PointLight;
 import math.Vector3;
 import renderer.Materials;
 import renderer.cameras.Cameras;
@@ -17,7 +19,12 @@ public class Room extends SceneGraph {
     private GLUT                 glut;
 
     private final SceneGraphNode robotNode;
+    private final SceneGraphNode realtime;
     private final Robot          robot1;
+
+    final int                    roomWidth  = 50;
+    final int                    roomDepth  = 35;
+    final int                    roomHeight = 12;
 
     public Room(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -29,13 +36,22 @@ public class Room extends SceneGraph {
             .setPosition(new Vector3(0, 0, 0))
             .setRotation(new Vector3(0, 0, 0), 0);
 
+        // Floor
         root
             .createAttachedNode()
-            .attachRenderable(new Plane(gl, Materials.get().get("wood"), 4, 4))
+            .attachRenderable(
+                new Plane(gl, Materials.get().get("marbletile"), 4, 4))
             .setRotation(new Vector3(1, 0, 0), 90)
             .setPosition(new Vector3(0, 0, 0))
-            .setScaling(new Vector3(50, 35, 1));
+            .setScaling(new Vector3(roomWidth, roomDepth, 1));
 
+        // Walls
+        root
+            .createAttachedNode()
+            .attachRenderable(new Plane(gl, Materials.get().get("nyan"), 4, 4))
+            .setScaling(new Vector3(roomWidth, roomHeight, 1));
+
+        // Tables
         root
             .createAttachedNodeFromSceneGraph(new Table(gl, glut))
             .setPosition(new Vector3(10, 0, 10))
@@ -50,10 +66,18 @@ public class Room extends SceneGraph {
 
         root
             .createAttachedNodeFromSceneGraph(new Table(gl, glut))
-            .setPosition(new Vector3(35, 1.5f, 20))
+            .setPosition(new Vector3(roomDepth, 1.5f, 20))
             .setRotation(new Vector3(1, 0, 0), 89)
             .setScaling(Vector3.all(3));
 
+        // Lights
+        Lights lights = Lights.get();
+        final PointLight tableLight = new PointLight(
+            gl,
+            lights.newLightId(),
+            Vector3.all(1));
+        realtime = root.createAttachedNode().attachLight(tableLight);
+        lights.append(tableLight);
     }
 
     @Override
@@ -72,5 +96,7 @@ public class Room extends SceneGraph {
 
         c.setLookAt(cameraAim);
         c.setTargetCircleAngle(-robotNode.rotationAmount() + 180);
+
+        realtime.setPosition(new Vector3(25, 10, 10));
     }
 }

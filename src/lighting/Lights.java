@@ -35,14 +35,16 @@ public class Lights {
         this.lights = new ArrayList<>();
 
         // Set all lights to pitch black
+        // return;
         int lightId = GL2.GL_LIGHT0;
         while (lightId <= GL2.GL_LIGHT7) {
-            float[] zero = new float[] { 0, 0, 0, 0 };
+            float[] zero = new float[] { 0, 0, 0, 1.0f };
 
             gl.glLightfv(lightId, GL2.GL_POSITION, zero, 0);
             gl.glLightfv(lightId, GL2.GL_AMBIENT, zero, 0);
             gl.glLightfv(lightId, GL2.GL_DIFFUSE, zero, 0);
             gl.glLightfv(lightId, GL2.GL_SPECULAR, zero, 0);
+            gl.glDisable(lightId);
 
             lightId++;
         }

@@ -13,7 +13,7 @@ public class Animation2 extends SceneGraph {
 
         room = new Room(gl, glut);
         root.createAttachedNodeFromSceneGraph(room).setPosition(
-            new Vector3(-25f, 0, -25f));
+            new Vector3(-25f, 0, -17.5f));
     }
 
     @Override
