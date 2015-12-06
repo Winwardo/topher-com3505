@@ -7,9 +7,9 @@ import math.Vector3;
 public class SimpleCamera implements Camera {
     private final GL2 gl;
     private final GLU glu;
+
     private Vector3   position;
     private Vector3   lookAt;
-    private boolean   isActive;
 
     public SimpleCamera(GL2 gl, Vector3 position, Vector3 lookAt) {
         this.gl = gl;
