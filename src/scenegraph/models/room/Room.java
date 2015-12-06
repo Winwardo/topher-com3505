@@ -7,18 +7,15 @@ import renderer.Materials;
 import renderer.cameras.Cameras;
 import renderer.cameras.RotateAroundPointCamera;
 import renderer.primitives.Plane;
-import scenegraph.BallJoint;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 import scenegraph.models.Table;
 import scenegraph.models.robot.Robot;
 
 public class Room extends SceneGraph {
-    private static final float   ARM_OUT = 0.65f;
     private GL2                  gl;
     private GLUT                 glut;
 
-    private final BallJoint      rollerBallJoint;
     private final SceneGraphNode robotNode;
     private final Robot          robot1;
 
@@ -26,8 +23,6 @@ public class Room extends SceneGraph {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
-
-        rollerBallJoint = new BallJoint(root);
 
         robotNode = root
             .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut))
@@ -39,12 +34,26 @@ public class Room extends SceneGraph {
             .attachRenderable(new Plane(gl, Materials.get().get("wood"), 4, 4))
             .setRotation(new Vector3(1, 0, 0), 90)
             .setPosition(new Vector3(0, 0, 0))
-            .setScaling(new Vector3(50, 50, 1));
+            .setScaling(new Vector3(50, 35, 1));
 
         root
             .createAttachedNodeFromSceneGraph(new Table(gl, glut))
-            .setPosition(new Vector3(20, 0, 10))
+            .setPosition(new Vector3(10, 0, 10))
+            .setRotation(new Vector3(0, 1, 0), 45)
             .setScaling(Vector3.all(3));
+
+        root
+            .createAttachedNodeFromSceneGraph(new Table(gl, glut))
+            .setPosition(new Vector3(37, 0, 7))
+            .setRotation(new Vector3(0, 1, 0), -20)
+            .setScaling(Vector3.all(3));
+
+        root
+            .createAttachedNodeFromSceneGraph(new Table(gl, glut))
+            .setPosition(new Vector3(35, 1.5f, 20))
+            .setRotation(new Vector3(1, 0, 0), 89)
+            .setScaling(Vector3.all(3));
+
     }
 
     @Override
