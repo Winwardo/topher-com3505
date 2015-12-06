@@ -1,4 +1,4 @@
-package renderer;
+package renderer.cameras;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;

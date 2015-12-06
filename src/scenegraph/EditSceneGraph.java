@@ -5,8 +5,8 @@ import com.jogamp.opengl.math.Matrix4;
 import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.PointLight;
 import math.Vector3;
-import renderer.SimpleCamera;
-import renderer.Cameras;
+import renderer.cameras.Cameras;
+import renderer.cameras.SimpleCamera;
 import renderer.primitives.Axes;
 
 public class EditSceneGraph extends SceneGraph {
