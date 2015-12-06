@@ -42,8 +42,11 @@ public class EditSceneGraph extends SceneGraph {
 
         // c = new SimpleCamera(gl, new Vector3(1.2f, 2.0f, 2.0f), new
         // Vector3(0, 1, 0));
-        c = new RotateAroundPointCamera(gl, new Vector3(0, 0f, 0f), 10, 10, 45);
-        int ci = Cameras.get().append(c);
+        // c = new RotateAroundPointCamera(gl, new Vector3(0, 0f, 0f), 10, 10,
+        // 45);
+        // int ci = Cameras.get().append(c);
+
+        // c = (RotateAroundPointCamera) Cameras.get().get(0);
 
         c2 = new SimpleCamera(
             gl,

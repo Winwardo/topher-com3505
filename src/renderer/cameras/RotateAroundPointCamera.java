@@ -19,8 +19,10 @@ public class RotateAroundPointCamera implements Camera {
      * @param gl
      * @param lookAt
      * @param distance
-     * @param angle
-     *            From 0 - 360
+     * @param circleAngle
+     *            In degrees
+     * @param heightAngle
+     *            In degrees
      */
     public RotateAroundPointCamera(GL2 gl, Vector3 lookAt, float distance,
         float circleAngle, float heightAngle) {
@@ -46,19 +48,19 @@ public class RotateAroundPointCamera implements Camera {
     }
 
     public void setCircleAngle(float circleAngle) {
-        this.circleAngle = (float) Math.toRadians(circleAngle % 360);
+        this.circleAngle = circleAngle;
         position = createPosition();
     }
 
     public void setHeightAngle(float heightAngle) {
-        this.heightAngle = (float) Math.toRadians(heightAngle % 360);
+        this.heightAngle = heightAngle;
         position = createPosition();
     }
 
     private Vector3 createPosition() {
-        float x = (float) Math.cos(circleAngle) * distance;
-        float y = (float) Math.cos(heightAngle) * distance;
-        float z = (float) Math.sin(circleAngle) * distance;
+        float x = (float) Math.cos(Math.toRadians(circleAngle)) * distance;
+        float y = (float) Math.cos(Math.toRadians(heightAngle)) * distance;
+        float z = (float) Math.sin(Math.toRadians(circleAngle)) * distance;
 
         return new Vector3(x, y, z);
     }
@@ -75,5 +77,14 @@ public class RotateAroundPointCamera implements Camera {
             0.0,
             1.0,
             0.0);
+    }
+
+    public void addDistance(float offset) {
+        setDistance(this.distance + offset);
+    }
+
+    public void addRotation(float dx, float dy) {
+        setCircleAngle(this.circleAngle + dx * 100);
+        setHeightAngle(this.heightAngle - dy * 100);
     }
 }

@@ -4,8 +4,11 @@ import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.Panel;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -21,9 +24,11 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
+import renderer.cameras.Cameras;
+import renderer.cameras.RotateAroundPointCamera;
 
-public class Assignment extends JFrame
-    implements GLEventListener, ActionListener, ChangeListener {
+public class Assignment extends JFrame implements GLEventListener,
+    ActionListener, ChangeListener, MouseMotionListener {
 
     private static final long  serialVersionUID  = 1L;
 
@@ -37,6 +42,8 @@ public class Assignment extends JFrame
 
     private Scene              scene;
 
+    private Point              mouseLastLocation;
+
     public static void main(String[] args) {
         Assignment t1 = new Assignment();
         t1.setVisible(true);
@@ -48,6 +55,8 @@ public class Assignment extends JFrame
 
         GLCanvas canvas = makeGLCanvas();
         add(canvas, "Center");
+        canvas.addMouseMotionListener(this);
+
         setupExitEvents(canvas);
 
         createAndStartAnimation(canvas);
@@ -209,5 +218,30 @@ public class Assignment extends JFrame
                     break;
             }
         }
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent event) {
+        Point mouseLocation = event.getPoint();
+
+        float dx = (float) (mouseLocation.x - mouseLastLocation.x) / WIDTH;
+        float dy = (float) (mouseLocation.y - mouseLastLocation.y) / HEIGHT;
+
+        RotateAroundPointCamera camera = (RotateAroundPointCamera) Cameras
+            .get()
+            .get(0);
+
+        if (event.getModifiers() == MouseEvent.BUTTON1_MASK) {
+            camera.addRotation(dx, dy);
+        } else if (event.getModifiers() == MouseEvent.BUTTON3_MASK) {
+            camera.addDistance(dy * 10);
+        }
+
+        mouseLastLocation = mouseLocation;
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        mouseLastLocation = e.getPoint();
     }
 }

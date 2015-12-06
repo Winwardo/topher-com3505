@@ -9,6 +9,7 @@ import renderer.FBO;
 import renderer.Materials;
 import renderer.TextureLoader;
 import renderer.cameras.Cameras;
+import renderer.cameras.RotateAroundPointCamera;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import scenegraph.models.room.Room;
@@ -39,9 +40,20 @@ class Scene {
         setupTextures();
         setupMaterials();
         setupFbos();
+        setupCameras();
 
         sceneGraph = makeSceneGraph();
         setZoom(50);
+    }
+
+    private void setupCameras() {
+        Cameras.get().append(
+            new RotateAroundPointCamera(
+                gl,
+                new Vector3(0, 2.5f, 0f),
+                10,
+                10,
+                45));
     }
 
     private SceneGraph makeSceneGraph() {
