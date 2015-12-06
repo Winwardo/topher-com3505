@@ -8,6 +8,7 @@ import renderer.primitives.Plane;
 import scenegraph.BallJoint;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
+import scenegraph.models.Table;
 import scenegraph.models.robot.Robot;
 
 public class Room extends SceneGraph {
@@ -25,14 +26,21 @@ public class Room extends SceneGraph {
 
         rollerBallJoint = new BallJoint(root);
 
-        root.createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut));
+        root
+            .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut))
+            .setPosition(new Vector3(0, 1, 0));
 
         root
             .createAttachedNode()
             .attachRenderable(new Plane(gl, Materials.get().get("wood"), 4, 4))
             .setRotation(new Vector3(1, 0, 0), 90)
-            .setPosition(new Vector3(-25, -1, -25))
+            .setPosition(new Vector3(0, 0, 0))
             .setScaling(new Vector3(50, 50, 1));
+
+        root
+            .createAttachedNodeFromSceneGraph(new Table(gl, glut))
+            .setPosition(new Vector3(20, 0, 10))
+            .setScaling(Vector3.all(2));
     }
 
     @Override

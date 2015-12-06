@@ -5,7 +5,7 @@ import com.jogamp.opengl.math.Matrix4;
 import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.PointLight;
 import math.Vector3;
-import renderer.Camera;
+import renderer.SimpleCamera;
 import renderer.Cameras;
 import renderer.Materials;
 import renderer.primitives.Axes;
@@ -17,8 +17,8 @@ public class Animation1 extends SceneGraph {
     private SceneGraphNode minorCubeSpin;
     private float          rotate;
 
-    private Camera         c;
-    private Camera         c2;
+    private SimpleCamera         c;
+    private SimpleCamera         c2;
 
     SceneGraphNode         root1;
 
@@ -47,10 +47,10 @@ public class Animation1 extends SceneGraph {
 
         root1.attachRenderable(new Axes(gl));
 
-        c = new Camera(gl, new Vector3(1.2f, 2.0f, 2.0f), new Vector3(0, 1, 0));
+        c = new SimpleCamera(gl, new Vector3(1.2f, 2.0f, 2.0f), new Vector3(0, 1, 0));
         int ci = Cameras.get().append(c);
 
-        c2 = new Camera(gl, new Vector3(0, 1.7f, 1), new Vector3(0, 1, 0));
+        c2 = new SimpleCamera(gl, new Vector3(0, 1.7f, 1), new Vector3(0, 1, 0));
         int ci2 = Cameras.get().append(c2);
     }
 
