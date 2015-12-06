@@ -39,24 +39,33 @@ public class SceneGraphNode {
         this(Vector3.zero(), Vector3.zero(), 0.0f, Vector3.one(), gl);
     }
 
-    public void render() {
+    public void applyLights() {
         gl.glPushMatrix();
         {
             transform();
 
-            // On the way traversing down the tree, apply all lights, BEFORE any
-            // polygons are drawn.
             for (ILight light : lights) {
                 light.apply();
             }
 
             for (SceneGraphNode node : nodes) {
-                node.render();
+                node.applyLights();
             }
+        }
+        gl.glPopMatrix();
+    }
 
-            // And draw all our object with correct lighting after
+    public void render() {
+        gl.glPushMatrix();
+        {
+            transform();
+
             for (IRenderable renderable : renderables) {
                 renderable.render();
+            }
+
+            for (SceneGraphNode node : nodes) {
+                node.render();
             }
         }
         gl.glPopMatrix();
