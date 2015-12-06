@@ -1,0 +1,72 @@
+package lighting;
+
+import java.util.ArrayList;
+import java.util.List;
+import com.jogamp.opengl.GL2;
+
+/**
+ * Lights provides a Singleton access to save on programming costs. Preferably a
+ * service locator would be used, injected into the model primitives via some
+ * factory, but that's beyond the scope of this assignment.
+ *
+ *
+ * 
+ * @author Topher
+ *
+ */
+public class Lights {
+    private static Lights _lights;
+
+    public static void setGlobal(Lights cameras) {
+        Lights._lights = cameras;
+    }
+
+    public static Lights get() {
+        if (_lights != null) {
+            return _lights;
+        } else {
+            throw new RuntimeException("Lights has not been set yet.");
+        }
+    }
+
+    private final List<ILight> lights;
+
+    public Lights(GL2 gl) {
+        this.lights = new ArrayList<>();
+
+        // Set all lights to pitch black
+        int lightId = GL2.GL_LIGHT0;
+        while (lightId <= GL2.GL_LIGHT7) {
+            float[] zero = new float[] { 0, 0, 0, 0 };
+
+            gl.glLightfv(lightId, GL2.GL_POSITION, zero, 0);
+            gl.glLightfv(lightId, GL2.GL_AMBIENT, zero, 0);
+            gl.glLightfv(lightId, GL2.GL_DIFFUSE, zero, 0);
+            gl.glLightfv(lightId, GL2.GL_SPECULAR, zero, 0);
+
+            lightId++;
+        }
+    }
+
+    public int newLightId() {
+        return GL2.GL_LIGHT0 + lights.size();
+    }
+
+    public int append(ILight light) {
+        lights.add(light);
+        return lights.size() - 1;
+    }
+
+    public ILight get(int lightId) {
+        return lights.get(lightId);
+    }
+
+    public void apply(int lightId) {
+        if (lightId < lights.size() && lightId >= 0) {
+            final ILight light = get(lightId);
+            if (light != null) {
+                light.apply();
+            }
+        }
+    }
+}
