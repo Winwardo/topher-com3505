@@ -17,8 +17,8 @@ import com.jogamp.opengl.GL2;
 public class Lights {
     private static Lights _lights;
 
-    public static void setGlobal(Lights cameras) {
-        Lights._lights = cameras;
+    public static void setGlobal(Lights lights) {
+        Lights._lights = lights;
     }
 
     public static Lights get() {
