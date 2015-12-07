@@ -1,7 +1,7 @@
 package animation;
 
 import java.util.List;
-import math.LinearInterpolation;
+import math.Interpolation;
 import scenegraph.SceneGraphNode;
 
 public class Animation {
@@ -53,17 +53,17 @@ public class Animation {
         float lerp = currentKeyframe.lerpFromFrameId(currentFrame);
 
         node.setPosition(
-            LinearInterpolation
+            Interpolation
                 .lerp(lastKeyframe.position, currentKeyframe.position, lerp));
         node.setRotation(
-            LinearInterpolation
+            Interpolation
                 .lerp(lastKeyframe.rotation, currentKeyframe.rotation, lerp),
-            LinearInterpolation.lerp(
+            Interpolation.lerp(
                 lastKeyframe.rotationAmount,
                 currentKeyframe.rotationAmount,
                 lerp));
         node.setScaling(
-            LinearInterpolation
+            Interpolation
                 .lerp(lastKeyframe.scale, currentKeyframe.scale, lerp));
     }
 
