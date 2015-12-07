@@ -235,7 +235,7 @@ public class Room extends SceneGraph {
         robotLightNode.setPosition(
             new Vector3(
                 robotPosition.x(),
-                robotPosition.y() + 4,
+                robotPosition.y() + 2.6f,
                 robotPosition.z()));
         robotLight.setPosition(new Vector3(0, 0, 0));
 
