@@ -153,7 +153,7 @@ class Scene {
 
         materials.addNew(
             "shinymetal",
-            new float[] { 0.15f, 0.15f, 0.15f, 1.0f },
+            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
             defaultDiffuse,
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             100f,

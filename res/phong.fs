@@ -28,10 +28,9 @@ void main (void) {
                 float spotEffect = dot(normalize(spotlightdir), normalize(-L));
                 float cutoff = gl_LightSource[i].spotCosCutoff;
 
-                if (spotEffect < cutoff) {
-                        q = 0;
-                        continue;
-                }
+                float difference = spotEffect - cutoff;
+
+                q = clamp(difference*100, 0, 5);
 
                 vec4 Idiff = gl_FrontLightProduct[i].diffuse * gl_FrontMaterial.diffuse * max(dot(N,L), 0.0);
                 // Idiff = smoothstep(0.2, 0.8, Idiff);
@@ -50,7 +49,7 @@ void main (void) {
                 finalColor += (Idiff*att + Ispec*att) * q;
         }
 
-        vec4 ambientComp = clamp(gl_FrontMaterial.ambient, 0.05, 1.0) * AMBIENT_CONSTANT;
+        vec4 ambientComp = clamp(gl_FrontMaterial.ambient, 0.02, 1.0) * AMBIENT_CONSTANT;
         finalColor += ambientComp;
 
 
