@@ -11,6 +11,10 @@ uniform sampler2D tex;
 
 // https://stackoverflow.com/questions/11434233/shader-for-a-spotlight
 
+float getdist(vec4 a, vec4 b) {
+	return sqrt(pow(b[0]-a[0],2)+pow(b[1]-a[1],2)+pow(b[2]-a[2],2)+pow(b[3]-a[3],2));
+}
+
 void main (void) { 
         vec4 finalColor = vec4(0.0, 0.0, 0.0, 0.0);
         vec4 albedo = texture2D(tex,gl_TexCoord[0].st);
@@ -43,7 +47,9 @@ void main (void) {
                 // Ispec = clamp(Ispec, 0, 1);
                 Ispec = Ispec * SPECULAR_CONSTANT;
 
-                float dist = distance(gl_LightSource[i].position, v);
+				vec4 pos = gl_LightSource[i].position;
+				vec4 vvvv = vec4(v.xyz, 0);
+                float dist = getdist((pos), vvvv);
                 float att =1.0/(1.0+0.1*dist+0.01*dist*dist);//= 1/(d*d);
                 // att = 1;
                 finalColor += (Idiff*att + Ispec*att) * q;
