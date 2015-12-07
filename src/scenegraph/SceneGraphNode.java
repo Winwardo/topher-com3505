@@ -133,6 +133,10 @@ public class SceneGraphNode {
         return this.localPosition;
     }
 
+    public Vector3 scaling() {
+        return this.localScaling;
+    }
+
     private void attachNode(SceneGraphNode node) {
         nodes.add(node);
     }
