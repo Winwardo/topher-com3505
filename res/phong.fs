@@ -51,7 +51,7 @@ void main (void) {
                 finalColor += (Idiff*att + Ispec*att) * q;
         }
 
-        vec4 ambientComp = clamp(gl_FrontMaterial.ambient, 0.02, 1.0) * AMBIENT_CONSTANT;
+        vec4 ambientComp = clamp(gl_FrontMaterial.ambient, 0.1, 1.0) * AMBIENT_CONSTANT;
         finalColor += ambientComp;
 
 
