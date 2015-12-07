@@ -32,6 +32,7 @@ public class Cameras {
     }
 
     private final List<Camera> cameras;
+    private int                activeCameraId;
 
     public Cameras() {
         this.cameras = new ArrayList<>();
@@ -50,8 +51,13 @@ public class Cameras {
         if (cameraId < cameras.size() && cameraId >= 0) {
             final Camera camera = get(cameraId);
             if (camera != null) {
+                activeCameraId = cameraId;
                 camera.apply();
             }
         }
+    }
+
+    public int activeCamera() {
+        return activeCameraId;
     }
 }

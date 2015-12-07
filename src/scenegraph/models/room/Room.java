@@ -24,19 +24,23 @@ public class Room extends SceneGraph {
     private GLUT                 glut;
 
     private final SceneGraphNode robotNode;
+    private final SceneGraphNode tiltNode;
+    private final SceneGraphNode leanNode;
+    private float                lastRotate   = 0;
+    private Vector3              lastPosition = Vector3.zero();
     private final SceneGraphNode realtime;
     private final Robot          robot1;
 
-    private int                  go     = 0;
+    private int                  go           = 0;
 
-    public static final int      DEPTH  = 50;
-    public static final int      WIDTH  = 35;
-    public static final int      HEIGHT = 12;
+    public static final int      DEPTH        = 50;
+    public static final int      WIDTH        = 35;
+    public static final int      HEIGHT       = 12;
 
     private final SpotLight      robotLight;
     private final SceneGraphNode robotLightNode;
 
-    private Animation            an;
+    private Animation            robotMovement;
 
     public Room(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -47,10 +51,16 @@ public class Room extends SceneGraph {
         root.setRotation(new Vector3(0, 1, 0), 0);
         root.setScaling(Vector3.one());
 
-        realtime = robotNode = root
-            .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut))
+        robotNode = root
+            .createAttachedNode()
             .setPosition(new Vector3(20, 0, 10))
             .setRotation(new Vector3(0, 1, 0), 0);
+
+        realtime = null;
+
+        leanNode = robotNode.createAttachedNode();
+        tiltNode = leanNode
+            .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut));
 
         addFloorAndCeiling(gl);
         addWalls(gl);
@@ -85,7 +95,6 @@ public class Room extends SceneGraph {
     private void makeRoboAnimation() {
         ArrayList<Keyframe> frames = new ArrayList<>();
         frames.add(new Keyframe(new int[] { 25, 0, 4, -90, 100 }));
-        frames.add(new Keyframe(new int[] { 25, 0, 4, -105, 100 }));
         frames.add(new Keyframe(new int[] { 25, 0, 4, -140, 100 }));
         frames.add(new Keyframe(new int[] { 14, 0, 12, -140, 100 }));
         frames.add(new Keyframe(new int[] { 14, 0, 12, -200, 100 }));
@@ -106,7 +115,7 @@ public class Room extends SceneGraph {
         frames.add(new Keyframe(new int[] { 25, 0, 8, 150, 100 }));
         frames.add(new Keyframe(new int[] { 25, 0, 7, 90, 100 }));
         frames.add(new Keyframe(new int[] { 25, 0, 4, 90, 100 }));
-        an = new Animation(frames);
+        robotMovement = new Animation(frames);
     }
 
     private void addTV(GL2 gl) {
@@ -194,7 +203,7 @@ public class Room extends SceneGraph {
 
     @Override
     public void update() {
-        an.tick();
+        robotMovement.tick();
 
         go++;
         robot1.update();
@@ -207,7 +216,7 @@ public class Room extends SceneGraph {
 
         robotNode.setPosition(new Vector3(35, 0, 8));
         robotNode.setRotation(new Vector3(0, 1, 0), 60);
-        an.applyInterpolated(robotNode);
+        robotMovement.applyInterpolated(robotNode);
         // System.out.println(robotNode.scaling());
 
         Vector3 robotPosition = robotNode.position();
@@ -235,5 +244,18 @@ public class Room extends SceneGraph {
         // robotLight.setIncline(45);
 
         // realtime.setPosition(new Vector3(0, 0, WIDTH));
+        // realtime.setRotation(new Vector3(1, 0, 0), -20);
+
+        float currentRotate = robotNode.rotationAmount();
+        Vector3 currentPosition = robotNode.position();
+
+        float rotateDifference = currentRotate - lastRotate;
+        float speed = currentPosition.distance(lastPosition);
+
+        tiltNode.setRotation(new Vector3(1, 0, 0), rotateDifference * 4);
+        leanNode.setRotation(new Vector3(0, 0, 1), -speed * 100);
+
+        lastRotate = currentRotate;
+        lastPosition = currentPosition;
     }
 }

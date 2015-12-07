@@ -39,4 +39,10 @@ public class Vector3 {
     public static Vector3 all(float f) {
         return new Vector3(f, f, f);
     }
+
+    public float distance(Vector3 other) {
+        return (float) Math.sqrt(
+            Math.pow(x() - other.x(), 2) + Math.pow(y() - other.y(), 2)
+                + Math.pow(z() - other.z(), 2));
+    }
 }
