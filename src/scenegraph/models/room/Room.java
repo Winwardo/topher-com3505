@@ -19,6 +19,7 @@ import scenegraph.models.CircleLamp;
 import scenegraph.models.PlateWithGlasses;
 import scenegraph.models.Table;
 import scenegraph.models.robot.Robot;
+import scenegraph.models.robot.Roller;
 
 public class Room extends SceneGraph {
     private GL2                  gl;
@@ -358,6 +359,8 @@ public class Room extends SceneGraph {
 
         float strutDepth = 0.5f;
         float strutWidth = 2;
+
+        Roller.rotation += speed * 35;
 
         // realtime.setPosition(new Vector3(30, 0.5f, 28)).setScaling(
         // new Vector3(14, 20, 1));

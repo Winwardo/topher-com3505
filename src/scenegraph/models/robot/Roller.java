@@ -15,7 +15,7 @@ public class Roller extends SceneGraph {
     private GLUT                 glut;
 
     private final SceneGraphNode ballNode;
-    private float                rotation = 0;
+    public static float          rotation = 0;
 
     public Roller(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -41,7 +41,7 @@ public class Roller extends SceneGraph {
 
     @Override
     public void update() {
-        rotation += 1.0f;
+        // rotation += 1.0f;
         ballNode.setRotation(new Vector3(0, 0, -1), rotation);
     }
 }
