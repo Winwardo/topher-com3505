@@ -132,7 +132,7 @@ public class Room extends SceneGraph {
                 new Vector3(DEPTH / 2, trimHeight / 2, WIDTH - halfTrimDepth))
             .setRotation(new Vector3(0, 1, 0), 180);
 
-        realtime = root
+        root
             .createAttachedNode()
             .attachRenderable(shortTrim)
             .setPosition(
@@ -147,6 +147,7 @@ public class Room extends SceneGraph {
         float strutDepth = 0.5f;
         float strutWidth = 2;
 
+        // Depth
         root
             .createAttachedNode()
             .attachRenderable(
@@ -188,6 +189,26 @@ public class Room extends SceneGraph {
                     Materials.get().get("dullmetal")))
             .setPosition(
                 new Vector3(DEPTH / 2, HEIGHT - strutDepth / 2, WIDTH));
+
+        // Ends
+        root
+            .createAttachedNode()
+            .attachRenderable(
+                new Cuboid(
+                    gl,
+                    new Vector3(strutWidth, strutDepth, WIDTH),
+                    Materials.get().get("dullmetal")))
+            .setPosition(
+                new Vector3(DEPTH, HEIGHT - strutDepth / 2, WIDTH / 2));
+
+        root
+            .createAttachedNode()
+            .attachRenderable(
+                new Cuboid(
+                    gl,
+                    new Vector3(strutWidth, strutDepth, WIDTH),
+                    Materials.get().get("dullmetal")))
+            .setPosition(new Vector3(0, HEIGHT - strutDepth / 2, WIDTH / 2));
     }
 
     private void makeRoboAnimation() {
