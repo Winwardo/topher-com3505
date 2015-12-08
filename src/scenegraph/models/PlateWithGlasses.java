@@ -31,12 +31,12 @@ public class PlateWithGlasses extends SceneGraph {
         root
             .createAttachedNodeFromSceneGraph(new Wineglass(gl, glut))
             .setScaling(Vector3.all(0.2f))
-            .setPosition(new Vector3(0.4f, 0.05f, 0.0f));
+            .setPosition(new Vector3(0.4f, 0.01f, 0.0f));
 
         root
             .createAttachedNodeFromSceneGraph(new Wineglass(gl, glut))
             .setScaling(Vector3.all(0.2f))
-            .setPosition(new Vector3(-0.2f, 0.05f, 0.7f));
+            .setPosition(new Vector3(-0.2f, 0.01f, 0.7f));
 
         root
             .createAttachedNodeFromSceneGraph(new Wineglass(gl, glut))

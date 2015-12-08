@@ -66,6 +66,12 @@ public class RightArm extends SceneGraph {
         forearm
             .createAttachedNodeFromSceneGraph(new PlateWithGlasses(gl, glut))
             .setRotation(new Vector3(1, 0, 0), 90)
+            .setPosition(new Vector3(0, 0, LOWER_ARM_LENGTH + 0.3f))
+            .setScaling(Vector3.all(0.75f));
+
+        forearm
+            .createAttachedNodeFromSceneGraph(new Claw(gl, glut))
+            .setRotation(new Vector3(1, 0, 0), 90)
             .setPosition(new Vector3(0, 0, LOWER_ARM_LENGTH))
             .setScaling(Vector3.all(0.75f));
     }

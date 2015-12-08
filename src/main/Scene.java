@@ -60,6 +60,7 @@ class Scene {
                 10,
                 10,
                 45));
+
         // Cameras.get().append(
         // new RotateAroundPointCamera(gl, Vector3.zero(), 10, 10, 45));
 
@@ -70,7 +71,7 @@ class Scene {
     private SceneGraph makeSceneGraph() {
         return new Animation2(gl, glut);
         // return new DefaultSceneGraph(gl, glut);
-        // return new EditSceneGraph(gl, glut, new CircleLamp(gl, glut));
+        // return new EditSceneGraph(gl, glut, new LeftArm(gl, glut));
     }
 
     private void setupGL() {

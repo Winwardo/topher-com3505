@@ -36,6 +36,10 @@ public class FromPointCamera implements Camera {
         this.basePosition = position;
         this.circleAngle = circleAngle;
         this.heightAngle = heightAngle;
+
+        lookat = Vector3.zero();
+        basePosition = Vector3.one();
+        recalculate();
     }
 
     public void setPosition(Vector3 position) {

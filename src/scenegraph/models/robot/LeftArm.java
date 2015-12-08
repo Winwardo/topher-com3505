@@ -64,6 +64,12 @@ public class LeftArm extends SceneGraph {
                 ARM_THICKNESS / 2,
                 LOWER_ARM_LENGTH,
                 Materials.get().get("shinymetal")));
+
+        forearm
+            .createAttachedNodeFromSceneGraph(new Claw(gl, glut))
+            .setRotation(new Vector3(1, 0, 0), 90)
+            .setPosition(new Vector3(0, 0, LOWER_ARM_LENGTH))
+            .setScaling(Vector3.all(0.75f));
     }
 
     @Override
