@@ -28,7 +28,13 @@ public class Table extends SceneGraph {
                 new Cuboid(
                     gl,
                     new Vector3(2, 0.05f, 1),
-                    Materials.get().get("wood")));
+                    Materials.get().get("wood"),
+                    8,
+                    8,
+                    8,
+                    1,
+                    0.25f,
+                    1));
 
         // Legs
         final float legOffset = 0.575f;

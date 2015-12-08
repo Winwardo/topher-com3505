@@ -20,11 +20,14 @@ public class Wall extends SceneGraph {
 
         SceneGraphNode wall = root.createAttachedNode();
 
+        // Wooden lower wall
         wall
             .createAttachedNode()
             .setScaling(new Vector3(depth, wallBottomHeight, 1))
             .attachRenderable(
                 new Plane(gl, Materials.get().get("wood2"), 32, 32, 16, 1));
+
+        // Upper red painted wall
         wall
             .createAttachedNode()
             .setScaling(new Vector3(depth, wallTopHeight, 1))
@@ -32,6 +35,7 @@ public class Wall extends SceneGraph {
             .attachRenderable(
                 new Plane(gl, Materials.get().get("redplastic"), 32, 32, 4, 1));
 
+        // Trim
         float trimHeight = 1;
         float trimDepth = 0.2f;
 
@@ -43,7 +47,13 @@ public class Wall extends SceneGraph {
                 new Cuboid(
                     gl,
                     new Vector3(depth, trimHeight, trimDepth),
-                    Materials.get().get("wood")))
+                    Materials.get().get("wood"),
+                    32,
+                    1,
+                    1,
+                    16,
+                    0.25f,
+                    1))
             .setPosition(new Vector3(depth / 2, trimHeight / 2, halfTrimDepth))
             .setRotation(new Vector3(0, 1, 0), 0);
     }

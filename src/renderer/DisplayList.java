@@ -13,6 +13,8 @@ public class DisplayList {
         gl.glNewList(displayId, GL2.GL_COMPILE);
         displayFunc.run();
         gl.glEndList();
+
+        System.out.println(System.currentTimeMillis());
     }
 
     public void call() {

@@ -8,9 +8,17 @@ import renderer.Renderable;
 public class Plane extends Renderable {
     private final DisplayList displayList;
 
+    int                       xSubdivides, ySubdivides;
+    float                     xTexRepeats, yTexRepeats;
+
     public Plane(GL2 gl, Material mat, int xSubdivides, int ySubdivides,
-        int xTexRepeats, int yTexRepeats) {
+        float xTexRepeats, float yTexRepeats) {
         super(gl, mat);
+
+        this.xSubdivides = xSubdivides;
+        this.ySubdivides = ySubdivides;
+        this.xTexRepeats = xTexRepeats;
+        this.yTexRepeats = yTexRepeats;
 
         displayList = new DisplayList(gl, () -> {
             generateAndDraw(xSubdivides, ySubdivides, xTexRepeats, yTexRepeats);
@@ -22,13 +30,12 @@ public class Plane extends Renderable {
     }
 
     @Override
-    public void renderImpl() {
+    protected void renderImpl() {
         displayList.call();
-        // generateAndDraw(32, 32, 4, 1);
     }
 
-    private void generateAndDraw(int xSubdivides, int ySubdivides,
-        int xTexRepeats, int yTexRepeats) {
+    public void generateAndDraw(int xSubdivides, int ySubdivides,
+        float xTexRepeats, float yTexRepeats) {
         float xStep = 1.0f / xSubdivides;
         float yStep = 1.0f / ySubdivides;
 
@@ -43,11 +50,11 @@ public class Plane extends Renderable {
                 float xVertexEnd = x + xStep;
                 float yVertexEnd = y + yStep;
 
-                float xTextureStep = (float) xTexRepeats / xSubdivides;
+                float xTextureStep = xTexRepeats / xSubdivides;
                 float xTextureStart = x_ * xTextureStep;
                 float xTextureEnd = xTextureStart + xTextureStep;
 
-                float yTextureStep = (float) yTexRepeats / ySubdivides;
+                float yTextureStep = yTexRepeats / ySubdivides;
                 float yTextureStart = y_ * yTextureStep;
                 float yTextureEnd = yTextureStart + yTextureStep;
 

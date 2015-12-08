@@ -99,79 +99,48 @@ public class Room extends SceneGraph {
     }
 
     private void addStruts() {
-        float strutDepth = 0.5f;
         float strutWidth = 2;
+        float strutDepth = 0.5f;
 
-        // Depth
-        root
-            .createAttachedNode()
-            .attachRenderable(
-                new Cuboid(
-                    gl,
-                    new Vector3(ROOM_DEPTH, strutDepth, strutWidth),
-                    Materials.get().get("dullmetal")))
-            .setPosition(
-                new Vector3(ROOM_DEPTH / 2, ROOM_HEIGHT - strutDepth / 2, 0));
-        root
-            .createAttachedNode()
-            .attachRenderable(
-                new Cuboid(
-                    gl,
-                    new Vector3(ROOM_DEPTH, strutDepth, strutWidth),
-                    Materials.get().get("dullmetal")))
-            .setPosition(
-                new Vector3(
-                    ROOM_DEPTH / 2,
-                    ROOM_HEIGHT - strutDepth / 2,
-                    ROOM_WIDTH * (1 / 3.0f)));
-        root
-            .createAttachedNode()
-            .attachRenderable(
-                new Cuboid(
-                    gl,
-                    new Vector3(ROOM_DEPTH, strutDepth, strutWidth),
-                    Materials.get().get("dullmetal")))
-            .setPosition(
-                new Vector3(
-                    ROOM_DEPTH / 2,
-                    ROOM_HEIGHT - strutDepth / 2,
-                    ROOM_WIDTH * (2 / 3.0f)));
-        root
-            .createAttachedNode()
-            .attachRenderable(
-                new Cuboid(
-                    gl,
-                    new Vector3(ROOM_DEPTH, strutDepth, strutWidth),
-                    Materials.get().get("dullmetal")))
-            .setPosition(
-                new Vector3(
-                    ROOM_DEPTH / 2,
-                    ROOM_HEIGHT - strutDepth / 2,
-                    ROOM_WIDTH));
+        final int halfRoomDepth = ROOM_DEPTH / 2;
+        final float strutHeight = ROOM_HEIGHT - strutDepth / 2;
+
+        makeStrut(ROOM_DEPTH, strutWidth)
+            .setPosition(new Vector3(halfRoomDepth, strutHeight, 0));
+
+        makeStrut(ROOM_DEPTH, strutWidth).setPosition(
+            new Vector3(halfRoomDepth, strutHeight, ROOM_WIDTH * (1 / 3.0f)));
+
+        makeStrut(ROOM_DEPTH, strutWidth).setPosition(
+            new Vector3(halfRoomDepth, strutHeight, ROOM_WIDTH * (2 / 3.0f)));
+
+        makeStrut(ROOM_DEPTH, strutWidth)
+            .setPosition(new Vector3(halfRoomDepth, strutHeight, ROOM_WIDTH));
 
         // Ends
-        root
-            .createAttachedNode()
-            .attachRenderable(
-                new Cuboid(
-                    gl,
-                    new Vector3(strutWidth, strutDepth, ROOM_WIDTH),
-                    Materials.get().get("dullmetal")))
-            .setPosition(
-                new Vector3(
-                    ROOM_DEPTH,
-                    ROOM_HEIGHT - strutDepth / 2,
-                    ROOM_WIDTH / 2));
+        makeStrut(ROOM_WIDTH, strutWidth)
+            .setPosition(new Vector3(ROOM_DEPTH, strutHeight, ROOM_WIDTH / 2))
+            .setRotation(new Vector3(0, 1, 0), 90);
 
-        root
-            .createAttachedNode()
-            .attachRenderable(
-                new Cuboid(
-                    gl,
-                    new Vector3(strutWidth, strutDepth, ROOM_WIDTH),
-                    Materials.get().get("dullmetal")))
-            .setPosition(
-                new Vector3(0, ROOM_HEIGHT - strutDepth / 2, ROOM_WIDTH / 2));
+        makeStrut(ROOM_WIDTH, strutWidth)
+            .setPosition(new Vector3(0, strutHeight, ROOM_WIDTH / 2))
+            .setRotation(new Vector3(0, 1, 0), 90);
+    }
+
+    private SceneGraphNode makeStrut(float strutLength, float strutWidth) {
+        float strutDepth = 0.5f;
+
+        return root.createAttachedNode().attachRenderable(
+            new Cuboid(
+                gl,
+                new Vector3(strutLength, strutDepth, strutWidth),
+                Materials.get().get("dullmetal"),
+                32,
+                32,
+                32,
+                16,
+                0.5f,
+                1));
     }
 
     private void makeRoboAnimation() {
@@ -302,7 +271,7 @@ public class Room extends SceneGraph {
 
         Vector3 cameraAim = new Vector3(
             robotPosition.x(),
-            robotPosition.y() + 5f,
+            robotPosition.y() + 6f,
             robotPosition.z());
 
         // c.setLookAt(cameraAim);
@@ -331,7 +300,7 @@ public class Room extends SceneGraph {
         float rotateDifference = currentRotate - lastRotate;
         float speed = currentPosition.distance(lastPosition);
 
-        tiltNode.setRotation(new Vector3(1, 0, 0), rotateDifference * 4);
+        tiltNode.setRotation(new Vector3(1, 0, 0), rotateDifference * 5);
         leanNode.setRotation(new Vector3(0, 0, 1), -speed * 100);
 
         lastRotate = currentRotate;
@@ -340,5 +309,15 @@ public class Room extends SceneGraph {
         // realtime.setPosition(new Vector3(0.5f, 0, WIDTH / 2 + 0.5f));
         // realtime.setScaling(new Vector3(DEPTH, 2, 2));
 
+        float strutDepth = 0.5f;
+        float strutWidth = 2;
+
+        // realtime
+        // .setPosition(
+        // new Vector3(
+        // ROOM_DEPTH,
+        // ROOM_HEIGHT - strutDepth / 2,
+        // ROOM_WIDTH / 2))
+        // .setRotation(new Vector3(0, 1, 0), 90);
     }
 }
