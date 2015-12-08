@@ -38,8 +38,8 @@ public class Room extends SceneGraph {
     public static final int      ROOM_WIDTH   = 35;
     public static final int      ROOM_HEIGHT  = 12;
 
-    private final SpotLight      robotLight;
-    private final SceneGraphNode robotLightNode;
+    private SpotLight            robotLight;
+    private SceneGraphNode       robotLightNode;
 
     private Animation            robotMovement;
 
@@ -65,19 +65,23 @@ public class Room extends SceneGraph {
 
         addFloorAndCeiling();
         addWalls();
-        // addFloorTrim();
         addStruts();
         addTables();
         addTV();
+        addLights(gl);
 
-        // Lights
+        makeRoboAnimation();
+
+    }
+
+    private void addLights(GL2 gl) {
         Lights lights = Lights.get();
 
         final Light mainLight1 = new PointLight(
             gl,
             lights.newLightId(),
-            new Vector3(2.5f, 2.25f, 2.0f));
-        // new Vector3(0f, 0f, 0f));
+            // new Vector3(2.5f, 2.25f, 2.0f));
+            new Vector3(0f, 0f, 0f));
         root.createAttachedNode().attachLight(mainLight1).setPosition(
             new Vector3(35, 10, 2));
         lights.append(mainLight1);
@@ -92,63 +96,6 @@ public class Room extends SceneGraph {
             .setPosition(new Vector3(15, 10, 2));
 
         lights.append(robotLight);
-
-        makeRoboAnimation();
-
-    }
-
-    private void addFloorTrim() {
-        float trimHeight = 1;
-        float trimDepth = 0.2f;
-
-        float halfTrimDepth = trimDepth / 2;
-
-        final Cuboid longTrim = new Cuboid(
-            gl,
-            new Vector3(ROOM_DEPTH, trimHeight, trimDepth),
-            Materials.get().get("wood"));
-
-        final Cuboid shortTrim = new Cuboid(
-            gl,
-            new Vector3(ROOM_WIDTH, trimHeight, trimDepth),
-            Materials.get().get("wood"));
-
-        root
-            .createAttachedNode()
-            .attachRenderable(longTrim)
-            .setPosition(
-                new Vector3(ROOM_DEPTH / 2, trimHeight / 2, halfTrimDepth))
-            .setRotation(new Vector3(0, 1, 0), 0);
-
-        realtime = root
-            .createAttachedNode()
-            .attachRenderable(shortTrim)
-            .setPosition(
-                new Vector3(
-                    halfTrimDepth,
-                    trimHeight / 2,
-                    ROOM_WIDTH / 2 + 0.5f))
-            .setRotation(new Vector3(0, 1, 0), 90);
-
-        root
-            .createAttachedNode()
-            .attachRenderable(longTrim)
-            .setPosition(
-                new Vector3(
-                    ROOM_DEPTH / 2,
-                    trimHeight / 2,
-                    ROOM_WIDTH - halfTrimDepth))
-            .setRotation(new Vector3(0, 1, 0), 180);
-
-        root
-            .createAttachedNode()
-            .attachRenderable(shortTrim)
-            .setPosition(
-                new Vector3(
-                    ROOM_DEPTH - halfTrimDepth,
-                    trimHeight / 2,
-                    ROOM_WIDTH / 2 + 0.5f))
-            .setRotation(new Vector3(0, 1, 0), -90);
     }
 
     private void addStruts() {
@@ -276,7 +223,7 @@ public class Room extends SceneGraph {
         root
             .createAttachedNode()
             .attachRenderable(
-                new Plane(gl, Materials.get().get("wood"), 4, 4, 4, 4))
+                new Plane(gl, Materials.get().get("wood"), 32, 32, 4, 4))
             .setRotation(new Vector3(1, 0, 0), 90)
             .setPosition(new Vector3(0, ROOM_HEIGHT, 0))
             .setScaling(new Vector3(ROOM_DEPTH, ROOM_WIDTH, 1));

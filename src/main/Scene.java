@@ -185,15 +185,15 @@ class Scene {
             "wood2",
             defaultAmbience,
             defaultDiffuse,
-            new float[] { 0.4f, 0.4f, 0.4f, 1.0f },
+            new float[] { 0.8f, 0.7f, 0.7f, 1.0f },
             127,
             "wood2");
 
         materials.addNew(
             "redplastic",
             defaultAmbience,
-            new float[] { 0.75f, 0, 0 },
-            new float[] { 0.9f, 0.7f, 0.7f, 1.0f },
+            defaultDiffuse,
+            new float[] { 0.3f, 0.2f, 0.2f, 1.0f },
             .25f * 128,
             "white_noise");
 
