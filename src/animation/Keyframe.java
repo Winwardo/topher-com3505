@@ -20,12 +20,12 @@ public class Keyframe {
     }
 
     public Keyframe(Vector3 position, Vector3 rotation, float rotationAmount,
-        Vector3 scale, int frame) {
+        Vector3 scale, int duration) {
         this.position = position;
         this.rotation = rotation;
         this.rotationAmount = rotationAmount;
         this.scale = scale;
-        this.duration = frame;
+        this.duration = duration;
     }
 
     public float lerpFromFrameId(int frameId) {

@@ -44,6 +44,8 @@ public class Room extends SceneGraph {
     private SceneGraphNode       robotLightNode;
 
     private Animation            robotMovement;
+    private Animation            armServing;
+    private Animation            clawServing;
 
     public static HangingLight   circleLamp1;
     public static HangingLight   circleLamp2;
@@ -75,7 +77,7 @@ public class Room extends SceneGraph {
         addTV();
         addLights();
 
-        makeRoboAnimation();
+        makeAnimations();
 
     }
 
@@ -212,11 +214,74 @@ public class Room extends SceneGraph {
                 1));
     }
 
-    private void makeRoboAnimation() {
+    private void makeAnimations() {
+        robotMainAnimation();
+        robotArmAnimation();
+        robotClawAnimation();
+    }
+
+    private void robotArmAnimation() {
+        ArrayList<Keyframe> frames = new ArrayList<>();
+
+        frames.add(makeArmKeyframe(0, 280));
+        frames.add(makeArmKeyframe(-70, 80));
+        frames.add(makeArmKeyframe(-70, 120));
+        frames.add(makeArmKeyframe(0, 80));
+        frames.add(makeArmKeyframe(0, 100));
+        frames.add(makeArmKeyframe(-70, 100));
+        frames.add(makeArmKeyframe(0, 100));
+        frames.add(makeArmKeyframe(0, 800));
+        frames.add(makeArmKeyframe(-70, 100));
+        frames.add(makeArmKeyframe(-70, 20));
+        frames.add(makeArmKeyframe(0, 180));
+        frames.add(makeArmKeyframe(0, 240));
+
+        armServing = new Animation(frames);
+    }
+
+    private void robotClawAnimation() {
+        ArrayList<Keyframe> frames = new ArrayList<>();
+
+        frames.add(makeClawKeyframe(0, 280));
+        frames.add(makeClawKeyframe(-70, 80));
+        frames.add(makeClawKeyframe(-70, 120));
+        frames.add(makeClawKeyframe(0, 80));
+        frames.add(makeClawKeyframe(0, 100));
+        frames.add(makeClawKeyframe(-70, 100));
+        frames.add(makeClawKeyframe(0, 100));
+        frames.add(makeClawKeyframe(0, 800));
+        frames.add(makeClawKeyframe(-70, 100));
+        frames.add(makeClawKeyframe(-70, 20));
+        frames.add(makeClawKeyframe(0, 180));
+        frames.add(makeClawKeyframe(0, 240));
+
+        clawServing = new Animation(frames);
+    }
+
+    private Keyframe makeArmKeyframe(float angle, int duration) {
+        return new Keyframe(
+            Vector3.zero(),
+            new Vector3(0, 0, 1),
+            angle,
+            Vector3.one(),
+            duration);
+    }
+
+    private Keyframe makeClawKeyframe(float angle, int duration) {
+        return new Keyframe(
+            Vector3.zero(),
+            new Vector3(0, 1, 0),
+            angle,
+            Vector3.one(),
+            duration);
+    }
+
+    private void robotMainAnimation() {
         ArrayList<Keyframe> frames = new ArrayList<>();
         frames.add(new Keyframe(new int[] { 25, 0, 4, -90, 100 }));
         frames.add(new Keyframe(new int[] { 25, 0, 4, -140, 100 }));
         frames.add(new Keyframe(new int[] { 14, 0, 12, -140, 100 }));
+        frames.add(new Keyframe(new int[] { 14, 0, 12, -200, 100 }));
         frames.add(new Keyframe(new int[] { 14, 0, 12, -200, 100 }));
         frames.add(new Keyframe(new int[] { 14, 0, 12, -90, 100 }));
         frames.add(new Keyframe(new int[] { 15, 0, 25, -80, 100 }));
@@ -349,6 +414,8 @@ public class Room extends SceneGraph {
     @Override
     public void update() {
         robotMovement.tick();
+        armServing.tick();
+        clawServing.tick();
 
         go++;
         robot1.update();
@@ -362,6 +429,10 @@ public class Room extends SceneGraph {
         robotNode.setPosition(new Vector3(35, 0, 8));
         robotNode.setRotation(new Vector3(0, 1, 0), 60);
         robotMovement.applyInterpolated(robotNode);
+
+        armServing.applyInterpolated(Robot.RIGHT_ARM);
+        clawServing.applyInterpolated(Robot.RIGHT_CLAW);
+
         // System.out.println(robotNode.scaling());
 
         Vector3 robotPosition = robotNode.position();

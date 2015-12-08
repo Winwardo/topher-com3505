@@ -202,7 +202,7 @@ public class Assignment extends JFrame implements GLEventListener,
         lightRobot.addActionListener((e) -> {
             Lights.get().get(6).enable(lightRobot.isSelected());
             Lights.get().get(7).enable(lightRobot.isSelected());
-            Robot.chestLight.setIsOn(lightRobot.isSelected());
+            Robot.CHEST_LIGHT.setIsOn(lightRobot.isSelected());
         });
 
         worldLights.setSelected(true);

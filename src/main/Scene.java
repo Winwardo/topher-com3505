@@ -65,9 +65,9 @@ class Scene {
                         Room.ROOM_DEPTH / 2,
                         Room.ROOM_HEIGHT / 2,
                         Room.ROOM_WIDTH / 2),
-                    18,
-                    217,
-                    1.25f));
+                    20,
+                    200,
+                    -3));
         }
 
         Cameras.get().append(

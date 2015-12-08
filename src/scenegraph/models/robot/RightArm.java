@@ -35,6 +35,7 @@ public class RightArm extends SceneGraph {
         this.glut = glut;
 
         shoulderJoint = new BallJoint(root);
+        Robot.RIGHT_ARM = shoulderJoint.get();
 
         shoulderJoint.get().attachRenderable(
             new Cylinder(
@@ -63,39 +64,26 @@ public class RightArm extends SceneGraph {
                 LOWER_ARM_LENGTH,
                 Materials.get().get("shinymetal")));
 
-        forearm
-            .createAttachedNodeFromSceneGraph(new PlateWithGlasses(gl, glut))
-            .setRotation(new Vector3(1, 0, 0), 90)
-            .setPosition(new Vector3(0, 0, LOWER_ARM_LENGTH + 0.3f))
-            .setScaling(Vector3.all(0.75f));
+        SceneGraphNode from = forearm.createAttachedNode().setPosition(
+            new Vector3(0, 0, LOWER_ARM_LENGTH));
+        SceneGraphNode from2 = from.createAttachedNode();
 
-        forearm
+        Robot.RIGHT_CLAW = from2;
+
+        from2
             .createAttachedNodeFromSceneGraph(new Claw(gl, glut))
             .setRotation(new Vector3(1, 0, 0), 90)
-            .setPosition(new Vector3(0, 0, LOWER_ARM_LENGTH))
+            .setScaling(Vector3.all(0.75f));
+
+        from2
+            .createAttachedNodeFromSceneGraph(new PlateWithGlasses(gl, glut))
+            .setRotation(new Vector3(1, 0, 0), 90)
+            .setPosition(new Vector3(0, 0, 0.3f))
             .setScaling(Vector3.all(0.75f));
     }
 
     @Override
     public void update() {
-
-        // elbowJoint.setYaw(45);
         elbowJoint.setRoll(-90);
-
-        if (true) {
-            return;
-        }
-        rotateShoulder += 1;
-        float ro = (float) Math.sin(rotateShoulder / 50);
-        float p = ro * 10;
-        shoulderJoint.setRoll(35 + p);
-
-        float rro = (float) Math.sin(rotateShoulder / 76);
-        float pp = rro * 20;
-        shoulderJoint.setYaw(pp);
-
-        rotateElbow += 1;
-        elbowJoint.setYaw(20);
-        elbowJoint.setPitch(rotateElbow);
     }
 }

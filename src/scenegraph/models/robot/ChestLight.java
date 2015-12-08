@@ -30,7 +30,7 @@ public class ChestLight extends SceneGraph implements Toggleable {
             .attachRenderable(new Plane(gl, Materials.get().get("chest_light")))
             .setRotation(new Vector3(1, 0, 0), 90)
             .setPosition(new Vector3(-1, -0.6f, -0.6f));
-        Robot.chestLight = this;
+        Robot.CHEST_LIGHT = this;
 
         twister.setRotation(new Vector3(0, 1, 0), 90);
         twister.setPosition(new Vector3(-0.5f, 0, -0.5f));
