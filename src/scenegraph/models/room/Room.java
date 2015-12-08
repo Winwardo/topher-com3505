@@ -116,7 +116,7 @@ public class Room extends SceneGraph {
             {
                 root
                     .createAttachedNode()
-                    .attachLight(lights.addPointLight(gl, Vector3.one(), 0.5f))
+                    .attachLight(lights.addPointLight(gl, Vector3.one(), 0.35f))
                     .setPosition(
                         new Vector3(
                             ROOM_DEPTH * (1 / 3.0f),
@@ -126,7 +126,7 @@ public class Room extends SceneGraph {
             {
                 root
                     .createAttachedNode()
-                    .attachLight(lights.addPointLight(gl, Vector3.one(), 0.5f))
+                    .attachLight(lights.addPointLight(gl, Vector3.one(), 0.35f))
                     .setPosition(
                         new Vector3(
                             ROOM_DEPTH * (2 / 3.0f),

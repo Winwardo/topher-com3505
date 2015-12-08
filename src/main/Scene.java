@@ -279,9 +279,9 @@ class Scene {
 
         materials.addNew(
             "white",
-            new float[] { 1, 1, 1, 1 },
+            new float[] { 0.4f, 0.4f, 0.4f, 1 },
             defaultDiffuse,
-            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
+            new float[] { 1, 1, 1, 1.0f },
             128,
             "white");
 
