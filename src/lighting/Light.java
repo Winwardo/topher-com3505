@@ -4,13 +4,10 @@ import com.jogamp.opengl.GL2;
 
 public abstract class Light implements ILight {
     protected final GL2 gl;
-    protected final int lightId;
+    protected int       lightId;
 
-    public Light(GL2 gl, int lightId) {
+    public Light(GL2 gl) {
         this.gl = gl;
-        this.lightId = lightId;
-
-        gl.glEnable(lightId);
     }
 
     @Override
@@ -21,4 +18,15 @@ public abstract class Light implements ILight {
 
     public abstract void applyImpl();
 
+    public void setLightId(int lightId) {
+        this.lightId = lightId;
+    }
+
+    public void enable() {
+        gl.glEnable(lightId);
+    }
+
+    public void disable() {
+        gl.glDisable(lightId);
+    }
 }

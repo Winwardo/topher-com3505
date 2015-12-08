@@ -90,7 +90,8 @@ public class Room extends SceneGraph {
                             1)));
         }
 
-        robotLight = lights.addSpotLight(gl, new Vector3(5.5f, 5.25f, 5.0f));
+        robotLight = lights
+            .addSpotLight(gl, new Vector3(5.5f, 5.25f, 5.0f), 1, 45);
         robotLightNode = root
             .createAttachedNode()
             .attachLight(robotLight)

@@ -3,7 +3,6 @@ package scenegraph;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.math.Matrix4;
 import com.jogamp.opengl.util.gl2.GLUT;
-import lighting.PointLight;
 import math.Vector3;
 import renderer.Materials;
 import renderer.cameras.Cameras;
@@ -17,8 +16,8 @@ public class Animation1 extends SceneGraph {
     private SceneGraphNode minorCubeSpin;
     private float          rotate;
 
-    private SimpleCamera         c;
-    private SimpleCamera         c2;
+    private SimpleCamera   c;
+    private SimpleCamera   c2;
 
     SceneGraphNode         root1;
 
@@ -43,14 +42,20 @@ public class Animation1 extends SceneGraph {
 
         SceneGraphNode lightOffset = root.createAttachedNode();
         lightOffset.setPosition(new Vector3(0, -1, 1));
-        lightOffset.attachLight(new PointLight(gl, gl.GL_LIGHT1));
+        // lightOffset.attachLight(new PointLight(gl));
 
         root1.attachRenderable(new Axes(gl));
 
-        c = new SimpleCamera(gl, new Vector3(1.2f, 2.0f, 2.0f), new Vector3(0, 1, 0));
+        c = new SimpleCamera(
+            gl,
+            new Vector3(1.2f, 2.0f, 2.0f),
+            new Vector3(0, 1, 0));
         int ci = Cameras.get().append(c);
 
-        c2 = new SimpleCamera(gl, new Vector3(0, 1.7f, 1), new Vector3(0, 1, 0));
+        c2 = new SimpleCamera(
+            gl,
+            new Vector3(0, 1.7f, 1),
+            new Vector3(0, 1, 0));
         int ci2 = Cameras.get().append(c2);
     }
 
