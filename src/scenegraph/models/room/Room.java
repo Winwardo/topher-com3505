@@ -34,9 +34,9 @@ public class Room extends SceneGraph {
 
     private int                  go           = 0;
 
-    public static final int      DEPTH        = 50;
-    public static final int      WIDTH        = 35;
-    public static final int      HEIGHT       = 12;
+    public static final int      ROOM_DEPTH   = 50;
+    public static final int      ROOM_WIDTH   = 35;
+    public static final int      ROOM_HEIGHT  = 12;
 
     private final SpotLight      robotLight;
     private final SceneGraphNode robotLightNode;
@@ -65,7 +65,7 @@ public class Room extends SceneGraph {
 
         addFloorAndCeiling();
         addWalls();
-        addFloorTrim();
+        // addFloorTrim();
         addStruts();
         addTables();
         addTV();
@@ -77,6 +77,7 @@ public class Room extends SceneGraph {
             gl,
             lights.newLightId(),
             new Vector3(2.5f, 2.25f, 2.0f));
+        // new Vector3(0f, 0f, 0f));
         root.createAttachedNode().attachLight(mainLight1).setPosition(
             new Vector3(35, 10, 2));
         lights.append(mainLight1);
@@ -104,32 +105,39 @@ public class Room extends SceneGraph {
 
         final Cuboid longTrim = new Cuboid(
             gl,
-            new Vector3(DEPTH, trimHeight, trimDepth),
+            new Vector3(ROOM_DEPTH, trimHeight, trimDepth),
             Materials.get().get("wood"));
 
         final Cuboid shortTrim = new Cuboid(
             gl,
-            new Vector3(WIDTH, trimHeight, trimDepth),
+            new Vector3(ROOM_WIDTH, trimHeight, trimDepth),
             Materials.get().get("wood"));
 
         root
             .createAttachedNode()
             .attachRenderable(longTrim)
-            .setPosition(new Vector3(DEPTH / 2, trimHeight / 2, halfTrimDepth))
+            .setPosition(
+                new Vector3(ROOM_DEPTH / 2, trimHeight / 2, halfTrimDepth))
             .setRotation(new Vector3(0, 1, 0), 0);
 
         realtime = root
             .createAttachedNode()
             .attachRenderable(shortTrim)
             .setPosition(
-                new Vector3(halfTrimDepth, trimHeight / 2, WIDTH / 2 + 0.5f))
+                new Vector3(
+                    halfTrimDepth,
+                    trimHeight / 2,
+                    ROOM_WIDTH / 2 + 0.5f))
             .setRotation(new Vector3(0, 1, 0), 90);
 
         root
             .createAttachedNode()
             .attachRenderable(longTrim)
             .setPosition(
-                new Vector3(DEPTH / 2, trimHeight / 2, WIDTH - halfTrimDepth))
+                new Vector3(
+                    ROOM_DEPTH / 2,
+                    trimHeight / 2,
+                    ROOM_WIDTH - halfTrimDepth))
             .setRotation(new Vector3(0, 1, 0), 180);
 
         root
@@ -137,9 +145,9 @@ public class Room extends SceneGraph {
             .attachRenderable(shortTrim)
             .setPosition(
                 new Vector3(
-                    DEPTH - halfTrimDepth,
+                    ROOM_DEPTH - halfTrimDepth,
                     trimHeight / 2,
-                    WIDTH / 2 + 0.5f))
+                    ROOM_WIDTH / 2 + 0.5f))
             .setRotation(new Vector3(0, 1, 0), -90);
     }
 
@@ -153,42 +161,46 @@ public class Room extends SceneGraph {
             .attachRenderable(
                 new Cuboid(
                     gl,
-                    new Vector3(DEPTH, strutDepth, strutWidth),
+                    new Vector3(ROOM_DEPTH, strutDepth, strutWidth),
                     Materials.get().get("dullmetal")))
-            .setPosition(new Vector3(DEPTH / 2, HEIGHT - strutDepth / 2, 0));
+            .setPosition(
+                new Vector3(ROOM_DEPTH / 2, ROOM_HEIGHT - strutDepth / 2, 0));
         root
             .createAttachedNode()
             .attachRenderable(
                 new Cuboid(
                     gl,
-                    new Vector3(DEPTH, strutDepth, strutWidth),
+                    new Vector3(ROOM_DEPTH, strutDepth, strutWidth),
                     Materials.get().get("dullmetal")))
             .setPosition(
                 new Vector3(
-                    DEPTH / 2,
-                    HEIGHT - strutDepth / 2,
-                    WIDTH * (1 / 3.0f)));
+                    ROOM_DEPTH / 2,
+                    ROOM_HEIGHT - strutDepth / 2,
+                    ROOM_WIDTH * (1 / 3.0f)));
         root
             .createAttachedNode()
             .attachRenderable(
                 new Cuboid(
                     gl,
-                    new Vector3(DEPTH, strutDepth, strutWidth),
+                    new Vector3(ROOM_DEPTH, strutDepth, strutWidth),
                     Materials.get().get("dullmetal")))
             .setPosition(
                 new Vector3(
-                    DEPTH / 2,
-                    HEIGHT - strutDepth / 2,
-                    WIDTH * (2 / 3.0f)));
+                    ROOM_DEPTH / 2,
+                    ROOM_HEIGHT - strutDepth / 2,
+                    ROOM_WIDTH * (2 / 3.0f)));
         root
             .createAttachedNode()
             .attachRenderable(
                 new Cuboid(
                     gl,
-                    new Vector3(DEPTH, strutDepth, strutWidth),
+                    new Vector3(ROOM_DEPTH, strutDepth, strutWidth),
                     Materials.get().get("dullmetal")))
             .setPosition(
-                new Vector3(DEPTH / 2, HEIGHT - strutDepth / 2, WIDTH));
+                new Vector3(
+                    ROOM_DEPTH / 2,
+                    ROOM_HEIGHT - strutDepth / 2,
+                    ROOM_WIDTH));
 
         // Ends
         root
@@ -196,19 +208,23 @@ public class Room extends SceneGraph {
             .attachRenderable(
                 new Cuboid(
                     gl,
-                    new Vector3(strutWidth, strutDepth, WIDTH),
+                    new Vector3(strutWidth, strutDepth, ROOM_WIDTH),
                     Materials.get().get("dullmetal")))
             .setPosition(
-                new Vector3(DEPTH, HEIGHT - strutDepth / 2, WIDTH / 2));
+                new Vector3(
+                    ROOM_DEPTH,
+                    ROOM_HEIGHT - strutDepth / 2,
+                    ROOM_WIDTH / 2));
 
         root
             .createAttachedNode()
             .attachRenderable(
                 new Cuboid(
                     gl,
-                    new Vector3(strutWidth, strutDepth, WIDTH),
+                    new Vector3(strutWidth, strutDepth, ROOM_WIDTH),
                     Materials.get().get("dullmetal")))
-            .setPosition(new Vector3(0, HEIGHT - strutDepth / 2, WIDTH / 2));
+            .setPosition(
+                new Vector3(0, ROOM_HEIGHT - strutDepth / 2, ROOM_WIDTH / 2));
     }
 
     private void makeRoboAnimation() {
@@ -240,11 +256,10 @@ public class Room extends SceneGraph {
     private void addTV() {
         root
             .createAttachedNode()
-            .setPosition(new Vector3(DEPTH - 1, 2, 10))
+            .setPosition(new Vector3(ROOM_DEPTH - 1, 2, 10))
             .setScaling(new Vector3(15, 7.5f, 1))
             .setRotation(new Vector3(0, 1, 0), 270)
-            .attachRenderable(
-                new Plane(gl, Materials.get().get("tvscreen"), 1, 1));
+            .attachRenderable(new Plane(gl, Materials.get().get("tvscreen")));
     }
 
     private void addFloorAndCeiling() {
@@ -252,59 +267,44 @@ public class Room extends SceneGraph {
         root
             .createAttachedNode()
             .attachRenderable(
-                new Plane(gl, Materials.get().get("marble"), 4, 4))
+                new Plane(gl, Materials.get().get("marble"), 32, 32, 4, 4))
             .setRotation(new Vector3(1, 0, 0), 270)
-            .setPosition(new Vector3(0, 0, WIDTH))
-            .setScaling(new Vector3(DEPTH, WIDTH, 1));
+            .setPosition(new Vector3(0, 0, ROOM_WIDTH))
+            .setScaling(new Vector3(ROOM_DEPTH, ROOM_WIDTH, 1));
 
         // Ceiling
         root
             .createAttachedNode()
-            .attachRenderable(new Plane(gl, Materials.get().get("wood"), 4, 4))
+            .attachRenderable(
+                new Plane(gl, Materials.get().get("wood"), 4, 4, 4, 4))
             .setRotation(new Vector3(1, 0, 0), 90)
-            .setPosition(new Vector3(0, HEIGHT, 0))
-            .setScaling(new Vector3(DEPTH, WIDTH, 1));
+            .setPosition(new Vector3(0, ROOM_HEIGHT, 0))
+            .setScaling(new Vector3(ROOM_DEPTH, ROOM_WIDTH, 1));
     }
 
     private void addWalls() {
-        float wallBottomHeight = HEIGHT * 0.3f;
-        float wallTopHeight = HEIGHT - wallBottomHeight;
+        SceneGraphNode walls = root.createAttachedNode();
 
-        {
-            root
-                .createAttachedNode()
-                .setScaling(new Vector3(DEPTH, wallBottomHeight, 1))
-                .attachRenderable(
-                    new Plane(gl, Materials.get().get("wood2"), 2, 1));
-            root
-                .createAttachedNode()
-                .setScaling(new Vector3(DEPTH, wallTopHeight, 1))
-                .setPosition(new Vector3(0, wallBottomHeight, 0))
-                .attachRenderable(
-                    new Plane(gl, Materials.get().get("redplastic"), 2, 1));
-        }
+        walls.createAttachedNodeFromSceneGraph(
+            new Wall(gl, ROOM_HEIGHT, ROOM_DEPTH));
 
-        root
-            .createAttachedNode()
-            .setScaling(new Vector3(WIDTH, HEIGHT, 1))
+        walls
+            .createAttachedNodeFromSceneGraph(
+                new Wall(gl, ROOM_HEIGHT, ROOM_WIDTH))
             .setRotation(new Vector3(0, 1, 0), 90)
-            .setPosition(new Vector3(0, 0, WIDTH))
-            .attachRenderable(
-                new Plane(gl, Materials.get().get("redplastic"), 2, 1));
+            .setPosition(new Vector3(0, 0, ROOM_WIDTH));
 
-        root
-            .createAttachedNode()
-            .setScaling(new Vector3(DEPTH, HEIGHT, 1))
+        walls
+            .createAttachedNodeFromSceneGraph(
+                new Wall(gl, ROOM_HEIGHT, ROOM_DEPTH))
             .setRotation(new Vector3(0, 1, 0), 180)
-            .setPosition(new Vector3(DEPTH, 0, WIDTH))
-            .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
+            .setPosition(new Vector3(ROOM_DEPTH, 0, ROOM_WIDTH));
 
-        root
-            .createAttachedNode()
-            .setScaling(new Vector3(WIDTH, HEIGHT, 1))
+        walls
+            .createAttachedNodeFromSceneGraph(
+                new Wall(gl, ROOM_HEIGHT, ROOM_WIDTH))
             .setRotation(new Vector3(0, 1, 0), 270)
-            .setPosition(new Vector3(DEPTH, 0, 0))
-            .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
+            .setPosition(new Vector3(ROOM_DEPTH, 0, 0));
     }
 
     private void addTables() {
@@ -355,7 +355,7 @@ public class Room extends SceneGraph {
 
         Vector3 cameraAim = new Vector3(
             robotPosition.x(),
-            robotPosition.y() + 4,
+            robotPosition.y() + 5f,
             robotPosition.z());
 
         // c.setLookAt(cameraAim);

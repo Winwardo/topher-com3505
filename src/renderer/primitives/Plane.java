@@ -8,37 +8,48 @@ import renderer.Renderable;
 public class Plane extends Renderable {
     private final DisplayList displayList;
 
-    public Plane(GL2 gl, Material mat, int xRepeats, int yRepeats) {
+    public Plane(GL2 gl, Material mat, int xSubdivides, int ySubdivides,
+        int xTexRepeats, int yTexRepeats) {
         super(gl, mat);
 
         displayList = new DisplayList(gl, () -> {
-            generateAndDraw(xRepeats, yRepeats);
+            generateAndDraw(xSubdivides, ySubdivides, xTexRepeats, yTexRepeats);
         });
     }
 
     public Plane(GL2 gl, Material mat) {
-        this(gl, mat, 1, 1);
+        this(gl, mat, 1, 1, 1, 1);
     }
 
     @Override
     public void renderImpl() {
         displayList.call();
+        // generateAndDraw(32, 32, 4, 1);
     }
 
-    private void generateAndDraw(int xRepeats, int yRepeats) {
-        float xStep = 1.0f / xRepeats;
-        float yStep = 1.0f / yRepeats;
+    private void generateAndDraw(int xSubdivides, int ySubdivides,
+        int xTexRepeats, int yTexRepeats) {
+        float xStep = 1.0f / xSubdivides;
+        float yStep = 1.0f / ySubdivides;
 
         float y = 0;
 
-        for (int y_ = 0; y_ < yRepeats; y_++) {
+        for (int y_ = 0; y_ < ySubdivides; y_++) {
             float x = 0;
 
-            for (int x_ = 0; x_ < xRepeats; x_++) {
-                float x1 = x;
-                float y1 = y;
-                float x2 = x + xStep;
-                float y2 = y + yStep;
+            for (int x_ = 0; x_ < xSubdivides; x_++) {
+                float xVertexStart = x;
+                float yVertexStart = y;
+                float xVertexEnd = x + xStep;
+                float yVertexEnd = y + yStep;
+
+                float xTextureStep = (float) xTexRepeats / xSubdivides;
+                float xTextureStart = x_ * xTextureStep;
+                float xTextureEnd = xTextureStart + xTextureStep;
+
+                float yTextureStep = (float) yTexRepeats / ySubdivides;
+                float yTextureStart = y_ * yTextureStep;
+                float yTextureEnd = yTextureStart + yTextureStep;
 
                 gl.glBegin(gl.GL_QUADS);
                 {
@@ -48,20 +59,20 @@ public class Plane extends Renderable {
                     gl.glNormal3f(0, 0, 1);
 
                     // a
-                    gl.glTexCoord2f(0, 0);
-                    gl.glVertex3d(x1, y1, 0);
+                    gl.glTexCoord2f(xTextureStart, yTextureStart);
+                    gl.glVertex3d(xVertexStart, yVertexStart, 0);
 
                     // b
-                    gl.glTexCoord2f(1, 0);
-                    gl.glVertex3d(x2, y1, 0);
+                    gl.glTexCoord2f(xTextureEnd, yTextureStart);
+                    gl.glVertex3d(xVertexEnd, yVertexStart, 0);
 
                     // c
-                    gl.glTexCoord2f(1, 1);
-                    gl.glVertex3d(x2, y2, 0);
+                    gl.glTexCoord2f(xTextureEnd, yTextureEnd);
+                    gl.glVertex3d(xVertexEnd, yVertexEnd, 0);
 
                     // d
-                    gl.glTexCoord2f(0, 1);
-                    gl.glVertex3d(x1, y2, 0);
+                    gl.glTexCoord2f(xTextureStart, yTextureEnd);
+                    gl.glVertex3d(xVertexStart, yVertexEnd, 0);
                 }
                 gl.glEnd();
 

@@ -53,7 +53,10 @@ class Scene {
         Cameras.get().append(
             new RotateAroundPointCamera(
                 gl,
-                new Vector3(Room.DEPTH / 2, Room.HEIGHT / 2, Room.WIDTH / 2),
+                new Vector3(
+                    Room.ROOM_DEPTH / 2,
+                    Room.ROOM_HEIGHT / 2,
+                    Room.ROOM_WIDTH / 2),
                 10,
                 10,
                 45));
