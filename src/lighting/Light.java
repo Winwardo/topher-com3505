@@ -14,10 +14,12 @@ public class Light implements ILight {
     private GL2     gl;
 
     private float[] color;
-    private float[] pointAt = new float[] { 0, 0, -1 };
-    private float   cutoff  = 45;
+    private float[] pointAt   = new float[] { 0, 0, -1 };
+    private float   cutoff    = 45;
     private Vector3 position;
     private int     lightId;
+
+    private boolean isEnabled = true;
 
     Light(GL2 gl, Vector3 color, float brightness, float cutoff) {
         this.gl = gl;
@@ -74,11 +76,17 @@ public class Light implements ILight {
         float[] ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
 
         gl.glLightfv(index, GL2.GL_POSITION, position1, 0);
-        gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);
-        gl.glLightfv(index, GL2.GL_DIFFUSE, color, 0);
-        gl.glLightfv(index, GL2.GL_SPECULAR, color, 0);
 
-        // float[] direction = new float[] { 0, -10, 10 };
+        if (isEnabled) {
+            gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);
+            gl.glLightfv(index, GL2.GL_DIFFUSE, color, 0);
+            gl.glLightfv(index, GL2.GL_SPECULAR, color, 0);
+        } else {
+            float[] disabled = new float[] { 0, 0, 0, 0 };
+            gl.glLightfv(index, GL2.GL_AMBIENT, disabled, 0);
+            gl.glLightfv(index, GL2.GL_DIFFUSE, disabled, 0);
+            gl.glLightfv(index, GL2.GL_SPECULAR, disabled, 0);
+        }
 
         gl.glLightf(index, GL2.GL_SPOT_CUTOFF, cutoff);
         gl.glLightfv(index, GL2.GL_SPOT_DIRECTION, pointAt, 0);
@@ -94,5 +102,15 @@ public class Light implements ILight {
 
     public void disable() {
         gl.glDisable(lightId);
+    }
+
+    @Override
+    public void enable(boolean enabled) {
+        isEnabled = enabled;
+        if (enabled) {
+            enable();
+        } else {
+            disable();
+        }
     }
 }

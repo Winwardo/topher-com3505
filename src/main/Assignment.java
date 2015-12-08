@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -27,6 +28,7 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
+import lighting.Lights;
 import renderer.cameras.Cameras;
 import renderer.cameras.RotateAroundPointCamera;
 import scenegraph.Selectable;
@@ -83,7 +85,45 @@ public class Assignment extends JFrame implements GLEventListener,
         addMenuBar();
         addShaderSlider();
         addSceneGraphTree(scene);
+        addLightsSelection();
+    }
 
+    private void addLightsSelection() {
+        Panel p = new Panel();
+
+        JCheckBox light1 = new JCheckBox("Light #1");
+        JCheckBox light2 = new JCheckBox("Light #2");
+        JCheckBox lightRobot = new JCheckBox("Robot light");
+
+        p.add(light1);
+        p.add(light2);
+        p.add(lightRobot);
+
+        light1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Lights.get().get(1).enable(light1.isSelected());
+            }
+        });
+        light2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Lights.get().get(0).enable(light2.isSelected());
+            }
+        });
+        lightRobot.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Lights.get().get(2).enable(lightRobot.isSelected());
+                Lights.get().get(3).enable(lightRobot.isSelected());
+            }
+        });
+
+        light1.setSelected(true);
+        light2.setSelected(true);
+        lightRobot.setSelected(true);
+
+        this.add(p, "South");
     }
 
     private void addMenuBar() {

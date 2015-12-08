@@ -190,7 +190,7 @@ class Scene {
             "wood2",
             defaultAmbience,
             defaultDiffuse,
-            new float[] { 0.8f, 0.7f, 0.7f, 1.0f },
+            new float[] { 1.2f, 1.1f, 1.1f, 1.0f },
             127,
             "wood2");
 
