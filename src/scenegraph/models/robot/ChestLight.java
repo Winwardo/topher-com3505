@@ -9,8 +9,8 @@ import renderer.primitives.TexturedCube;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
-public class Television extends SceneGraph {
-    public Television(GL2 gl, GLUT glut) {
+public class ChestLight extends SceneGraph {
+    public ChestLight(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
 
         SceneGraphNode twister = root.createAttachedNode();

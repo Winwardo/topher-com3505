@@ -77,17 +77,31 @@ public class Room extends SceneGraph {
         Lights lights = Lights.get();
 
         if (true) {
-            root
+            SceneGraphNode circleLamp1 = root
                 .createAttachedNode()
-                .setPosition(new Vector3(35, 9, 2))
-                .createAttachedNodeFromSceneGraph(
-                    new CircleLamp(
+                .setPosition(new Vector3(35, 9, 12));
+
+            circleLamp1.createAttachedNodeFromSceneGraph(
+                new CircleLamp(
+                    gl,
+                    glut,
+                    lights.addPointLight(
                         gl,
-                        glut,
-                        lights.addPointLight(
-                            gl,
-                            new Vector3(1.0f, 0.9f, 0.8f),
-                            1)));
+                        new Vector3(1.0f, 0.9f, 0.8f),
+                        0.65f)));
+
+            SceneGraphNode circleLamp2 = root
+                .createAttachedNode()
+                .setPosition(new Vector3(15, 9, 12));
+
+            circleLamp2.createAttachedNodeFromSceneGraph(
+                new CircleLamp(
+                    gl,
+                    glut,
+                    lights.addPointLight(
+                        gl,
+                        new Vector3(1.0f, 0.9f, 0.8f),
+                        0.65f)));
         }
 
         robotLight = lights
@@ -187,6 +201,15 @@ public class Room extends SceneGraph {
             .setRotation(new Vector3(1, 0, 0), 270)
             .setPosition(new Vector3(0, 0, ROOM_WIDTH))
             .setScaling(new Vector3(ROOM_DEPTH, ROOM_WIDTH, 1));
+
+        // Rug
+        realtime = root
+            .createAttachedNode()
+            .attachRenderable(
+                new Plane(gl, Materials.get().get("rug"), 32, 32, 1, 1))
+            .setRotation(new Vector3(1, 0, 0), 270)
+            .setPosition(new Vector3(10, 0.5f, 28))
+            .setScaling(new Vector3(32, 24, 1));
 
         // Ceiling
         root
@@ -306,7 +329,7 @@ public class Room extends SceneGraph {
         lastRotate = currentRotate;
         lastPosition = currentPosition;
 
-        // realtime.setPosition(new Vector3(0.5f, 0, WIDTH / 2 + 0.5f));
+        // realtime.setPosition(new Vector3(35, 9, 12));
         // realtime.setScaling(new Vector3(DEPTH, 2, 2));
 
         float strutDepth = 0.5f;

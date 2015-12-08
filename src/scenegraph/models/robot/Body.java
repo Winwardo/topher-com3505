@@ -28,7 +28,7 @@ public class Body extends SceneGraph {
             .setRotation(new Vector3(0, 1, 0), -90f)
             .setScaling(new Vector3(1.5f, 1, 1));
 
-        root.createAttachedNodeFromSceneGraph(new Television(gl, glut));
+        root.createAttachedNodeFromSceneGraph(new ChestLight(gl, glut));
 
     }
 

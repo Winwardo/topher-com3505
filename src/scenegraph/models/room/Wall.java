@@ -15,7 +15,7 @@ public class Wall extends SceneGraph {
         super(new SceneGraphNode(gl));
         this.gl = gl;
 
-        float wallBottomHeight = height * 0.35f;
+        float wallBottomHeight = height * 0.32f;
         float wallTopHeight = height - wallBottomHeight;
 
         SceneGraphNode wall = root.createAttachedNode();
@@ -34,6 +34,23 @@ public class Wall extends SceneGraph {
             .setPosition(new Vector3(0, wallBottomHeight, 0))
             .attachRenderable(
                 new Plane(gl, Materials.get().get("redplastic"), 32, 32, 4, 1));
+
+        // Plastic divider
+        wall
+            .createAttachedNode()
+            .attachRenderable(
+                new Cuboid(
+                    gl,
+                    new Vector3(depth, 0.25f, 0.25f),
+                    Materials.get().get("glass"),
+                    32,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1))
+            .setPosition(new Vector3(depth / 2, wallBottomHeight, 0))
+            .setRotation(new Vector3(0, 1, 0), 0);
 
         // Trim
         float trimHeight = 1;

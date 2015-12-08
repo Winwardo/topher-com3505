@@ -148,6 +148,7 @@ class Scene {
         textureLoader.loadBMP("plate", "res\\plate.bmp");
         textureLoader.loadBMP("tiles", "res\\marbletile.bmp");
         textureLoader.loadBMP("marble", "res\\marble.bmp");
+        textureLoader.loadBMP("rug", "res\\carpet.bmp", 512, 512);
         textureLoader.loadBMP("red_wall", "res\\red_wall.bmp");
         textureLoader.loadBMP("chest_light", "res\\chest_light.bmp");
         textureLoader.loadBMP("white_noise", "res\\white_noise.bmp");
@@ -240,6 +241,14 @@ class Scene {
             "marble");
 
         materials.addNew(
+            "rug",
+            defaultAmbience,
+            defaultDiffuse,
+            new float[] { 0.1f, 0.1f, 0.1f, 1.0f },
+            4f,
+            "rug");
+
+        materials.addNew(
             "wall",
             defaultAmbience,
             defaultDiffuse,
@@ -265,7 +274,7 @@ class Scene {
 
         materials.addNew(
             "eye_left",
-            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
+            new float[] { 0.9f, 0.9f, 1.0f, 1.0f },
             new float[] { 0.6f, 0.6f, 0.6f, 1.0f },
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             10f,
@@ -273,7 +282,7 @@ class Scene {
 
         materials.addNew(
             "eye_right",
-            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
+            new float[] { 0.9f, 0.9f, 1.0f, 1.0f },
             new float[] { 0.6f, 0.6f, 0.6f, 1.0f },
             new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             10f,
@@ -291,7 +300,7 @@ class Scene {
         shaderCore.queueShader(currentShader);
         shaderCore.useQueuedShader();
 
-        // renderCameraToFbo(Cameras.ROBOT_CAMERA, fbo);
+        renderCameraToFbo(Cameras.ROBOT_CAMERA, fbo);
 
         // Only multisample the final render, don't waste render time on the
         // robot camera view

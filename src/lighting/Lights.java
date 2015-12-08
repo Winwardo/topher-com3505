@@ -81,6 +81,7 @@ public class Lights {
         float angle) {
         final Light light = new Light(gl, colour, brightness, angle);
         light.setLightId(newLightId());
+        light.enable();
         append(light);
 
         return light;
