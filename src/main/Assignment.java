@@ -81,9 +81,9 @@ public class Assignment extends JFrame implements GLEventListener,
 
     private void setupUI(Scene scene) {
         addMenuBar();
-        addZoomSlider();
         addShaderSlider();
         addSceneGraphTree(scene);
+
     }
 
     private void addMenuBar() {
@@ -98,21 +98,6 @@ public class Assignment extends JFrame implements GLEventListener,
         menuBar.add(fileMenu);
 
         this.setMenuBar(menuBar);
-    }
-
-    private void addZoomSlider() {
-        Panel p = new Panel();
-
-        JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-        zoomSlider.setName("ZoomSlider");
-        zoomSlider.setMinorTickSpacing(1);
-        zoomSlider.setMajorTickSpacing(10);
-        zoomSlider.setPaintTicks(true);
-        zoomSlider.setPaintLabels(true);
-        zoomSlider.addChangeListener(this);
-
-        p.add(zoomSlider);
-        this.add(p, "South");
     }
 
     private void addShaderSlider() {
@@ -231,10 +216,6 @@ public class Assignment extends JFrame implements GLEventListener,
         if (source instanceof JSlider) {
             JSlider slider = (JSlider) source;
             switch (slider.getName()) {
-                case "ZoomSlider":
-                    int zoom = slider.getValue() + 1;
-                    scene.setZoom(zoom);
-                    break;
                 case "ShaderSlider":
                     scene.setShader(slider.getValue());
                     break;
