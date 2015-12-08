@@ -8,17 +8,9 @@ import renderer.Renderable;
 public class Plane extends Renderable {
     private final DisplayList displayList;
 
-    int                       xSubdivides, ySubdivides;
-    float                     xTexRepeats, yTexRepeats;
-
     public Plane(GL2 gl, Material mat, int xSubdivides, int ySubdivides,
         float xTexRepeats, float yTexRepeats) {
         super(gl, mat);
-
-        this.xSubdivides = xSubdivides;
-        this.ySubdivides = ySubdivides;
-        this.xTexRepeats = xTexRepeats;
-        this.yTexRepeats = yTexRepeats;
 
         displayList = new DisplayList(gl, () -> {
             generateAndDraw(xSubdivides, ySubdivides, xTexRepeats, yTexRepeats);
