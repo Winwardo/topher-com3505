@@ -73,13 +73,13 @@ public class Lights {
         }
     }
 
-    public SpotLight addPointLight(GL2 gl, Vector3 colour, float brightness) {
+    public Light addPointLight(GL2 gl, Vector3 colour, float brightness) {
         return addSpotLight(gl, colour, brightness, 180);
     }
 
-    public SpotLight addSpotLight(GL2 gl, Vector3 colour, float brightness,
+    public Light addSpotLight(GL2 gl, Vector3 colour, float brightness,
         float angle) {
-        final SpotLight light = new SpotLight(gl, colour, brightness, angle);
+        final Light light = new Light(gl, colour, brightness, angle);
         light.setLightId(newLightId());
         append(light);
 

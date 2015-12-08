@@ -2,7 +2,7 @@ package scenegraph;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
-import lighting.SpotLight;
+import lighting.Lights;
 import math.Vector3;
 import renderer.primitives.Axes;
 
@@ -16,15 +16,18 @@ public class EditSceneGraph extends SceneGraph {
 
         SceneGraphNode frontLight = root.createAttachedNode();
         frontLight.setPosition(new Vector3(0, 1, 4));
-        frontLight.attachLight(new SpotLight(gl, new Vector3(0.75f, 1, 0.75f)));
+        frontLight.attachLight(
+            Lights.get().addPointLight(gl, new Vector3(0.75f, 1, 0.75f), 1));
 
         SceneGraphNode topLight = root.createAttachedNode();
         topLight.setPosition(new Vector3(0, 10, -2.5f));
-        topLight.attachLight(new SpotLight(gl, new Vector3(1f, 0.95f, 0.95f)));
+        topLight.attachLight(
+            Lights.get().addPointLight(gl, new Vector3(1f, 0.95f, 0.95f), 1));
 
         SceneGraphNode backLight = root.createAttachedNode();
         backLight.setPosition(new Vector3(4, -2, -4));
-        backLight.attachLight(new SpotLight(gl, new Vector3(0.75f, 0.75f, 1)));
+        backLight.attachLight(
+            Lights.get().addPointLight(gl, new Vector3(0.75f, 0.75f, 1), 1));
 
         item = scene;
         itemNode = root.createAttachedNodeFromSceneGraph(item);

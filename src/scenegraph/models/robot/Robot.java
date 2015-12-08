@@ -2,8 +2,8 @@ package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
+import lighting.Light;
 import lighting.Lights;
-import lighting.SpotLight;
 import math.Vector3;
 import scenegraph.BallJoint;
 import scenegraph.SceneGraph;
@@ -75,6 +75,6 @@ public class Robot extends SceneGraph {
         float pp = rro * 10;
 
         rollerBallJoint.get().setRotation(new Vector3(0, 0, 1), pp);
-        ((SpotLight) Lights.get().get(1)).setIncline(pp);
+        ((Light) Lights.get().get(1)).setIncline(pp);
     }
 }

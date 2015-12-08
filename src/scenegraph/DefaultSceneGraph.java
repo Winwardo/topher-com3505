@@ -2,7 +2,7 @@ package scenegraph;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
-import lighting.SpotLight;
+import lighting.Lights;
 import math.Vector3;
 import renderer.Material;
 import renderer.primitives.Axes;
@@ -25,7 +25,8 @@ public class DefaultSceneGraph extends SceneGraph {
 
         minorCubeSpin = majorCube.createAttachedNode();
         minorCubeSpin.setPosition(new Vector3(0, 1, 0));
-        minorCubeSpin.attachLight(new SpotLight(gl));
+        minorCubeSpin
+            .attachLight(Lights.get().addPointLight(gl, Vector3.one(), 1));
 
         SceneGraphNode cubeNode = minorCubeSpin.createAttachedNode();
         cubeNode.setRotation(new Vector3(0, 0, 1), 45.0f);
@@ -34,7 +35,8 @@ public class DefaultSceneGraph extends SceneGraph {
 
         SceneGraphNode lightOffset = root.createAttachedNode();
         lightOffset.setPosition(new Vector3(0, -1, 1));
-        lightOffset.attachLight(new SpotLight(gl));
+        lightOffset
+            .attachLight(Lights.get().addPointLight(gl, Vector3.one(), 1));
 
         root1.attachRenderable(new Axes(gl));
     }

@@ -5,8 +5,8 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import animation.Animation;
 import animation.Keyframe;
+import lighting.Light;
 import lighting.Lights;
-import lighting.SpotLight;
 import math.Vector3;
 import renderer.Materials;
 import renderer.cameras.Cameras;
@@ -37,7 +37,7 @@ public class Room extends SceneGraph {
     public static final int      ROOM_WIDTH   = 35;
     public static final int      ROOM_HEIGHT  = 12;
 
-    private SpotLight            robotLight;
+    private Light                robotLight;
     private SceneGraphNode       robotLightNode;
 
     private Animation            robotMovement;
