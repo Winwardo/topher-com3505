@@ -5,9 +5,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 import animation.Animation;
 import animation.Keyframe;
-import lighting.Light;
 import lighting.Lights;
-import lighting.PointLight;
 import lighting.SpotLight;
 import math.Vector3;
 import renderer.Materials;
@@ -17,6 +15,7 @@ import renderer.primitives.Cuboid;
 import renderer.primitives.Plane;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
+import scenegraph.models.CircleLamp;
 import scenegraph.models.Table;
 import scenegraph.models.robot.Robot;
 
@@ -68,34 +67,33 @@ public class Room extends SceneGraph {
         addStruts();
         addTables();
         addTV();
-        addLights(gl);
+        addLights();
 
         makeRoboAnimation();
 
     }
 
-    private void addLights(GL2 gl) {
+    private void addLights() {
         Lights lights = Lights.get();
 
-        final Light mainLight1 = new PointLight(
-            gl,
-            lights.newLightId(),
-            // new Vector3(2.5f, 2.25f, 2.0f));
-            new Vector3(0f, 0f, 0f));
-        root.createAttachedNode().attachLight(mainLight1).setPosition(
-            new Vector3(35, 10, 2));
-        lights.append(mainLight1);
+        if (true) {
+            root
+                .createAttachedNode()
+                .setPosition(new Vector3(35, 9, 2))
+                .createAttachedNodeFromSceneGraph(
+                    new CircleLamp(
+                        gl,
+                        glut,
+                        lights.addPointLight(
+                            gl,
+                            new Vector3(2.5f, 2.25f, 2.0f))));
+        }
 
-        robotLight = new SpotLight(
-            gl,
-            lights.newLightId(),
-            new Vector3(5.5f, 5.25f, 5.0f));
+        robotLight = lights.addSpotLight(gl, new Vector3(5.5f, 5.25f, 5.0f));
         robotLightNode = root
             .createAttachedNode()
             .attachLight(robotLight)
             .setPosition(new Vector3(15, 10, 2));
-
-        lights.append(robotLight);
     }
 
     private void addStruts() {
@@ -285,7 +283,7 @@ public class Room extends SceneGraph {
                 robotPosition.x(),
                 robotPosition.y() + 2.6f,
                 robotPosition.z()));
-        robotLight.setPosition(new Vector3(0, 0, 0));
+        // robotLight.setPosition(new Vector3(0, 0, 0));
 
         robotLight.setHorizontalRotation(robotNode.rotationAmount() + 90);
         robotLight.setCutoff(30);

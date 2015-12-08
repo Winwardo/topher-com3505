@@ -60,6 +60,8 @@ class Scene {
                 10,
                 10,
                 45));
+        // Cameras.get().append(
+        // new RotateAroundPointCamera(gl, Vector3.zero(), 10, 10, 45));
 
         Cameras.get().append(
             new FromPointCamera(gl, new Vector3(0, 2.5f, 0f), 10, 10, 45));
@@ -68,7 +70,7 @@ class Scene {
     private SceneGraph makeSceneGraph() {
         return new Animation2(gl, glut);
         // return new DefaultSceneGraph(gl, glut);
-        // return new EditSceneGraph(gl, glut, new Room(gl, glut));
+        // return new EditSceneGraph(gl, glut, new CircleLamp(gl, glut));
     }
 
     private void setupGL() {
@@ -289,7 +291,7 @@ class Scene {
         shaderCore.queueShader(currentShader);
         shaderCore.useQueuedShader();
 
-        renderCameraToFbo(Cameras.ROBOT_CAMERA, fbo);
+        // renderCameraToFbo(Cameras.ROBOT_CAMERA, fbo);
 
         // Only multisample the final render, don't waste render time on the
         // robot camera view

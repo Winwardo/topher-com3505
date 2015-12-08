@@ -3,6 +3,7 @@ package lighting;
 import java.util.ArrayList;
 import java.util.List;
 import com.jogamp.opengl.GL2;
+import math.Vector3;
 
 /**
  * Lights provides a Singleton access to save on programming costs. Preferably a
@@ -70,5 +71,19 @@ public class Lights {
                 light.apply();
             }
         }
+    }
+
+    public PointLight addPointLight(GL2 gl, Vector3 colour) {
+        final PointLight light = new PointLight(gl, newLightId(), colour);
+        append(light);
+
+        return light;
+    }
+
+    public SpotLight addSpotLight(GL2 gl, Vector3 colour) {
+        final SpotLight light = new SpotLight(gl, newLightId(), colour);
+        append(light);
+
+        return light;
     }
 }
