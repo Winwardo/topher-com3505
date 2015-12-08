@@ -12,10 +12,13 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTree;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -26,6 +29,7 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
 import renderer.cameras.Cameras;
 import renderer.cameras.RotateAroundPointCamera;
+import scenegraph.Selectable;
 
 public class Assignment extends JFrame implements GLEventListener,
     ActionListener, ChangeListener, MouseMotionListener {
@@ -79,7 +83,7 @@ public class Assignment extends JFrame implements GLEventListener,
         addMenuBar();
         addZoomSlider();
         addShaderSlider();
-        // addSceneGraphTree(scene);
+        addSceneGraphTree(scene);
     }
 
     private void addMenuBar() {
@@ -114,11 +118,12 @@ public class Assignment extends JFrame implements GLEventListener,
     private void addShaderSlider() {
         Panel p = new Panel();
 
-        JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 10, 0);
+        JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 5, 0);
         zoomSlider.setName("ShaderSlider");
         zoomSlider.setMajorTickSpacing(1);
         zoomSlider.setPaintTicks(true);
         zoomSlider.setPaintLabels(true);
+        zoomSlider.setValue(5);
         zoomSlider.addChangeListener(this);
 
         p.add(zoomSlider);
@@ -127,8 +132,11 @@ public class Assignment extends JFrame implements GLEventListener,
 
     private void addSceneGraphTree(Scene scene) {
         Panel p = new Panel();
+
         JTree sceneGraphJTree = makeSceneGraphJTree(scene);
-        p.add(sceneGraphJTree);
+        JScrollPane scrollPane = new JScrollPane(sceneGraphJTree);
+
+        p.add(scrollPane);
         this.add(p, "West");
     }
 
@@ -141,9 +149,23 @@ public class Assignment extends JFrame implements GLEventListener,
 
         sceneGraphJTree.setShowsRootHandles(true);
         sceneGraphJTree.setRootVisible(false);
-        for (int i = 0; i < sceneGraphJTree.getRowCount(); ++i) {
-            sceneGraphJTree.expandRow(i);
-        }
+
+        sceneGraphJTree.addTreeSelectionListener(new TreeSelectionListener() {
+            private Selectable lastSelected = null;
+
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) sceneGraphJTree
+                    .getLastSelectedPathComponent();
+
+                // Deselect the last object
+                if (lastSelected != null) {
+                    lastSelected.setSelected(false);
+                }
+                lastSelected = ((Selectable) (selectedNode.getUserObject()));
+                lastSelected.setSelected(true);
+            }
+        });
 
         return sceneGraphJTree;
     }

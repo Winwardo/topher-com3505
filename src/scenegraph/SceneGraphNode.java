@@ -6,8 +6,9 @@ import com.jogamp.opengl.GL2;
 import lighting.ILight;
 import math.Vector3;
 import renderer.IRenderable;
+import renderer.primitives.Axes;
 
-public class SceneGraphNode {
+public class SceneGraphNode implements Selectable {
     private final List<IRenderable>    renderables;
     private final List<SceneGraphNode> nodes;
     private final List<ILight>         lights;
@@ -18,6 +19,8 @@ public class SceneGraphNode {
     private Vector3                    localScaling;
 
     private GL2                        gl;
+
+    private boolean                    selected = false;
 
     public SceneGraphNode(Vector3 localPosition, Vector3 localRotation,
         float localRotationAmount, Vector3 localScaling, GL2 gl) {
@@ -59,6 +62,10 @@ public class SceneGraphNode {
         gl.glPushMatrix();
         {
             transform();
+
+            if (selected) {
+                Axes.renderAxes(gl);
+            }
 
             for (IRenderable renderable : renderables) {
                 renderable.render();
@@ -172,4 +179,8 @@ public class SceneGraphNode {
         return lights;
     }
 
+    @Override
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }
