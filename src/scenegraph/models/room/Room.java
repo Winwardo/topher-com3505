@@ -16,6 +16,7 @@ import renderer.primitives.Plane;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 import scenegraph.models.CircleLamp;
+import scenegraph.models.PlateWithGlasses;
 import scenegraph.models.Table;
 import scenegraph.models.robot.Robot;
 
@@ -85,9 +86,10 @@ public class Room extends SceneGraph {
                 new CircleLamp(
                     gl,
                     glut,
-                    lights
-                        .addPointLight(gl, new Vector3(1.0f, 0.9f, 0.8f), 0)));
-            // 0.65f)));
+                    lights.addPointLight(
+                        gl,
+                        new Vector3(1.0f, 0.9f, 0.8f),
+                        0.65f)));
 
             SceneGraphNode circleLamp2 = root
                 .createAttachedNode()
@@ -97,9 +99,10 @@ public class Room extends SceneGraph {
                 new CircleLamp(
                     gl,
                     glut,
-                    lights
-                        .addPointLight(gl, new Vector3(1.0f, 0.9f, 0.8f), 0)));
-            // 0.65f)));
+                    lights.addPointLight(
+                        gl,
+                        new Vector3(1.0f, 0.9f, 0.8f),
+                        0.65f)));
         }
 
         robotLight = lights
@@ -217,15 +220,15 @@ public class Room extends SceneGraph {
             .attachRenderable(
                 new Plane(gl, Materials.get().get("rug"), 32, 32, 1, 1))
             .setRotation(new Vector3(1, 0, 0), 270)
-            .setPosition(new Vector3(10, 0.5f, 28))
+            .setPosition(new Vector3(10, 0.1f, 28))
             .setScaling(new Vector3(12, 20, 1));
 
-        realtime = root
+        root
             .createAttachedNode()
             .attachRenderable(
                 new Plane(gl, Materials.get().get("rug"), 32, 32, 1, 1))
             .setRotation(new Vector3(1, 0, 0), 270)
-            .setPosition(new Vector3(24, 0.5f, 28))
+            .setPosition(new Vector3(24, 0.1f, 28))
             .setScaling(new Vector3(12, 20, 1));
 
         // Ceiling
@@ -275,6 +278,10 @@ public class Room extends SceneGraph {
             .setPosition(new Vector3(37, 0, 7))
             .setRotation(new Vector3(0, 1, 0), -20)
             .setScaling(Vector3.all(3));
+
+        root
+            .createAttachedNodeFromSceneGraph(new PlateWithGlasses(gl, glut))
+            .setPosition(new Vector3(37, 2.5f, 7));
 
         root
             .createAttachedNodeFromSceneGraph(new Table(gl, glut))

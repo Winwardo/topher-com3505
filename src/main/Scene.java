@@ -203,10 +203,10 @@ class Scene {
 
         materials.addNew(
             "tvscreen",
-            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
+            new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
             defaultDiffuse,
-            new float[] { 4.0f, 4.0f, 4.0f, 1.0f },
-            2f,
+            new float[] { 1.0f, 1.0f, 1.0f, 1.0f },
+            100,
             "rendertex");
 
         materials.addNew(
