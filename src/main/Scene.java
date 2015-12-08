@@ -288,6 +288,8 @@ class Scene {
             10f,
             "eye_right");
 
+        materials.addNew("black", "black");
+
         materials.addNew("nyan", "nyan");
     }
 

@@ -184,9 +184,16 @@ public class Room extends SceneGraph {
     }
 
     private void addTV() {
+        realtime = root
+            .createAttachedNode()
+            .setPosition(new Vector3(ROOM_DEPTH - 0.75f, 1.75f, 9f))
+            .setScaling(new Vector3(17, 8.5f, 1))
+            .setRotation(new Vector3(0, 1, 0), 270)
+            .attachRenderable(new Plane(gl, Materials.get().get("black")));
+
         root
             .createAttachedNode()
-            .setPosition(new Vector3(ROOM_DEPTH - 1, 2, 10))
+            .setPosition(new Vector3(ROOM_DEPTH - 1, 2.25f, 10))
             .setScaling(new Vector3(15, 7.5f, 1))
             .setRotation(new Vector3(0, 1, 0), 270)
             .attachRenderable(new Plane(gl, Materials.get().get("tvscreen")));

@@ -36,7 +36,7 @@ public class Assignment extends JFrame implements GLEventListener,
     private static final int   WIDTH             = 640;
     private static final int   HEIGHT            = 480;
     private static final int   SCALING           = 2;
-    private static final float NEAR_CLIP         = 0.1f;
+    private static final float NEAR_CLIP         = 1f;
     private static final float FAR_CLIP          = 100.0f;
     private static final int   FRAMES_PER_SECOND = 60;
 
