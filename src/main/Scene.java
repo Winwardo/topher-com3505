@@ -157,7 +157,8 @@ class Scene {
     private void setupMaterials() {
         Materials materials = Materials.get();
 
-        final float[] defaultAmbience = new float[] { 0.1f, 0.1f, 0.1f, 1.0f };
+        final float[] defaultAmbience = new float[] { 0.05f, 0.05f, 0.05f,
+            1.0f };
         final float[] defaultDiffuse = new float[] { 0.8f, 0.8f, 0.8f, 1.0f };
 
         materials.addNew(
