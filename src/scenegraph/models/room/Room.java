@@ -252,7 +252,7 @@ public class Room extends SceneGraph {
         root
             .createAttachedNode()
             .attachRenderable(
-                new Plane(gl, Materials.get().get("marbletile"), 4, 4))
+                new Plane(gl, Materials.get().get("marble"), 4, 4))
             .setRotation(new Vector3(1, 0, 0), 270)
             .setPosition(new Vector3(0, 0, WIDTH))
             .setScaling(new Vector3(DEPTH, WIDTH, 1));
@@ -267,17 +267,30 @@ public class Room extends SceneGraph {
     }
 
     private void addWalls() {
-        root
-            .createAttachedNode()
-            .setScaling(new Vector3(DEPTH, HEIGHT, 1))
-            .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
+        float wallBottomHeight = HEIGHT * 0.3f;
+        float wallTopHeight = HEIGHT - wallBottomHeight;
+
+        {
+            root
+                .createAttachedNode()
+                .setScaling(new Vector3(DEPTH, wallBottomHeight, 1))
+                .attachRenderable(
+                    new Plane(gl, Materials.get().get("wood2"), 2, 1));
+            root
+                .createAttachedNode()
+                .setScaling(new Vector3(DEPTH, wallTopHeight, 1))
+                .setPosition(new Vector3(0, wallBottomHeight, 0))
+                .attachRenderable(
+                    new Plane(gl, Materials.get().get("redplastic"), 2, 1));
+        }
 
         root
             .createAttachedNode()
             .setScaling(new Vector3(WIDTH, HEIGHT, 1))
             .setRotation(new Vector3(0, 1, 0), 90)
             .setPosition(new Vector3(0, 0, WIDTH))
-            .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
+            .attachRenderable(
+                new Plane(gl, Materials.get().get("redplastic"), 2, 1));
 
         root
             .createAttachedNode()

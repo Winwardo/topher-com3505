@@ -138,11 +138,14 @@ class Scene {
         textureLoader.loadBMP("eye_right", "res\\eye_right.bmp");
         textureLoader.loadBMP("eye_left", "res\\eye_left.bmp");
         textureLoader.loadBMP("hardwood", "res\\hardwood.bmp");
+        textureLoader.loadBMP("wood2", "res\\wood2.bmp");
         textureLoader.loadBMP("glass", "res\\glass.bmp");
         textureLoader.loadBMP("plate", "res\\plate.bmp");
         textureLoader.loadBMP("tiles", "res\\marbletile.bmp");
+        textureLoader.loadBMP("marble", "res\\marble.bmp");
         textureLoader.loadBMP("red_wall", "res\\red_wall.bmp");
         textureLoader.loadBMP("chest_light", "res\\chest_light.bmp");
+        textureLoader.loadBMP("white_noise", "res\\white_noise.bmp");
     }
 
     private void setupMaterials() {
@@ -176,6 +179,22 @@ class Scene {
             "hardwood");
 
         materials.addNew(
+            "wood2",
+            defaultAmbience,
+            defaultDiffuse,
+            new float[] { 0.4f, 0.4f, 0.4f, 1.0f },
+            127,
+            "wood2");
+
+        materials.addNew(
+            "redplastic",
+            defaultAmbience,
+            new float[] { 0.75f, 0, 0 },
+            new float[] { 0.9f, 0.7f, 0.7f, 1.0f },
+            .25f * 128,
+            "white_noise");
+
+        materials.addNew(
             "tvscreen",
             new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
             defaultDiffuse,
@@ -206,6 +225,14 @@ class Scene {
             new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
             0.078125f * 128,
             "tiles");
+
+        materials.addNew(
+            "marble",
+            defaultAmbience,
+            defaultDiffuse,
+            new float[] { 0.7f, 0.7f, 0.7f, 1.0f },
+            0.078125f * 128,
+            "marble");
 
         materials.addNew(
             "wall",
