@@ -57,15 +57,15 @@ class Scene {
                     Room.ROOM_DEPTH / 2,
                     Room.ROOM_HEIGHT / 2,
                     Room.ROOM_WIDTH / 2),
-                10,
-                10,
-                45));
+                18,
+                217,
+                1.25f));
 
         // Cameras.get().append(
         // new RotateAroundPointCamera(gl, Vector3.zero(), 10, 10, 45));
 
         Cameras.get().append(
-            new FromPointCamera(gl, new Vector3(0, 2.5f, 0f), 10, 10, 45));
+            new FromPointCamera(gl, new Vector3(0, 2.5f, 0f), 18, 217, 1.25f));
     }
 
     private SceneGraph makeSceneGraph() {

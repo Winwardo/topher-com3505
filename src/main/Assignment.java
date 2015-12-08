@@ -11,8 +11,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTree;
@@ -83,9 +85,58 @@ public class Assignment extends JFrame implements GLEventListener,
 
     private void setupUI(Scene scene) {
         addMenuBar();
-        addShaderSlider();
+        addShaderRadioChoice();
         addSceneGraphTree(scene);
         addLightsSelection();
+    }
+
+    private void addShaderRadioChoice() {
+        Panel p = new Panel();
+        ButtonGroup bg = new ButtonGroup();
+
+        final JRadioButton btn_noShader = new JRadioButton("No shader");
+        final JRadioButton btn_albedo = new JRadioButton("Albedo");
+        final JRadioButton btn_ambient = new JRadioButton("Ambient");
+        final JRadioButton btn_diffuse = new JRadioButton("Diffuse");
+        final JRadioButton btn_specular = new JRadioButton("Specular");
+        final JRadioButton btn_blinnPhong = new JRadioButton("Blinn-Phong");
+
+        bg.add(btn_noShader);
+        bg.add(btn_albedo);
+        bg.add(btn_ambient);
+        bg.add(btn_diffuse);
+        bg.add(btn_specular);
+        bg.add(btn_blinnPhong);
+
+        p.add(btn_noShader);
+        p.add(btn_albedo);
+        p.add(btn_ambient);
+        p.add(btn_diffuse);
+        p.add(btn_specular);
+        p.add(btn_blinnPhong);
+
+        btn_blinnPhong.setSelected(true);
+
+        btn_noShader.addActionListener((e) -> {
+            scene.setShader(0);
+        });
+        btn_albedo.addActionListener((e) -> {
+            scene.setShader(1);
+        });
+        btn_ambient.addActionListener((e) -> {
+            scene.setShader(2);
+        });
+        btn_diffuse.addActionListener((e) -> {
+            scene.setShader(3);
+        });
+        btn_specular.addActionListener((e) -> {
+            scene.setShader(4);
+        });
+        btn_blinnPhong.addActionListener((e) -> {
+            scene.setShader(5);
+        });
+
+        this.add(p, "North");
     }
 
     private void addLightsSelection() {
@@ -99,24 +150,15 @@ public class Assignment extends JFrame implements GLEventListener,
         p.add(light2);
         p.add(lightRobot);
 
-        light1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Lights.get().get(1).enable(light1.isSelected());
-            }
+        light1.addActionListener((e) -> {
+            Lights.get().get(1).enable(light1.isSelected());
         });
-        light2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Lights.get().get(0).enable(light2.isSelected());
-            }
+        light2.addActionListener((e) -> {
+            Lights.get().get(0).enable(light2.isSelected());
         });
-        lightRobot.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Lights.get().get(2).enable(lightRobot.isSelected());
-                Lights.get().get(3).enable(lightRobot.isSelected());
-            }
+        lightRobot.addActionListener((e) -> {
+            Lights.get().get(2).enable(lightRobot.isSelected());
+            Lights.get().get(3).enable(lightRobot.isSelected());
         });
 
         light1.setSelected(true);
@@ -138,21 +180,6 @@ public class Assignment extends JFrame implements GLEventListener,
         menuBar.add(fileMenu);
 
         this.setMenuBar(menuBar);
-    }
-
-    private void addShaderSlider() {
-        Panel p = new Panel();
-
-        JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, 0, 5, 0);
-        zoomSlider.setName("ShaderSlider");
-        zoomSlider.setMajorTickSpacing(1);
-        zoomSlider.setPaintTicks(true);
-        zoomSlider.setPaintLabels(true);
-        zoomSlider.setValue(5);
-        zoomSlider.addChangeListener(this);
-
-        p.add(zoomSlider);
-        this.add(p, "North");
     }
 
     private void addSceneGraphTree(Scene scene) {
