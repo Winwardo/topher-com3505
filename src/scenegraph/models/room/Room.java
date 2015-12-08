@@ -13,6 +13,7 @@ import math.Vector3;
 import renderer.Materials;
 import renderer.cameras.Cameras;
 import renderer.cameras.FromPointCamera;
+import renderer.primitives.Cuboid;
 import renderer.primitives.Plane;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
@@ -28,7 +29,7 @@ public class Room extends SceneGraph {
     private final SceneGraphNode leanNode;
     private float                lastRotate   = 0;
     private Vector3              lastPosition = Vector3.zero();
-    private final SceneGraphNode realtime;
+    private SceneGraphNode       realtime;
     private final Robot          robot1;
 
     private int                  go           = 0;
@@ -56,16 +57,18 @@ public class Room extends SceneGraph {
             .setPosition(new Vector3(20, 0, 10))
             .setRotation(new Vector3(0, 1, 0), 0);
 
-        realtime = null;
+        // realtime = null;
 
         leanNode = robotNode.createAttachedNode();
         tiltNode = leanNode
             .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut));
 
-        addFloorAndCeiling(gl);
-        addWalls(gl);
-        addTables(gl, glut);
-        addTV(gl);
+        addFloorAndCeiling();
+        addWalls();
+        addFloorTrim();
+        addStruts();
+        addTables();
+        addTV();
 
         // Lights
         Lights lights = Lights.get();
@@ -90,6 +93,101 @@ public class Room extends SceneGraph {
         lights.append(robotLight);
 
         makeRoboAnimation();
+
+    }
+
+    private void addFloorTrim() {
+        float trimHeight = 1;
+        float trimDepth = 0.2f;
+
+        float halfTrimDepth = trimDepth / 2;
+
+        final Cuboid longTrim = new Cuboid(
+            gl,
+            new Vector3(DEPTH, trimHeight, trimDepth),
+            Materials.get().get("wood"));
+
+        final Cuboid shortTrim = new Cuboid(
+            gl,
+            new Vector3(WIDTH, trimHeight, trimDepth),
+            Materials.get().get("wood"));
+
+        root
+            .createAttachedNode()
+            .attachRenderable(longTrim)
+            .setPosition(new Vector3(DEPTH / 2, trimHeight / 2, halfTrimDepth))
+            .setRotation(new Vector3(0, 1, 0), 0);
+
+        realtime = root
+            .createAttachedNode()
+            .attachRenderable(shortTrim)
+            .setPosition(
+                new Vector3(halfTrimDepth, trimHeight / 2, WIDTH / 2 + 0.5f))
+            .setRotation(new Vector3(0, 1, 0), 90);
+
+        root
+            .createAttachedNode()
+            .attachRenderable(longTrim)
+            .setPosition(
+                new Vector3(DEPTH / 2, trimHeight / 2, WIDTH - halfTrimDepth))
+            .setRotation(new Vector3(0, 1, 0), 180);
+
+        realtime = root
+            .createAttachedNode()
+            .attachRenderable(shortTrim)
+            .setPosition(
+                new Vector3(
+                    DEPTH - halfTrimDepth,
+                    trimHeight / 2,
+                    WIDTH / 2 + 0.5f))
+            .setRotation(new Vector3(0, 1, 0), -90);
+    }
+
+    private void addStruts() {
+        float strutDepth = 0.5f;
+        float strutWidth = 2;
+
+        root
+            .createAttachedNode()
+            .attachRenderable(
+                new Cuboid(
+                    gl,
+                    new Vector3(DEPTH, strutDepth, strutWidth),
+                    Materials.get().get("dullmetal")))
+            .setPosition(new Vector3(DEPTH / 2, HEIGHT - strutDepth / 2, 0));
+        root
+            .createAttachedNode()
+            .attachRenderable(
+                new Cuboid(
+                    gl,
+                    new Vector3(DEPTH, strutDepth, strutWidth),
+                    Materials.get().get("dullmetal")))
+            .setPosition(
+                new Vector3(
+                    DEPTH / 2,
+                    HEIGHT - strutDepth / 2,
+                    WIDTH * (1 / 3.0f)));
+        root
+            .createAttachedNode()
+            .attachRenderable(
+                new Cuboid(
+                    gl,
+                    new Vector3(DEPTH, strutDepth, strutWidth),
+                    Materials.get().get("dullmetal")))
+            .setPosition(
+                new Vector3(
+                    DEPTH / 2,
+                    HEIGHT - strutDepth / 2,
+                    WIDTH * (2 / 3.0f)));
+        root
+            .createAttachedNode()
+            .attachRenderable(
+                new Cuboid(
+                    gl,
+                    new Vector3(DEPTH, strutDepth, strutWidth),
+                    Materials.get().get("dullmetal")))
+            .setPosition(
+                new Vector3(DEPTH / 2, HEIGHT - strutDepth / 2, WIDTH));
     }
 
     private void makeRoboAnimation() {
@@ -118,7 +216,7 @@ public class Room extends SceneGraph {
         robotMovement = new Animation(frames);
     }
 
-    private void addTV(GL2 gl) {
+    private void addTV() {
         root
             .createAttachedNode()
             .setPosition(new Vector3(DEPTH - 1, 2, 10))
@@ -128,7 +226,7 @@ public class Room extends SceneGraph {
                 new Plane(gl, Materials.get().get("tvscreen"), 1, 1));
     }
 
-    private void addFloorAndCeiling(GL2 gl) {
+    private void addFloorAndCeiling() {
         // Floor
         root
             .createAttachedNode()
@@ -147,7 +245,7 @@ public class Room extends SceneGraph {
             .setScaling(new Vector3(DEPTH, WIDTH, 1));
     }
 
-    private void addWalls(GL2 gl) {
+    private void addWalls() {
         root
             .createAttachedNode()
             .setScaling(new Vector3(DEPTH, HEIGHT, 1))
@@ -175,7 +273,7 @@ public class Room extends SceneGraph {
             .attachRenderable(new Plane(gl, Materials.get().get("wall"), 2, 1));
     }
 
-    private void addTables(GL2 gl, GLUT glut) {
+    private void addTables() {
         root
             .createAttachedNodeFromSceneGraph(new Table(gl, glut))
             .setPosition(new Vector3(10, 0, 10))
@@ -257,5 +355,9 @@ public class Room extends SceneGraph {
 
         lastRotate = currentRotate;
         lastPosition = currentPosition;
+
+        // realtime.setPosition(new Vector3(0.5f, 0, WIDTH / 2 + 0.5f));
+        // realtime.setScaling(new Vector3(DEPTH, 2, 2));
+
     }
 }
