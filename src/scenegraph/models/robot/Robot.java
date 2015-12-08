@@ -75,6 +75,6 @@ public class Robot extends SceneGraph {
         float pp = rro * 10;
 
         rollerBallJoint.get().setRotation(new Vector3(0, 0, 1), pp);
-        ((Light) Lights.get().get(1)).setIncline(pp);
+        ((Light) Lights.get().get(4)).setIncline(pp);
     }
 }

@@ -33,6 +33,7 @@ public class Cameras {
 
     private final List<Camera> cameras;
     private int                activeCameraId;
+    private int                mainCameraId;
 
     public Cameras() {
         this.cameras = new ArrayList<>();
@@ -59,5 +60,13 @@ public class Cameras {
 
     public int activeCamera() {
         return activeCameraId;
+    }
+
+    public void setMainCamera(int mainCameraId) {
+        this.mainCameraId = mainCameraId;
+    }
+
+    public int mainCamera() {
+        return mainCameraId;
     }
 }

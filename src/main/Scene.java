@@ -13,7 +13,9 @@ import renderer.cameras.Cameras;
 import renderer.cameras.FromPointCamera;
 import renderer.cameras.RotateAroundPointCamera;
 import scenegraph.Animation2;
+import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
+import scenegraph.models.HangingLight;
 import scenegraph.models.room.Room;
 import shaders.ShaderCore;
 import shaders.ShadowMapping;
@@ -28,6 +30,8 @@ class Scene {
 
     private int              currentShader;
     private FBO              fbo;
+
+    private boolean          editMode = false;
 
     public Scene(GL2 gl) {
         this.gl = gl;
@@ -50,28 +54,43 @@ class Scene {
     }
 
     private void setupCameras() {
-        Cameras.get().append(
-            new RotateAroundPointCamera(
-                gl,
-                new Vector3(
-                    Room.ROOM_DEPTH / 2,
-                    Room.ROOM_HEIGHT / 2,
-                    Room.ROOM_WIDTH / 2),
-                18,
-                217,
-                1.25f));
-
-        // Cameras.get().append(
-        // new RotateAroundPointCamera(gl, Vector3.zero(), 10, 10, 45));
+        if (editMode) {
+            Cameras.get().append(
+                new RotateAroundPointCamera(gl, Vector3.zero(), 10, 10, 45));
+        } else {
+            Cameras.get().append(
+                new RotateAroundPointCamera(
+                    gl,
+                    new Vector3(
+                        Room.ROOM_DEPTH / 2,
+                        Room.ROOM_HEIGHT / 2,
+                        Room.ROOM_WIDTH / 2),
+                    18,
+                    217,
+                    1.25f));
+        }
 
         Cameras.get().append(
             new FromPointCamera(gl, new Vector3(0, 2.5f, 0f), 18, 217, 1.25f));
     }
 
     private SceneGraph makeSceneGraph() {
-        return new Animation2(gl, glut);
-        // return new DefaultSceneGraph(gl, glut);
-        // return new EditSceneGraph(gl, glut, new LeftArm(gl, glut));
+        if (editMode) {
+            return new EditSceneGraph(
+                gl,
+                glut,
+                new HangingLight(
+                    gl,
+                    glut,
+                    Lights.get().addSpotLight(
+                        gl,
+                        new Vector3(1.0f, 0.9f, 0.8f),
+                        0.65f,
+                        45)));
+        } else {
+            return new Animation2(gl, glut);
+            // return new DefaultSceneGraph(gl, glut);
+        }
     }
 
     private void setupGL() {
@@ -317,7 +336,7 @@ class Scene {
 
         gl.glViewport(0, 0, 640 * 2, 480 * 2);
 
-        renderCamera(0);
+        renderCamera(Cameras.get().mainCamera());
 
         gl.glFlush();
         gl.glDisable(GL.GL_MULTISAMPLE);

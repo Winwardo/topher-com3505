@@ -85,12 +85,44 @@ public class Assignment extends JFrame implements GLEventListener,
 
     private void setupUI(Scene scene) {
         addMenuBar();
-        addShaderRadioChoice();
-        addSceneGraphTree(scene);
-        addLightsSelection();
+        this.add(makeShaderRadioChoice(), "North");
+        this.add(makeSceneGraphTree(scene), "West");
+
+        Panel south = new Panel();
+        south.add(makeLightsSelection(), "North");
+        south.add(makeCameraSelection(), "South");
+
+        this.add(south, "South");
     }
 
-    private void addShaderRadioChoice() {
+    private Panel makeCameraSelection() {
+        Panel p = new Panel();
+        ButtonGroup bg = new ButtonGroup();
+
+        final JRadioButton btn_mainCamera = new JRadioButton(
+            "Controllable camera");
+        final JRadioButton btn_robotCamera = new JRadioButton(
+            "Robot view camera");
+
+        bg.add(btn_mainCamera);
+        bg.add(btn_robotCamera);
+
+        p.add(btn_mainCamera);
+        p.add(btn_robotCamera);
+
+        btn_mainCamera.setSelected(true);
+
+        btn_mainCamera.addActionListener((e) -> {
+            Cameras.get().setMainCamera(Cameras.MAIN_CAMERA);
+        });
+        btn_robotCamera.addActionListener((e) -> {
+            Cameras.get().setMainCamera(Cameras.ROBOT_CAMERA);
+        });
+
+        return p;
+    }
+
+    private Panel makeShaderRadioChoice() {
         Panel p = new Panel();
         ButtonGroup bg = new ButtonGroup();
 
@@ -135,37 +167,43 @@ public class Assignment extends JFrame implements GLEventListener,
         btn_blinnPhong.addActionListener((e) -> {
             scene.setShader(5);
         });
-
-        this.add(p, "North");
+        return p;
     }
 
-    private void addLightsSelection() {
+    private Panel makeLightsSelection() {
         Panel p = new Panel();
 
-        JCheckBox light1 = new JCheckBox("Light #1");
-        JCheckBox light2 = new JCheckBox("Light #2");
+        JCheckBox worldLights = new JCheckBox("World lights");
+        JCheckBox spotlight1 = new JCheckBox("Spotlight #1");
+        JCheckBox spotlight2 = new JCheckBox("Spotlight #2");
         JCheckBox lightRobot = new JCheckBox("Robot light");
 
-        p.add(light1);
-        p.add(light2);
+        p.add(worldLights);
+        p.add(spotlight1);
+        p.add(spotlight2);
         p.add(lightRobot);
 
-        light1.addActionListener((e) -> {
-            Lights.get().get(1).enable(light1.isSelected());
+        worldLights.addActionListener((e) -> {
+            Lights.get().get(2).enable(worldLights.isSelected());
+            Lights.get().get(3).enable(worldLights.isSelected());
         });
-        light2.addActionListener((e) -> {
-            Lights.get().get(0).enable(light2.isSelected());
+        spotlight1.addActionListener((e) -> {
+            Lights.get().get(1).enable(spotlight1.isSelected());
+        });
+        spotlight2.addActionListener((e) -> {
+            Lights.get().get(0).enable(spotlight2.isSelected());
         });
         lightRobot.addActionListener((e) -> {
-            Lights.get().get(2).enable(lightRobot.isSelected());
-            Lights.get().get(3).enable(lightRobot.isSelected());
+            Lights.get().get(4).enable(lightRobot.isSelected());
+            Lights.get().get(5).enable(lightRobot.isSelected());
         });
 
-        light1.setSelected(true);
-        light2.setSelected(true);
+        worldLights.setSelected(true);
+        spotlight1.setSelected(true);
+        spotlight2.setSelected(true);
         lightRobot.setSelected(true);
 
-        this.add(p, "South");
+        return p;
     }
 
     private void addMenuBar() {
@@ -182,14 +220,14 @@ public class Assignment extends JFrame implements GLEventListener,
         this.setMenuBar(menuBar);
     }
 
-    private void addSceneGraphTree(Scene scene) {
+    private Panel makeSceneGraphTree(Scene scene) {
         Panel p = new Panel();
 
         JTree sceneGraphJTree = makeSceneGraphJTree(scene);
         JScrollPane scrollPane = new JScrollPane(sceneGraphJTree);
 
         p.add(scrollPane);
-        this.add(p, "West");
+        return p;
     }
 
     private JTree makeSceneGraphJTree(Scene scene) {
