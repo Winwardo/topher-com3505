@@ -9,11 +9,22 @@ public class SpotLight extends Light {
     private float   cutoff  = 45;
     private Vector3 position;
 
-    public SpotLight(GL2 gl, int lightId, Vector3 color) {
+    public SpotLight(GL2 gl, int lightId, Vector3 color, float brightness,
+        float cutoff) {
         super(gl, lightId);
 
-        this.color = new float[] { color.x(), color.y(), color.z(), 1.0f };
+        this.color = new float[] { color.x() * brightness,
+            color.y() * brightness, color.z() * brightness, 1.0f };
         this.position = Vector3.zero();
+        this.cutoff = cutoff;
+    }
+
+    public SpotLight(GL2 gl, int lightId, Vector3 color, float brightness) {
+        this(gl, lightId, color, 1, brightness);
+    }
+
+    public SpotLight(GL2 gl, int lightId, Vector3 color) {
+        this(gl, lightId, color, 1);
     }
 
     public SpotLight(GL2 gl, int lightId) {

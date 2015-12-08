@@ -86,7 +86,8 @@ public class Room extends SceneGraph {
                         glut,
                         lights.addPointLight(
                             gl,
-                            new Vector3(2.5f, 2.25f, 2.0f))));
+                            new Vector3(1.0f, 0.9f, 0.8f),
+                            1)));
         }
 
         robotLight = lights.addSpotLight(gl, new Vector3(5.5f, 5.25f, 5.0f));

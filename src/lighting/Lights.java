@@ -73,8 +73,12 @@ public class Lights {
         }
     }
 
-    public PointLight addPointLight(GL2 gl, Vector3 colour) {
-        final PointLight light = new PointLight(gl, newLightId(), colour);
+    public PointLight addPointLight(GL2 gl, Vector3 colour, float brightness) {
+        final PointLight light = new PointLight(
+            gl,
+            newLightId(),
+            colour,
+            brightness);
         append(light);
 
         return light;
