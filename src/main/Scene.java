@@ -86,7 +86,11 @@ class Scene {
                         gl,
                         new Vector3(1.0f, 0.9f, 0.8f),
                         0.65f,
-                        45)));
+                        45),
+                    Lights.get().addPointLight(
+                        gl,
+                        new Vector3(1.0f, 0.9f, 0.8f),
+                        0.2f)));
         } else {
             return new Animation2(gl, glut);
             // return new DefaultSceneGraph(gl, glut);
@@ -280,6 +284,22 @@ class Scene {
         materials.addNew(
             "white",
             new float[] { 0.4f, 0.4f, 0.4f, 1 },
+            defaultDiffuse,
+            new float[] { 1, 1, 1, 1.0f },
+            128,
+            "white");
+
+        materials.addNew(
+            "dullwhite",
+            new float[] { 0.2f, 0.2f, 0.2f, 1 },
+            defaultDiffuse,
+            new float[] { 1, 1, 1, 1.0f },
+            128,
+            "white");
+
+        materials.addNew(
+            "brightwhite",
+            new float[] { 1, 1, 1, 1 },
             defaultDiffuse,
             new float[] { 1, 1, 1, 1.0f },
             128,

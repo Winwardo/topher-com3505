@@ -34,6 +34,8 @@ import lighting.Lights;
 import renderer.cameras.Cameras;
 import renderer.cameras.RotateAroundPointCamera;
 import scenegraph.Selectable;
+import scenegraph.models.robot.Robot;
+import scenegraph.models.room.Room;
 
 public class Assignment extends JFrame implements GLEventListener,
     ActionListener, ChangeListener, MouseMotionListener {
@@ -184,18 +186,23 @@ public class Assignment extends JFrame implements GLEventListener,
         p.add(lightRobot);
 
         worldLights.addActionListener((e) -> {
-            Lights.get().get(2).enable(worldLights.isSelected());
-            Lights.get().get(3).enable(worldLights.isSelected());
+            Lights.get().get(4).enable(worldLights.isSelected());
+            Lights.get().get(5).enable(worldLights.isSelected());
         });
         spotlight1.addActionListener((e) -> {
-            Lights.get().get(1).enable(spotlight1.isSelected());
+            Lights.get().get(2).enable(spotlight1.isSelected());
+            Lights.get().get(3).enable(spotlight1.isSelected());
+            Room.circleLamp2.setIsOn(spotlight1.isSelected());
         });
         spotlight2.addActionListener((e) -> {
             Lights.get().get(0).enable(spotlight2.isSelected());
+            Lights.get().get(1).enable(spotlight2.isSelected());
+            Room.circleLamp1.setIsOn(spotlight2.isSelected());
         });
         lightRobot.addActionListener((e) -> {
-            Lights.get().get(4).enable(lightRobot.isSelected());
-            Lights.get().get(5).enable(lightRobot.isSelected());
+            Lights.get().get(6).enable(lightRobot.isSelected());
+            Lights.get().get(7).enable(lightRobot.isSelected());
+            Robot.chestLight.setIsOn(lightRobot.isSelected());
         });
 
         worldLights.setSelected(true);

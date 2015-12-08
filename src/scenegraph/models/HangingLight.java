@@ -11,19 +11,36 @@ import renderer.primitives.WireSphere;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
-public class HangingLight extends SceneGraph {
-    private GL2 gl;
+public class HangingLight extends SceneGraph implements Toggleable {
+    private GL2                  gl;
 
-    public HangingLight(GL2 gl, GLUT glut, ILight light) {
+    private final SceneGraphNode dullSphere;
+    private final SceneGraphNode litSphere;
+
+    public HangingLight(GL2 gl, GLUT glut, ILight spotLight,
+        ILight ambientLight) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
 
-        root.attachLight(light);
+        // Attach spotlight
+        root.createAttachedNode().attachLight(spotLight).setPosition(
+            new Vector3(0, 0, 0));
 
-        root
+        // Attach ambient light just below
+        root.createAttachedNode().attachLight(ambientLight).setPosition(
+            new Vector3(0, -3, 0));
+
+        dullSphere = root
             .createAttachedNode()
             .attachRenderable(
-                new Sphere(gl, 0.6f, Materials.get().get("white")))
+                new Sphere(gl, 0.6f, Materials.get().get("dullwhite")))
+            .setPosition(new Vector3(0, -.05f, 0));
+        dullSphere.hide();
+
+        litSphere = root
+            .createAttachedNode()
+            .attachRenderable(
+                new Sphere(gl, 0.6f, Materials.get().get("brightwhite")))
             .setPosition(new Vector3(0, -.05f, 0));
 
         root
@@ -59,5 +76,16 @@ public class HangingLight extends SceneGraph {
 
     @Override
     public void update() {
+    }
+
+    @Override
+    public void setIsOn(boolean isOn) {
+        if (isOn) {
+            dullSphere.hide();
+            litSphere.unhide();
+        } else {
+            dullSphere.unhide();
+            litSphere.hide();
+        }
     }
 }

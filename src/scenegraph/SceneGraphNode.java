@@ -21,6 +21,7 @@ public class SceneGraphNode implements Selectable {
     private GL2                        gl;
 
     private boolean                    selected = false;
+    private boolean                    hidden   = false;
 
     public SceneGraphNode(Vector3 localPosition, Vector3 localRotation,
         float localRotationAmount, Vector3 localScaling, GL2 gl) {
@@ -59,6 +60,10 @@ public class SceneGraphNode implements Selectable {
     }
 
     public void render() {
+        if (hidden) {
+            return;
+        }
+
         gl.glPushMatrix();
         {
             transform();
@@ -182,5 +187,13 @@ public class SceneGraphNode implements Selectable {
     @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public void hide() {
+        hidden = true;
+    }
+
+    public void unhide() {
+        hidden = false;
     }
 }

@@ -8,8 +8,11 @@ import renderer.primitives.Plane;
 import renderer.primitives.TexturedCube;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
+import scenegraph.models.Toggleable;
 
-public class ChestLight extends SceneGraph {
+public class ChestLight extends SceneGraph implements Toggleable {
+    private SceneGraphNode chestLight;
+
     public ChestLight(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
 
@@ -22,11 +25,12 @@ public class ChestLight extends SceneGraph {
             .setPosition(new Vector3(-0.5f, -0.31f, -0.1f))
             .setScaling(new Vector3(1, 0.5f, 1));
 
-        twister
+        chestLight = twister
             .createAttachedNode()
             .attachRenderable(new Plane(gl, Materials.get().get("chest_light")))
             .setRotation(new Vector3(1, 0, 0), 90)
             .setPosition(new Vector3(-1, -0.6f, -0.6f));
+        Robot.chestLight = this;
 
         twister.setRotation(new Vector3(0, 1, 0), 90);
         twister.setPosition(new Vector3(-0.5f, 0, -0.5f));
@@ -34,5 +38,14 @@ public class ChestLight extends SceneGraph {
 
     @Override
     public void update() {
+    }
+
+    @Override
+    public void setIsOn(boolean isOn) {
+        if (isOn) {
+            chestLight.unhide();
+        } else {
+            chestLight.hide();
+        }
     }
 }

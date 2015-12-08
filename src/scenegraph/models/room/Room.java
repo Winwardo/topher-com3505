@@ -40,9 +40,13 @@ public class Room extends SceneGraph {
     public static final int      ROOM_HEIGHT  = 12;
 
     private Light                robotLight;
+    private Light                robotLight2;
     private SceneGraphNode       robotLightNode;
 
     private Animation            robotMovement;
+
+    public static HangingLight   circleLamp1;
+    public static HangingLight   circleLamp2;
 
     public Room(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
@@ -78,73 +82,89 @@ public class Room extends SceneGraph {
     private void addLights() {
         Lights lights = Lights.get();
 
-        if (true) {
-            // SceneGraphNode circleLamp1 = root
-            // .createAttachedNode()
-            // .setPosition(new Vector3(35, 9, 12));
-            //
-            // circleLamp1.createAttachedNodeFromSceneGraph(
-            // new CircleLamp(
-            // gl,
-            // glut,
-            // lights.addPointLight(
-            // gl,
-            // new Vector3(1.0f, 0.9f, 0.8f),
-            // 0.65f)));
-            {
-                SceneGraphNode circleLamp1 = root
-                    .createAttachedNode()
-                    .setPosition(new Vector3(35, 9, 12));
+        final Vector3 hangingLightColour = new Vector3(1.0f, 0.9f, 0.8f);
+        final Vector3 hangingLightFakeReflectionColour = new Vector3(
+            1.0f,
+            0.6f,
+            0.5f);
 
-                final Light spotlight1 = lights
-                    .addSpotLight(gl, new Vector3(1.0f, 0.9f, 0.8f), 0.65f, 45);
-                spotlight1.setPointAt(new float[] { 0, -1, 0, 1 });
-                circleLamp1.createAttachedNodeFromSceneGraph(
-                    new HangingLight(gl, glut, spotlight1));
-            }
-            {
-                SceneGraphNode circleLamp2 = root
-                    .createAttachedNode()
-                    .setPosition(new Vector3(15, 9, 12));
+        final float hangingLightsBrightness = 0.65f;
+        {
+            SceneGraphNode circleLampNode1 = root
+                .createAttachedNode()
+                .setPosition(new Vector3(35, 9, 12));
 
-                final Light spotlight2 = lights
-                    .addSpotLight(gl, new Vector3(1.0f, 0.9f, 0.8f), 0.65f, 45);
-                spotlight2.setPointAt(new float[] { 0, -1, 0, 1 });
-                circleLamp2.createAttachedNodeFromSceneGraph(
-                    new HangingLight(gl, glut, spotlight2));
-            }
-            {
-                root
-                    .createAttachedNode()
-                    .attachLight(lights.addPointLight(gl, Vector3.one(), 0.35f))
-                    .setPosition(
-                        new Vector3(
-                            ROOM_DEPTH * (1 / 3.0f),
-                            ROOM_HEIGHT / 2,
-                            ROOM_WIDTH / 2));
-            }
-            {
-                root
-                    .createAttachedNode()
-                    .attachLight(lights.addPointLight(gl, Vector3.one(), 0.35f))
-                    .setPosition(
-                        new Vector3(
-                            ROOM_DEPTH * (2 / 3.0f),
-                            ROOM_HEIGHT / 2,
-                            ROOM_WIDTH / 2));
-            }
+            final Light spotlight1 = lights.addSpotLight(
+                gl,
+                hangingLightColour,
+                hangingLightsBrightness,
+                45);
+            spotlight1.setPointAt(new float[] { 0, -1, 0, 1 });
+
+            circleLamp1 = new HangingLight(
+                gl,
+                glut,
+                spotlight1,
+                lights.addPointLight(
+                    gl,
+                    hangingLightFakeReflectionColour,
+                    hangingLightsBrightness / 4.0f));
+            circleLampNode1.createAttachedNodeFromSceneGraph(circleLamp1);
+        }
+        {
+            SceneGraphNode circleLampNode2 = root
+                .createAttachedNode()
+                .setPosition(new Vector3(15, 9, 12));
+
+            final Light spotlight2 = lights.addSpotLight(
+                gl,
+                hangingLightColour,
+                hangingLightsBrightness,
+                45);
+            spotlight2.setPointAt(new float[] { 0, -1, 0, 1 });
+            circleLamp2 = new HangingLight(
+                gl,
+                glut,
+                spotlight2,
+                lights.addPointLight(
+                    gl,
+                    hangingLightFakeReflectionColour,
+                    hangingLightsBrightness / 4.0f));
+            circleLampNode2.createAttachedNodeFromSceneGraph(circleLamp2);
+        }
+        {
+            root
+                .createAttachedNode()
+                .attachLight(lights.addPointLight(gl, Vector3.one(), 0.35f))
+                .setPosition(
+                    new Vector3(
+                        ROOM_DEPTH * (1 / 3.0f),
+                        ROOM_HEIGHT / 2,
+                        ROOM_WIDTH / 2));
+        }
+        {
+            root
+                .createAttachedNode()
+                .attachLight(lights.addPointLight(gl, Vector3.one(), 0.35f))
+                .setPosition(
+                    new Vector3(
+                        ROOM_DEPTH * (2 / 3.0f),
+                        ROOM_HEIGHT / 2,
+                        ROOM_WIDTH / 2));
         }
 
-        robotLight = lights
-            .addSpotLight(gl, new Vector3(0.8f, 0.8f, 1.0f), 2, 45);
-        Light robotLight2 = lights
-            .addPointLight(gl, new Vector3(0.8f, 0.8f, 1.0f), 0.2f);
+        {
+            robotLight = lights
+                .addSpotLight(gl, new Vector3(0.8f, 0.8f, 1.0f), 2, 45);
+            robotLight2 = lights
+                .addPointLight(gl, new Vector3(1f, 0.7f, 0.7f), 0.2f);
 
-        robotLightNode = root
-            .createAttachedNode()
-            .attachLight(robotLight)
-            .attachLight(robotLight2)
-            .setPosition(new Vector3(15, 10, 2));
+            robotLightNode = root
+                .createAttachedNode()
+                .attachLight(robotLight)
+                .attachLight(robotLight2)
+                .setPosition(new Vector3(15, 10, 2));
+        }
     }
 
     private void addStruts() {
@@ -357,12 +377,22 @@ public class Room extends SceneGraph {
         c.setHeightAngle(0);
         c.setCircleAngle(-robotNode.rotationAmount());
 
+        float sin = (float) (Math
+            .sin(Math.toRadians(robotNode.rotationAmount() + 90)));
+        float cos = (float) (Math
+            .cos(Math.toRadians(robotNode.rotationAmount() + 90)));
+        float spotDistance = 1;
+        float ambientDistance = 5;
+
         robotLightNode.setPosition(
             new Vector3(
-                robotPosition.x(),
+                robotPosition.x() + sin * spotDistance,
                 robotPosition.y() + 2.6f,
-                robotPosition.z()));
+                robotPosition.z() + cos * spotDistance));
         // robotLight.setPosition(new Vector3(0, 0, 0));
+
+        robotLight2.setPosition(
+            new Vector3(sin * ambientDistance, 0, cos * ambientDistance));
 
         robotLight.setHorizontalRotation(robotNode.rotationAmount() + 90);
         robotLight.setCutoff(30);

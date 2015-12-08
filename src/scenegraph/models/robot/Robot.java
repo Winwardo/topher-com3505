@@ -23,6 +23,8 @@ public class Robot extends SceneGraph {
 
     private float              rotate  = 0;
 
+    public static ChestLight   chestLight;
+
     public Robot(GL2 gl, GLUT glut) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
