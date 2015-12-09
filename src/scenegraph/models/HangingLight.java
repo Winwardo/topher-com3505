@@ -6,6 +6,7 @@ import com.jogamp.opengl.GL2;
 import lighting.Light;
 import math.Vector3;
 import renderer.Materials;
+import renderer.Toggleable;
 import renderer.primitives.Cylinder;
 import renderer.primitives.Sphere;
 import renderer.primitives.WireSphere;

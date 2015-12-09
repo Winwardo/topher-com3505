@@ -8,6 +8,7 @@ import com.jogamp.opengl.GL2;
 import lighting.Light;
 import math.Vector3;
 import renderer.IRenderable;
+import renderer.Selectable;
 import renderer.primitives.Axes;
 
 /**

@@ -3,11 +3,11 @@ package scenegraph.models.robot;
 import com.jogamp.opengl.GL2;
 import math.Vector3;
 import renderer.Materials;
+import renderer.Toggleable;
 import renderer.primitives.Cuboid;
 import renderer.primitives.Plane;
 import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
-import scenegraph.models.Toggleable;
 
 public class ChestLight extends SceneGraph implements Toggleable {
     private SceneGraphNode chestLight;

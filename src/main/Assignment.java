@@ -34,9 +34,9 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
 import animation.Animations;
 import lighting.Lights;
+import renderer.Selectable;
 import renderer.cameras.Cameras;
 import renderer.cameras.RotateAroundPointCamera;
-import scenegraph.Selectable;
 import scenegraph.models.robot.Robot;
 import scenegraph.models.room.Room;
 

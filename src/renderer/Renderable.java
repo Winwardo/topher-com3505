@@ -4,7 +4,6 @@ package renderer;
 
 import com.jogamp.opengl.GL2;
 import renderer.primitives.Axes;
-import scenegraph.Selectable;
 
 public abstract class Renderable implements IRenderable, Selectable {
     protected final GL2      gl;
