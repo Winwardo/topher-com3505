@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package lighting;
 
 import java.util.ArrayList;
@@ -30,13 +32,12 @@ public class Lights {
         }
     }
 
-    private final List<ILight> lights;
+    private final List<Light> lights;
 
     public Lights(GL2 gl) {
         this.lights = new ArrayList<>();
 
-        // Set all lights to pitch black
-        // return;
+        // Default all lights to pitch black
         int lightId = GL2.GL_LIGHT0;
         while (lightId <= GL2.GL_LIGHT7) {
             float[] zero = new float[] { 0, 0, 0, 1.0f };
@@ -55,18 +56,18 @@ public class Lights {
         return GL2.GL_LIGHT0 + lights.size();
     }
 
-    public int append(ILight light) {
+    public int append(Light light) {
         lights.add(light);
         return lights.size() - 1;
     }
 
-    public ILight get(int lightId) {
+    public Light get(int lightId) {
         return lights.get(lightId);
     }
 
     public void apply(int lightId) {
         if (lightId < lights.size() && lightId >= 0) {
-            final ILight light = get(lightId);
+            final Light light = get(lightId);
             if (light != null) {
                 light.apply();
             }

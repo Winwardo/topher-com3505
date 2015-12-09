@@ -2,7 +2,7 @@ package scenegraph.models;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
-import lighting.ILight;
+import lighting.Light;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Cylinder;
@@ -15,7 +15,7 @@ public class CircleLamp extends SceneGraph {
     private GL2  gl;
     private GLUT glut;
 
-    public CircleLamp(GL2 gl, GLUT glut, ILight light) {
+    public CircleLamp(GL2 gl, GLUT glut, Light light) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;

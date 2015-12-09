@@ -1,7 +1,16 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package animation;
 
 import math.Vector3;
 
+/**
+ * A Keyframe holds position, rotation and scaling information at some given
+ * point in time, as well as a length to hold for.
+ * 
+ * @author Topher
+ *
+ */
 public class Keyframe {
     public final Vector3 position;
     public final Vector3 rotation;

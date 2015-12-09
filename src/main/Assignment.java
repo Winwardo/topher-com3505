@@ -1,3 +1,5 @@
+/* I declare that this code is my own work. This file was modified from an original file by Steve Maddock. */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package main;
 
 import java.awt.GridLayout;
@@ -45,8 +47,6 @@ import scenegraph.models.room.Room;
 public class Assignment extends JFrame implements GLEventListener,
     ActionListener, ChangeListener, MouseMotionListener {
 
-    private static final long  serialVersionUID  = 1L;
-
     private static final float FIELD_OF_VIEW     = 90.0f;
     private static final int   WIDTH             = 1280;
     private static final int   HEIGHT            = 960;
@@ -58,7 +58,6 @@ public class Assignment extends JFrame implements GLEventListener,
     public static int          CURRENT_HEIGHT    = HEIGHT;
 
     private Scene              scene;
-
     private Point              mouseLastLocation;
 
     public static void main(String[] args) {

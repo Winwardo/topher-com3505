@@ -1,21 +1,25 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package lighting;
 
 import com.jogamp.opengl.GL2;
 import math.Vector3;
 
 /**
- * Constructors are package restricted so only Lights can access them. Lights
- * can correctly set the lightId as required.
+ * Constructors are package restricted so only the Lights object can access
+ * them. Lights can then correctly set the lightId as required.
  * 
  * @author Topher
  *
  */
-public class Light implements ILight {
+public class Light {
     private GL2     gl;
 
     private float[] color;
     private float[] pointAt   = new float[] { 0, 0, -1 };
-    private float   cutoff    = 180;
+    private float   cutoff    = 180;                     // By default, act as a
+                                                         // point light, not a
+                                                         // spotlight.
     private Vector3 position;
     private int     lightId;
 
@@ -56,6 +60,7 @@ public class Light implements ILight {
     }
 
     public void setHorizontalRotation(float angle) {
+        // If a spotlight, rotate around the Y axis
         float sin = (float) Math.sin(Math.toRadians(angle));
         float cos = (float) Math.cos(Math.toRadians(angle));
 
@@ -64,19 +69,20 @@ public class Light implements ILight {
     }
 
     public void setIncline(float angle) {
+        // Tilt up and down
         float sin = (float) Math.sin(Math.toRadians(angle));
         pointAt[1] = sin;
     }
 
-    @Override
     public void apply() {
         // Axes.renderAxes(gl);
 
         int index = lightId;
-        float[] position1 = { position.x(), position.y(), position.z(), 1f };
+        float[] positionArray = { position.x(), position.y(), position.z(),
+            1f };
         float[] ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
 
-        gl.glLightfv(index, GL2.GL_POSITION, position1, 0);
+        gl.glLightfv(index, GL2.GL_POSITION, positionArray, 0);
 
         if (isEnabled && !isHidden) {
             gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);
@@ -105,7 +111,6 @@ public class Light implements ILight {
         gl.glDisable(lightId);
     }
 
-    @Override
     public void enable(boolean enabled) {
         isEnabled = enabled;
         if (enabled) {
@@ -115,7 +120,6 @@ public class Light implements ILight {
         }
     }
 
-    @Override
     public void hide(boolean hidden) {
         isHidden = hidden;
     }

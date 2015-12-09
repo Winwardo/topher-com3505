@@ -2,7 +2,7 @@ package scenegraph;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
-import lighting.ILight;
+import lighting.Light;
 import renderer.IRenderable;
 
 public abstract class SceneGraph {
@@ -36,7 +36,7 @@ public abstract class SceneGraph {
             result.add(getCurrentAndChildren(child));
         }
 
-        for (ILight light : node.lights()) {
+        for (Light light : node.lights()) {
             result.add(new DefaultMutableTreeNode(light));
         }
 

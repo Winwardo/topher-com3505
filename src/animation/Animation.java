@@ -1,9 +1,19 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package animation;
 
 import java.util.List;
 import math.Interpolation;
 import scenegraph.SceneGraphNode;
 
+/**
+ * Animation holds a list of Keyframes, and provides utilities for interpolating
+ * between them. Animations keep track internally of what keyframe and frame
+ * they're on, and can be restarted at any time.
+ * 
+ * @author Topher
+ *
+ */
 public class Animation {
     private final List<Keyframe> keyframes;
 

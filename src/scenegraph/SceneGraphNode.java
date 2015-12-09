@@ -3,7 +3,7 @@ package scenegraph;
 import java.util.ArrayList;
 import java.util.List;
 import com.jogamp.opengl.GL2;
-import lighting.ILight;
+import lighting.Light;
 import math.Vector3;
 import renderer.IRenderable;
 import renderer.primitives.Axes;
@@ -11,7 +11,7 @@ import renderer.primitives.Axes;
 public class SceneGraphNode implements Selectable {
     private final List<IRenderable>    renderables;
     private final List<SceneGraphNode> nodes;
-    private final List<ILight>         lights;
+    private final List<Light>          lights;
 
     private Vector3                    localPosition;
     private Vector3                    localRotationAngle;
@@ -48,7 +48,7 @@ public class SceneGraphNode implements Selectable {
         {
             transform();
 
-            for (ILight light : lights) {
+            for (Light light : lights) {
                 light.apply();
             }
 
@@ -107,7 +107,7 @@ public class SceneGraphNode implements Selectable {
         return node;
     }
 
-    public SceneGraphNode attachLight(ILight light) {
+    public SceneGraphNode attachLight(Light light) {
         lights.add(light);
         return this;
     }
@@ -180,7 +180,7 @@ public class SceneGraphNode implements Selectable {
         return renderables;
     }
 
-    public List<ILight> lights() {
+    public List<Light> lights() {
         return lights;
     }
 

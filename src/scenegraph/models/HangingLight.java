@@ -2,7 +2,7 @@ package scenegraph.models;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
-import lighting.ILight;
+import lighting.Light;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Cylinder;
@@ -17,8 +17,8 @@ public class HangingLight extends SceneGraph implements Toggleable {
     private final SceneGraphNode dullSphere;
     private final SceneGraphNode litSphere;
 
-    public HangingLight(GL2 gl, GLUT glut, ILight spotLight,
-        ILight ambientLight) {
+    public HangingLight(GL2 gl, GLUT glut, Light spotLight,
+        Light ambientLight) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
 
