@@ -141,4 +141,20 @@ public class ShaderCore {
     public int setupShaders(String shaderName) {
         return setupShaders(shaderName, null, null);
     }
+
+    public int loadShaders() {
+        String maxlights = "7";
+
+        setupShaders("phong", null, new String[] { maxlights, "ALBEDO" });
+        setupShaders("phong", null, new String[] { maxlights, "AMBIENT" });
+        setupShaders("phong", null, new String[] { maxlights, "DIFFUSE" });
+        setupShaders("phong", null, new String[] { maxlights, "SPECULAR" });
+        int all = setupShaders(
+            "phong",
+            null,
+            new String[] { maxlights, "ALL" });
+
+        queueShader(all);
+        return all;
+    }
 }

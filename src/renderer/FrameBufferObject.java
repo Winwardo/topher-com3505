@@ -16,14 +16,14 @@ import com.jogamp.opengl.glu.GLU;
  * @author Topher
  *
  */
-public class FBO {
+public class FrameBufferObject {
     private final GL2 gl;
     private final GLU glu;
 
     private final int id;
     private final int size;
 
-    public FBO(GL2 gl, int textureId, int size) {
+    public FrameBufferObject(GL2 gl, int textureId, int size) {
         this.gl = gl;
         this.glu = new GLU();
 

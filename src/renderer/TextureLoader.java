@@ -118,4 +118,26 @@ public class TextureLoader {
         }
         return texture;
     }
+
+    public void loadTextures() {
+        loadBMP("default", "res\\purple.bmp");
+        loadBMP("white", "res\\white.bmp");
+        loadBMP("rendertex", "res\\white.bmp");
+        loadBMP("metal", "res\\metal.bmp");
+        loadBMP("nyan", "res\\texture2.bmp");
+        loadBMP("white", "res\\white.bmp");
+        loadBMP("black", "res\\black.bmp");
+        loadBMP("eye_right", "res\\eye_right.bmp");
+        loadBMP("eye_left", "res\\eye_left.bmp");
+        loadBMP("hardwood", "res\\hardwood.bmp");
+        loadBMP("wood2", "res\\wood2.bmp");
+        loadBMP("glass", "res\\glass.bmp");
+        loadBMP("plate", "res\\plate.bmp");
+        loadBMP("tiles", "res\\marbletile.bmp");
+        loadBMP("marble", "res\\marble.bmp");
+        loadBMP("rug", "res\\carpet.bmp", 512, 512);
+        loadBMP("red_wall", "res\\red_wall.bmp");
+        loadBMP("chest_light", "res\\chest_light.bmp");
+        loadBMP("white_noise", "res\\white_noise.bmp");
+    }
 }
