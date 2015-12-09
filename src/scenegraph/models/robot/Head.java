@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
@@ -53,14 +55,15 @@ public class Head extends SceneGraph {
 
     @Override
     public void update() {
+        // We want the head to look around as if surveying the restaurant
         rotate += 1;
 
-        float ro = (float) Math.sin(rotate / 50);
-        float p = ro * 30;
-        neck.setYaw(p);
+        // These magic numbers have no meaning behind them other than they
+        // produced good looking results
+        float neckYaw = (float) Math.sin(rotate / 50) * 30;
+        neck.setYaw(neckYaw);
 
-        float rro = (float) Math.sin(rotate / 76);
-        float pp = rro * 5;
-        neck.setPitch(pp);
+        float neckPitch = (float) Math.sin(rotate / 76) * 5;
+        neck.setPitch(neckPitch);
     }
 }

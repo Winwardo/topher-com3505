@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
@@ -47,6 +49,7 @@ public class RightArm extends SceneGraph {
             .setPosition(new Vector3(0, 0, UPPER_ARM_LENGTH + ELBOW_OFFSET));
 
         elbowJoint = new BallJoint(elbowOffset);
+        elbowJoint.setRoll(-90);
 
         elbowBall = elbowJoint.get().createAttachedNode();
         elbowBall.attachRenderable(new Sphere(gl, 0.25f));
@@ -79,6 +82,5 @@ public class RightArm extends SceneGraph {
 
     @Override
     public void update() {
-        elbowJoint.setRoll(-90);
     }
 }

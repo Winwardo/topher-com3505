@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
@@ -9,11 +11,12 @@ import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
 public class Body extends SceneGraph {
-    private float rotate = 0;
 
     public Body(GL2 gl) {
         super(new SceneGraphNode(gl));
         BallJoint rollerBallJoint = new BallJoint(root);
+
+        root.setRotationAmount(90);
 
         root
             .createAttachedNode()
@@ -28,10 +31,5 @@ public class Body extends SceneGraph {
 
     @Override
     public void update() {
-        rotate += 1;
-        float ro = (float) Math.sin(rotate / 50);
-        float p = ro * 7;
-
-        root.setRotationAmount(90 + p);
     }
 }

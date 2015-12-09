@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
@@ -69,14 +71,16 @@ public class LeftArm extends SceneGraph {
 
     @Override
     public void update() {
+        // The left arm will move around as if for balance
         rotateShoulder += 1;
-        float ro = (float) Math.sin(rotateShoulder / 50);
-        float p = ro * 10;
-        shoulderJoint.setRoll(35 + p);
 
-        float rro = (float) Math.sin(rotateShoulder / 76);
-        float pp = rro * 20;
-        shoulderJoint.setYaw(pp + 180);
+        // These magic numbers have no meaning behind them other than they
+        // produced good looking results
+        float shoulderRoll = 35 + (float) Math.sin(rotateShoulder / 50) * 10;
+        shoulderJoint.setRoll(shoulderRoll);
+
+        float shoulderYaw = 180 + (float) Math.sin(rotateShoulder / 76) * 20;
+        shoulderJoint.setYaw(shoulderYaw);
 
         rotateElbow += 1;
         elbowJoint.setYaw(20);
