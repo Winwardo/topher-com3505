@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
@@ -71,10 +73,15 @@ public class Robot extends SceneGraph {
         body.update();
 
         rotate += 1;
-        float rro = (float) Math.sin(rotate / 76);
-        float pp = rro * 10;
 
-        rollerBallJoint.get().setRotation(new Vector3(0, 0, 1), pp);
-        Lights.get().get(6).setIncline(pp);
+        // The robot should be constantly swaying backwards and forwards to show
+        // balance
+        float sway = (float) Math.sin(rotate / 76) * 10;
+        rollerBallJoint.get().setRotation(new Vector3(0, 0, 1), sway);
+
+        // The light on the robot's chest should also sway. We should have a
+        // direct reference, rather than having to pick the number "6" based on
+        // what we know about when lights were set up for this program
+        Lights.get().get(6).setIncline(sway);
     }
 }
