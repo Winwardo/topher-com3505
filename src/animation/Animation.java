@@ -64,17 +64,17 @@ public class Animation {
 
         node.setPosition(
             Interpolation
-                .lerp(lastKeyframe.position, currentKeyframe.position, lerp));
+                .interpolate(lastKeyframe.position, currentKeyframe.position, lerp));
         node.setRotation(
             Interpolation
-                .lerp(lastKeyframe.rotation, currentKeyframe.rotation, lerp),
-            Interpolation.lerp(
+                .interpolate(lastKeyframe.rotation, currentKeyframe.rotation, lerp),
+            Interpolation.interpolate(
                 lastKeyframe.rotationAmount,
                 currentKeyframe.rotationAmount,
                 lerp));
         node.setScaling(
             Interpolation
-                .lerp(lastKeyframe.scale, currentKeyframe.scale, lerp));
+                .interpolate(lastKeyframe.scale, currentKeyframe.scale, lerp));
     }
 
     public void restart() {

@@ -1,17 +1,17 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package math;
 
 public class Interpolation {
-    public static float lerp(float from, float to, float percent) {
+    public static float interpolate(float from, float to, float percent) {
         return easeInOutSine(from, to, percent);
-        // float difference = to - from;
-        // return from + difference * lerp;
     }
 
-    public static Vector3 lerp(Vector3 from, Vector3 to, float lerp) {
+    public static Vector3 interpolate(Vector3 from, Vector3 to, float lerp) {
         return new Vector3(
-            lerp(from.x(), to.x(), lerp),
-            lerp(from.y(), to.y(), lerp),
-            lerp(from.z(), to.z(), lerp));
+            interpolate(from.x(), to.x(), lerp),
+            interpolate(from.y(), to.y(), lerp),
+            interpolate(from.z(), to.z(), lerp));
     }
 
     public static float easeInOutSine(float from, float to,
@@ -19,11 +19,8 @@ public class Interpolation {
         // http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js
 
         final float difference = to - from;
-
-        float d = 1;
-
-        float result = (float) (-((float) 1) / 2
-            * (Math.cos(Math.PI * percentThrough / d) - 1));
+        float result = (float) (0.5f
+            * (Math.cos(Math.PI * percentThrough) - 1.0f));
         return from + difference * result;
     }
 }
