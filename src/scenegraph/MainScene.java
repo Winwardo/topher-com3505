@@ -3,10 +3,10 @@ package scenegraph;
 import com.jogamp.opengl.GL2;
 import scenegraph.models.room.Room;
 
-public class Animation2 extends SceneGraph {
+public class MainScene extends SceneGraph {
     private final Room room;
 
-    public Animation2(GL2 gl) {
+    public MainScene(GL2 gl) {
         super(new SceneGraphNode(gl));
 
         room = new Room(gl);

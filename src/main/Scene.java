@@ -13,7 +13,7 @@ import renderer.TextureLoader;
 import renderer.cameras.Cameras;
 import renderer.cameras.FromPointCamera;
 import renderer.cameras.RotateAroundPointCamera;
-import scenegraph.Animation2;
+import scenegraph.MainScene;
 import scenegraph.EditSceneGraph;
 import scenegraph.SceneGraph;
 import scenegraph.models.HangingLight;
@@ -90,7 +90,7 @@ class Scene {
                         new Vector3(1.0f, 0.9f, 0.8f),
                         0.2f)));
         } else {
-            return new Animation2(gl);
+            return new MainScene(gl);
             // return new DefaultSceneGraph(gl, glut);
         }
     }
