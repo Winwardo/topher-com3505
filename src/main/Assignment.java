@@ -240,13 +240,13 @@ public class Assignment extends JFrame
             Lights.get().get(2).enable(spotlight1.isSelected());
             Lights.get().get(3).enable(spotlight1.isSelected());
 
-            Room.circleLamp2.setIsOn(spotlight1.isSelected());
+            Room.hangingLight2.setIsOn(spotlight1.isSelected());
         });
         spotlight2.addActionListener((e) -> {
             Lights.get().get(0).enable(spotlight2.isSelected());
             Lights.get().get(1).enable(spotlight2.isSelected());
 
-            Room.circleLamp1.setIsOn(spotlight2.isSelected());
+            Room.hangingLight1.setIsOn(spotlight2.isSelected());
         });
         lightRobot.addActionListener((e) -> {
             Lights.get().get(6).enable(lightRobot.isSelected());

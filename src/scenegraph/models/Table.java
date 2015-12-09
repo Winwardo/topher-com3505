@@ -3,7 +3,6 @@
 package scenegraph.models;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Cuboid;
@@ -11,13 +10,11 @@ import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
 public class Table extends SceneGraph {
-    private GL2  gl;
-    private GLUT glut;
+    private GL2 gl;
 
-    public Table(GL2 gl, GLUT glut) {
+    public Table(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
-        this.glut = glut;
 
         SceneGraphNode core = root.createAttachedNode();
         core.setPosition(new Vector3(0, -0.2f, 0));

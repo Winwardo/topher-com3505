@@ -44,8 +44,13 @@ class Scene {
         setupMaterials();
         setupFbos();
         setupCameras();
+        setupAnimations();
 
         sceneGraph = makeSceneGraph();
+    }
+
+    private void setupAnimations() {
+        Animations.get().createAnimations();
     }
 
     private void setupGlobalRegisters() {

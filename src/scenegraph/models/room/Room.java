@@ -1,11 +1,10 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph.models.room;
 
-import java.util.ArrayList;
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import animation.Animation;
 import animation.Animations;
-import animation.Keyframe;
 import lighting.Light;
 import lighting.Lights;
 import math.Vector3;
@@ -22,64 +21,61 @@ import scenegraph.models.Table;
 import scenegraph.models.robot.Robot;
 import scenegraph.models.robot.Roller;
 
+/**
+ * The Room scenegraph architects a bunch of nodes together and gives them life,
+ * by applying animations and simulation through the update() method.
+ * 
+ * @author Topher
+ *
+ */
 public class Room extends SceneGraph {
-    private GL2                  gl;
-    private GLUT                 glut;
+    public static final int    ROOM_DEPTH   = 50;
+    public static final int    ROOM_WIDTH   = 35;
+    public static final int    ROOM_HEIGHT  = 12;
 
-    private final SceneGraphNode robotNode;
-    private final SceneGraphNode tiltNode;
-    private final SceneGraphNode leanNode;
-    private float                lastRotate   = 0;
-    private Vector3              lastPosition = Vector3.zero();
-    private SceneGraphNode       realtime;
-    private final Robot          robot1;
+    private GL2                gl;
 
-    private int                  go           = 0;
+    private SceneGraphNode     robotNode;
+    private SceneGraphNode     tiltNode;
+    private SceneGraphNode     leanNode;
+    private float              lastRotate   = 0;
+    private Vector3            lastPosition = Vector3.zero();
 
-    public static final int      ROOM_DEPTH   = 50;
-    public static final int      ROOM_WIDTH   = 35;
-    public static final int      ROOM_HEIGHT  = 12;
+    private Robot              robot;
 
-    private Light                robotLight;
-    private Light                robotLight2;
-    private SceneGraphNode       robotLightNode;
+    private Light              robotSpotLight;
+    private Light              robotAmbientPointLight;
+    private SceneGraphNode     robotLightNode;
 
-    private Animation            robotMovement;
-    private Animation            armServing;
-    private Animation            clawServing;
-
-    public static HangingLight   circleLamp1;
-    public static HangingLight   circleLamp2;
+    public static HangingLight hangingLight1;
+    public static HangingLight hangingLight2;
 
     public Room(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
-        this.glut = new GLUT();
 
         root.setPosition(Vector3.all(0));
         root.setRotation(new Vector3(0, 1, 0), 0);
         root.setScaling(Vector3.one());
 
+        addRobot();
+        addFloorAndCeiling();
+        addWalls();
+        addRoofStruts();
+        addTables();
+        addTV();
+        addLights();
+    }
+
+    private void addRobot() {
         robotNode = root
             .createAttachedNode()
             .setPosition(new Vector3(20, 0, 10))
             .setRotation(new Vector3(0, 1, 0), 0);
 
-        // realtime = null;
-
         leanNode = robotNode.createAttachedNode();
         tiltNode = leanNode
-            .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl));
-
-        addFloorAndCeiling();
-        addWalls();
-        addStruts();
-        addTables();
-        addTV();
-        addLights();
-
-        makeAnimations();
-
+            .createAttachedNodeFromSceneGraph(robot = new Robot(gl));
     }
 
     private void addLights() {
@@ -104,19 +100,19 @@ public class Room extends SceneGraph {
                 45);
             spotlight1.setPointAt(new float[] { 0, -1, 0, 1 });
 
-            circleLamp1 = new HangingLight(
+            hangingLight1 = new HangingLight(
                 gl,
                 spotlight1,
                 lights.addPointLight(
                     gl,
                     hangingLightFakeReflectionColour,
                     hangingLightsBrightness / 4.0f));
-            circleLampNode1.createAttachedNodeFromSceneGraph(circleLamp1);
+            circleLampNode1.createAttachedNodeFromSceneGraph(hangingLight1);
         }
         {
             SceneGraphNode circleLampNode2 = root
                 .createAttachedNode()
-                .setPosition(new Vector3(15, 9, 12));
+                .setPosition(new Vector3(10, 9, 12));
 
             final Light spotlight2 = lights.addSpotLight(
                 gl,
@@ -124,14 +120,14 @@ public class Room extends SceneGraph {
                 hangingLightsBrightness,
                 45);
             spotlight2.setPointAt(new float[] { 0, -1, 0, 1 });
-            circleLamp2 = new HangingLight(
+            hangingLight2 = new HangingLight(
                 gl,
                 spotlight2,
                 lights.addPointLight(
                     gl,
                     hangingLightFakeReflectionColour,
                     hangingLightsBrightness / 4.0f));
-            circleLampNode2.createAttachedNodeFromSceneGraph(circleLamp2);
+            circleLampNode2.createAttachedNodeFromSceneGraph(hangingLight2);
         }
         {
             root
@@ -155,26 +151,27 @@ public class Room extends SceneGraph {
         }
 
         {
-            robotLight = lights
+            robotSpotLight = lights
                 .addSpotLight(gl, new Vector3(0.8f, 0.8f, 1.0f), 2, 45);
-            robotLight2 = lights
+            robotAmbientPointLight = lights
                 .addPointLight(gl, new Vector3(1f, 0.7f, 0.7f), 0.2f);
 
             robotLightNode = root
                 .createAttachedNode()
-                .attachLight(robotLight)
-                .attachLight(robotLight2)
+                .attachLight(robotSpotLight)
+                .attachLight(robotAmbientPointLight)
                 .setPosition(new Vector3(15, 10, 2));
         }
     }
 
-    private void addStruts() {
+    private void addRoofStruts() {
         float strutWidth = 2;
         float strutDepth = 0.5f;
 
         final int halfRoomDepth = ROOM_DEPTH / 2;
         final float strutHeight = ROOM_HEIGHT - strutDepth / 2;
 
+        // Main struts
         makeStrut(ROOM_DEPTH, strutWidth)
             .setPosition(new Vector3(halfRoomDepth, strutHeight, 0));
 
@@ -211,96 +208,6 @@ public class Room extends SceneGraph {
                 16,
                 0.5f,
                 1));
-    }
-
-    private void makeAnimations() {
-        Animations animations = Animations.get();
-
-        animations.append(robotMovement = robotMainAnimation());
-        animations.append(armServing = robotArmAnimation());
-        animations.append(clawServing = robotClawAnimation());
-    }
-
-    private Animation robotArmAnimation() {
-        ArrayList<Keyframe> frames = new ArrayList<>();
-
-        frames.add(makeArmKeyframe(0, 280));
-        frames.add(makeArmKeyframe(-70, 80));
-        frames.add(makeArmKeyframe(-70, 120));
-        frames.add(makeArmKeyframe(0, 80));
-        frames.add(makeArmKeyframe(0, 100));
-        frames.add(makeArmKeyframe(-70, 100));
-        frames.add(makeArmKeyframe(0, 100));
-        frames.add(makeArmKeyframe(0, 800));
-        frames.add(makeArmKeyframe(-70, 100));
-        frames.add(makeArmKeyframe(-70, 20));
-        frames.add(makeArmKeyframe(0, 180));
-        frames.add(makeArmKeyframe(0, 240));
-
-        return new Animation(frames);
-    }
-
-    private Animation robotClawAnimation() {
-        ArrayList<Keyframe> frames = new ArrayList<>();
-
-        frames.add(makeClawKeyframe(0, 280));
-        frames.add(makeClawKeyframe(-70, 80));
-        frames.add(makeClawKeyframe(-70, 120));
-        frames.add(makeClawKeyframe(0, 80));
-        frames.add(makeClawKeyframe(0, 100));
-        frames.add(makeClawKeyframe(-70, 100));
-        frames.add(makeClawKeyframe(0, 100));
-        frames.add(makeClawKeyframe(0, 800));
-        frames.add(makeClawKeyframe(-70, 100));
-        frames.add(makeClawKeyframe(-70, 20));
-        frames.add(makeClawKeyframe(0, 180));
-        frames.add(makeClawKeyframe(0, 240));
-
-        return new Animation(frames);
-    }
-
-    private Keyframe makeArmKeyframe(float angle, int duration) {
-        return new Keyframe(
-            Vector3.zero(),
-            new Vector3(0, 0, 1),
-            angle,
-            Vector3.one(),
-            duration);
-    }
-
-    private Keyframe makeClawKeyframe(float angle, int duration) {
-        return new Keyframe(
-            Vector3.zero(),
-            new Vector3(0, 1, 0),
-            angle,
-            Vector3.one(),
-            duration);
-    }
-
-    private Animation robotMainAnimation() {
-        ArrayList<Keyframe> frames = new ArrayList<>();
-        frames.add(new Keyframe(new int[] { 25, 0, 7, -90, 100 }));
-        frames.add(new Keyframe(new int[] { 25, 0, 7, -140, 100 }));
-        frames.add(new Keyframe(new int[] { 14, 0, 12, -140, 100 }));
-        frames.add(new Keyframe(new int[] { 14, 0, 12, -200, 100 }));
-        frames.add(new Keyframe(new int[] { 14, 0, 12, -200, 100 }));
-        frames.add(new Keyframe(new int[] { 14, 0, 12, -90, 100 }));
-        frames.add(new Keyframe(new int[] { 15, 0, 25, -80, 100 }));
-        frames.add(new Keyframe(new int[] { 15, 0, 25, -80, 100 }));
-        frames.add(new Keyframe(new int[] { 15, 0, 25, 10, 100 }));
-        frames.add(new Keyframe(new int[] { 30, 0, 23, 10, 100 }));
-        frames.add(new Keyframe(new int[] { 30, 0, 23, -60, 100 }));
-        frames.add(new Keyframe(new int[] { 32, 0, 26, 0, 100 }));
-        frames.add(new Keyframe(new int[] { 41, 0, 25, 40, 100 }));
-        frames.add(new Keyframe(new int[] { 41, 0, 24, 90, 100 }));
-        frames.add(new Keyframe(new int[] { 41, 0, 13, 100, 100 }));
-        frames.add(new Keyframe(new int[] { 41, 0, 13, 138, 100 }));
-        frames.add(new Keyframe(new int[] { 35, 0, 10, 140, 100 }));
-        frames.add(new Keyframe(new int[] { 35, 0, 10, 90, 100 }));
-        frames.add(new Keyframe(new int[] { 35, 0, 10, 170, 100 }));
-        frames.add(new Keyframe(new int[] { 25, 0, 8, 150, 100 }));
-        frames.add(new Keyframe(new int[] { 25, 0, 7, -90, 200 }));
-        return new Animation(frames);
     }
 
     private void addTV() {
@@ -383,13 +290,13 @@ public class Room extends SceneGraph {
 
     private void addTables() {
         root
-            .createAttachedNodeFromSceneGraph(new Table(gl, glut))
+            .createAttachedNodeFromSceneGraph(new Table(gl))
             .setPosition(new Vector3(10, 0, 10))
             .setRotation(new Vector3(0, 1, 0), 45)
             .setScaling(Vector3.all(3));
 
         root
-            .createAttachedNodeFromSceneGraph(new Table(gl, glut))
+            .createAttachedNodeFromSceneGraph(new Table(gl))
             .setPosition(new Vector3(37, 0, 7))
             .setRotation(new Vector3(0, 1, 0), -20)
             .setScaling(Vector3.all(3));
@@ -399,13 +306,13 @@ public class Room extends SceneGraph {
             .setPosition(new Vector3(37, 2.5f, 7));
 
         root
-            .createAttachedNodeFromSceneGraph(new Table(gl, glut))
+            .createAttachedNodeFromSceneGraph(new Table(gl))
             .setPosition(new Vector3(13, 0, 28))
             .setRotation(new Vector3(0, 1, 0), -18)
             .setScaling(Vector3.all(3));
 
         root
-            .createAttachedNodeFromSceneGraph(new Table(gl, glut))
+            .createAttachedNodeFromSceneGraph(new Table(gl))
             .setPosition(new Vector3(35, 1.5f, 20))
             .setRotation(new Vector3(1, 0, 0), 89)
             .setScaling(Vector3.all(3));
@@ -413,100 +320,89 @@ public class Room extends SceneGraph {
 
     @Override
     public void update() {
-        // robotMovement.tick();
-        // armServing.tick();
-        // clawServing.tick();
-
         if (!Animations.get().isPaused()) {
+            robot.update();
 
-            robot1.update();
-
-            robotNode.setPosition(new Vector3(35, 0, 8));
-            robotNode.setRotation(new Vector3(0, 1, 0), 60);
-
-            robotMovement.applyInterpolated(robotNode);
-            armServing.applyInterpolated(Robot.RIGHT_ARM);
-            clawServing.applyInterpolated(Robot.RIGHT_CLAW);
-
-            // System.out.println(robotNode.scaling());
+            applyPhysics();
+            applyAnimations();
 
             Vector3 robotPosition = robotNode.position();
-
-            Vector3 cameraAim = new Vector3(
-                robotPosition.x(),
-                robotPosition.y() + 6f,
-                robotPosition.z());
-
-            FromPointCamera c = (FromPointCamera) Cameras
-                .get()
-                .get(Cameras.ROBOT_CAMERA);
-            // c.setLookAt(cameraAim);
-            c.setDistance(2);
-            c.setPosition(cameraAim);
-            c.setHeightAngle(0);
-            c.setCircleAngle(-robotNode.rotationAmount());
-
-            float sin = (float) (Math
-                .sin(Math.toRadians(robotNode.rotationAmount() + 90)));
-            float cos = (float) (Math
-                .cos(Math.toRadians(robotNode.rotationAmount() + 90)));
-            float spotDistance = 1;
-            float ambientDistance = 5;
-
-            robotLightNode.setPosition(
-                new Vector3(
-                    robotPosition.x() + sin * spotDistance,
-                    robotPosition.y() + 2.6f,
-                    robotPosition.z() + cos * spotDistance));
-            // robotLight.setPosition(new Vector3(0, 0, 0));
-
-            robotLight2.setPosition(
-                new Vector3(sin * ambientDistance, 0, cos * ambientDistance));
-
-            robotLight.setHorizontalRotation(robotNode.rotationAmount() + 90);
-            robotLight.setCutoff(30);
-            // robotLight.setIncline(45);
-
-            // realtime.setPosition(new Vector3(0, 0, WIDTH));
-            // realtime.setRotation(new Vector3(1, 0, 0), -20);
-
-            float currentRotate = robotNode.rotationAmount();
-            Vector3 currentPosition = robotNode.position();
-
-            float rotateDifference = currentRotate - lastRotate;
-            float speed = currentPosition.distance(lastPosition);
-
-            tiltNode.setRotation(new Vector3(1, 0, 0), rotateDifference * 5);
-            leanNode.setRotation(new Vector3(0, 0, 1), -speed * 100);
-
-            lastRotate = currentRotate;
-            lastPosition = currentPosition;
-
-            // realtime.setPosition(new Vector3(35, 9, 12));
-            // realtime.setScaling(new Vector3(DEPTH, 2, 2));
-
-            float strutDepth = 0.5f;
-            float strutWidth = 2;
-
-            Roller.rotation += speed * 35;
-
-            // realtime.setPosition(new Vector3(30, 0.5f, 28)).setScaling(
-            // new Vector3(14, 20, 1));
-
-            // realtime
-            // .setPosition(
-            // new Vector3(
-            // ROOM_DEPTH,
-            // ROOM_HEIGHT - strutDepth / 2,
-            // ROOM_WIDTH / 2))
-            // .setRotation(new Vector3(0, 1, 0), 90);
-
-            // realtime.setPosition(
-            // new Vector3(
-            // ROOM_DEPTH * (1 / 3.0f),
-            // ROOM_HEIGHT / 2,
-            // ROOM_WIDTH / 2));
+            updateRobotCamera(robotPosition);
+            updateRobotLights(robotPosition);
         }
+    }
 
+    private void updateRobotLights(Vector3 robotPosition) {
+        final float sin = (float) (Math
+            .sin(Math.toRadians(robotNode.rotationAmount() + 90)));
+        final float cos = (float) (Math
+            .cos(Math.toRadians(robotNode.rotationAmount() + 90)));
+
+        final float spotDistance = 1;
+        final float ambientDistance = 5;
+        final float lightHeight = 2.6f;
+
+        robotLightNode.setPosition(
+            new Vector3(
+                robotPosition.x() + sin * spotDistance,
+                robotPosition.y() + lightHeight,
+                robotPosition.z() + cos * spotDistance));
+
+        robotAmbientPointLight.setPosition(
+            new Vector3(sin * ambientDistance, 0, cos * ambientDistance));
+
+        robotSpotLight.setHorizontalRotation(robotNode.rotationAmount() + 90);
+        robotSpotLight.setCutoff(30);
+    }
+
+    private void updateRobotCamera(Vector3 robotPosition) {
+        Vector3 cameraAim = new Vector3(
+            robotPosition.x(),
+            robotPosition.y() + 6f,
+            robotPosition.z());
+
+        FromPointCamera robotCamera = (FromPointCamera) Cameras
+            .get()
+            .get(Cameras.ROBOT_CAMERA);
+
+        robotCamera.setDistance(2);
+        robotCamera.setPosition(cameraAim);
+        robotCamera.setHeightAngle(0);
+        robotCamera.setCircleAngle(-robotNode.rotationAmount());
+    }
+
+    private void applyPhysics() {
+        // Things like wobbling when going around a corner, and the roller on
+        // the bottom actually spinning
+        final int tiltAmount = 5;
+        final int leanAmount = 100;
+        final int rollerRotate = 35;
+
+        float currentRotate = robotNode.rotationAmount();
+        Vector3 currentPosition = robotNode.position();
+
+        float rotateDifference = currentRotate - lastRotate;
+        float speed = currentPosition.distance(lastPosition);
+
+        tiltNode
+            .setRotation(new Vector3(1, 0, 0), rotateDifference * tiltAmount);
+        leanNode.setRotation(new Vector3(0, 0, 1), -speed * leanAmount);
+
+        lastRotate = currentRotate;
+        lastPosition = currentPosition;
+
+        Roller.rotation += speed * rollerRotate;
+    }
+
+    private void applyAnimations() {
+        // Preferably these would be got via a name, and not an id that we
+        // seemingly have to guess
+        Animation robotMovement = Animations.get().get(0);
+        Animation armServing = Animations.get().get(1);
+        Animation clawServing = Animations.get().get(2);
+
+        robotMovement.applyInterpolated(robotNode);
+        armServing.applyInterpolated(Robot.RIGHT_ARM);
+        clawServing.applyInterpolated(Robot.RIGHT_CLAW);
     }
 }
