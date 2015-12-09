@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.GridLayout;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -12,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -46,12 +48,14 @@ public class Assignment extends JFrame implements GLEventListener,
     private static final long  serialVersionUID  = 1L;
 
     private static final float FIELD_OF_VIEW     = 90.0f;
-    private static final int   WIDTH             = 640;
-    private static final int   HEIGHT            = 480;
-    private static final int   SCALING           = 2;
+    private static final int   WIDTH             = 1280;
+    private static final int   HEIGHT            = 960;
     private static final float NEAR_CLIP         = 1f;
     private static final float FAR_CLIP          = 100.0f;
     private static final int   FRAMES_PER_SECOND = 60;
+
+    public static int          CURRENT_WIDTH     = WIDTH;
+    public static int          CURRENT_HEIGHT    = HEIGHT;
 
     private Scene              scene;
 
@@ -64,7 +68,7 @@ public class Assignment extends JFrame implements GLEventListener,
 
     public Assignment() {
         super("Topher's 3D assignment");
-        setSize(WIDTH * SCALING, HEIGHT * SCALING);
+        setSize(WIDTH + 400, HEIGHT);
 
         GLCanvas canvas = makeGLCanvas();
         add(canvas, "Center");
@@ -93,12 +97,13 @@ public class Assignment extends JFrame implements GLEventListener,
         this.add(makeShaderRadioChoice(), "North");
 
         Panel west = new Panel();
-        // west.add(makeSceneGraphTree(scene), "North");
-        west.add(makeAnimationControls(), "West");
+        west.setLayout(new BoxLayout(west, BoxLayout.PAGE_AXIS));
+        west.add(makeAnimationControls(), "North");
+        west.add(makeSceneGraphTree(scene), "South");
+        west.add(makeCameraSelection(), "South");
 
         Panel south = new Panel();
         south.add(makeLightsSelection(), "North");
-        south.add(makeCameraSelection(), "South");
 
         this.add(west, "West");
         this.add(south, "South");
@@ -133,6 +138,8 @@ public class Assignment extends JFrame implements GLEventListener,
 
     private Panel makeAnimationControls() {
         Panel p = new Panel();
+        // p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        p.setLayout(new GridLayout());
 
         JButton playAnimation = new JButton("Play animation");
         JButton pauseAnimation = new JButton("Pause animation");
@@ -348,6 +355,9 @@ public class Assignment extends JFrame implements GLEventListener,
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width,
         int height) {
+        Assignment.CURRENT_HEIGHT = height;
+        Assignment.CURRENT_WIDTH = width;
+
         GL2 gl = drawable.getGL().getGL2();
 
         float fAspect = (float) width / height;
