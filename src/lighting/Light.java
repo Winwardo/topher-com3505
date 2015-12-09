@@ -4,6 +4,8 @@ package lighting;
 
 import com.jogamp.opengl.GL2;
 import math.Vector3;
+import renderer.Selectable;
+import renderer.primitives.Axes;
 
 /**
  * Constructors are package restricted so only the Lights object can access
@@ -12,19 +14,22 @@ import math.Vector3;
  * @author Topher
  *
  */
-public class Light {
+public class Light implements Selectable {
     private GL2     gl;
 
     private float[] color;
-    private float[] pointAt   = new float[] { 0, 0, -1 };
-    private float   cutoff    = 180;                     // By default, act as a
-                                                         // point light, not a
-                                                         // spotlight.
+    private float[] pointAt    = new float[] { 0, 0, -1 };
+    private float   cutoff     = 180;                     // By default, act as
+                                                          // a
+                                                          // point light, not a
+                                                          // spotlight.
     private Vector3 position;
     private int     lightId;
 
-    private boolean isEnabled = true;
-    private boolean isHidden  = false;
+    private boolean isEnabled  = true;
+    private boolean isHidden   = false;
+
+    private boolean isSelected = false;
 
     Light(GL2 gl, Vector3 color, float brightness, float cutoff) {
         this.gl = gl;
@@ -75,7 +80,9 @@ public class Light {
     }
 
     public void apply() {
-        // Axes.renderAxes(gl);
+        if (isSelected) {
+            Axes.renderAxes(gl);
+        }
 
         int index = lightId;
         float[] positionArray = { position.x(), position.y(), position.z(),
@@ -122,5 +129,10 @@ public class Light {
 
     public void hide(boolean hidden) {
         isHidden = hidden;
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

@@ -9,8 +9,10 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2ES2;
 
 public class ShaderCore {
-    private final GL2 gl;
-    private int       queuedShader = -1;
+    public static String MAX_LIGHTS   = "8";
+
+    private final GL2    gl;
+    private int          queuedShader = -1;
 
     public ShaderCore(GL2 gl) {
         this.gl = gl;
@@ -145,16 +147,14 @@ public class ShaderCore {
     }
 
     public int loadShaders() {
-        String maxlights = "7";
-
-        setupShaders("phong", null, new String[] { maxlights, "ALBEDO" });
-        setupShaders("phong", null, new String[] { maxlights, "AMBIENT" });
-        setupShaders("phong", null, new String[] { maxlights, "DIFFUSE" });
-        setupShaders("phong", null, new String[] { maxlights, "SPECULAR" });
+        setupShaders("phong", null, new String[] { MAX_LIGHTS, "ALBEDO" });
+        setupShaders("phong", null, new String[] { MAX_LIGHTS, "AMBIENT" });
+        setupShaders("phong", null, new String[] { MAX_LIGHTS, "DIFFUSE" });
+        setupShaders("phong", null, new String[] { MAX_LIGHTS, "SPECULAR" });
         int all = setupShaders(
             "phong",
             null,
-            new String[] { maxlights, "ALL" });
+            new String[] { MAX_LIGHTS, "ALL" });
 
         queueShader(all);
         return all;
