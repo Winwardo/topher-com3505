@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph.models;
 
 import com.jogamp.opengl.GL2;
@@ -17,11 +19,11 @@ public class Table extends SceneGraph {
         this.gl = gl;
         this.glut = glut;
 
-        SceneGraphNode root1 = root.createAttachedNode();
-        root1.setPosition(new Vector3(0, -0.2f, 0));
+        SceneGraphNode core = root.createAttachedNode();
+        core.setPosition(new Vector3(0, -0.2f, 0));
 
         // Top
-        root1
+        core
             .createAttachedNode()
             .setPosition(new Vector3(0, 1, 0))
             .attachRenderable(
@@ -41,7 +43,7 @@ public class Table extends SceneGraph {
         final float legHeight = 0.8f;
         final float legWidth = 0.075f;
         final float legDistanceFromCentre = 0.9f;
-        root1
+        core
             .createAttachedNode()
             .setPosition(
                 new Vector3(
@@ -53,7 +55,7 @@ public class Table extends SceneGraph {
                     gl,
                     new Vector3(legWidth, legHeight, legWidth),
                     Materials.get().get("wood")));
-        root1
+        core
             .createAttachedNode()
             .setPosition(
                 new Vector3(
@@ -65,7 +67,7 @@ public class Table extends SceneGraph {
                     gl,
                     new Vector3(legWidth, legHeight, legWidth),
                     Materials.get().get("wood")));
-        root1
+        core
             .createAttachedNode()
             .setPosition(
                 new Vector3(
@@ -77,7 +79,7 @@ public class Table extends SceneGraph {
                     gl,
                     new Vector3(legWidth, legHeight, legWidth),
                     Materials.get().get("wood")));
-        root1
+        core
             .createAttachedNode()
             .setPosition(
                 new Vector3(

@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph.models;
 
 import com.jogamp.opengl.GL2;
@@ -13,8 +15,8 @@ import scenegraph.SceneGraphNode;
 public class HangingLight extends SceneGraph implements Toggleable {
     private GL2                  gl;
 
-    private final SceneGraphNode dullSphere;
-    private final SceneGraphNode litSphere;
+    private final SceneGraphNode dullSphere; // For when this is turned off
+    private final SceneGraphNode litSphere;  // For when this is turned on
 
     public HangingLight(GL2 gl, Light spotLight, Light ambientLight) {
         super(new SceneGraphNode(gl));
@@ -24,7 +26,7 @@ public class HangingLight extends SceneGraph implements Toggleable {
         root.createAttachedNode().attachLight(spotLight).setPosition(
             new Vector3(0, 0, 0));
 
-        // Attach ambient light just below
+        // Attach ambient light just below to act as a fake radiosity bounce
         root.createAttachedNode().attachLight(ambientLight).setPosition(
             new Vector3(0, -3, 0));
 
