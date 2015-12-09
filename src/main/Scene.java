@@ -62,11 +62,11 @@ class Scene {
                 gl,
                 new Vector3(
                     Room.ROOM_DEPTH / 2,
-                    Room.ROOM_HEIGHT / 2,
+                    Room.ROOM_HEIGHT / 3,
                     Room.ROOM_WIDTH / 2),
                 20,
-                200,
-                -3));
+                197,
+                -1));
 
         Cameras.get().append(
             new FromPointCamera(gl, new Vector3(0, 2.5f, 0f), 18, 217, 1.25f));
