@@ -1,9 +1,18 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer.cameras;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import math.Vector3;
 
+/**
+ * RotateAroundPointCamera looks at some specific point, and can then circle
+ * around it, as if it were attached by a solid extendable stick
+ * 
+ * @author Topher
+ *
+ */
 public class RotateAroundPointCamera implements Camera {
     private static final int CATCHUP_FACTOR = 32;
     private final GL2        gl;
@@ -35,17 +44,17 @@ public class RotateAroundPointCamera implements Camera {
         this.circleAngle = circleAngle;
         this.heightAngle = heightAngle;
 
-        this.position = createPosition();
+        updatePosition();
     }
 
     public void setLookAt(Vector3 lookAt) {
         this.lookAt = lookAt;
-        position = createPosition();
+        updatePosition();
     }
 
     public void setDistance(float distance) {
         this.distance = distance;
-        position = createPosition();
+        updatePosition();
     }
 
     public float circleAngle() {
@@ -54,7 +63,7 @@ public class RotateAroundPointCamera implements Camera {
 
     public void setCircleAngle(float circleAngle) {
         this.circleAngle = circleAngle;
-        position = createPosition();
+        updatePosition();
     }
 
     public float heightAngle() {
@@ -63,10 +72,10 @@ public class RotateAroundPointCamera implements Camera {
 
     public void setHeightAngle(float heightAngle) {
         this.heightAngle = heightAngle;
-        position = createPosition();
+        updatePosition();
     }
 
-    private Vector3 createPosition() {
+    private void updatePosition() {
         float x = lookAt.x()
             + (float) Math.cos(Math.toRadians(circleAngle)) * distance;
         float y = lookAt.y()
@@ -74,7 +83,7 @@ public class RotateAroundPointCamera implements Camera {
         float z = lookAt.z()
             + (float) Math.sin(Math.toRadians(circleAngle)) * distance;
 
-        return new Vector3(x, y, z);
+        position = new Vector3(x, y, z);
     }
 
     @Override

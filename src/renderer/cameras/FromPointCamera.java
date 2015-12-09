@@ -1,9 +1,18 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer.cameras;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import math.Vector3;
 
+/**
+ * FromPointCamera provides a camera that has some fixed position and can look
+ * around, much like a human head.
+ * 
+ * @author Topher
+ *
+ */
 public class FromPointCamera implements Camera {
     private static final int CATCHUP_FACTOR = 32;
     private final GL2        gl;
@@ -39,12 +48,12 @@ public class FromPointCamera implements Camera {
 
         lookat = Vector3.zero();
         basePosition = Vector3.one();
-        recalculate();
+        recalculateEyePositionAndLookat();
     }
 
     public void setPosition(Vector3 position) {
         this.basePosition = position;
-        recalculate();
+        recalculateEyePositionAndLookat();
     }
 
     public float circleAngle() {
@@ -53,7 +62,7 @@ public class FromPointCamera implements Camera {
 
     public void setCircleAngle(float circleAngle) {
         this.circleAngle = circleAngle;
-        recalculate();
+        recalculateEyePositionAndLookat();
     }
 
     public float heightAngle() {
@@ -62,15 +71,15 @@ public class FromPointCamera implements Camera {
 
     public void setHeightAngle(float heightAngle) {
         this.heightAngle = heightAngle;
-        recalculate();
+        recalculateEyePositionAndLookat();
     }
 
     public void setDistance(float distance) {
         this.distance = distance;
-        recalculate();
+        recalculateEyePositionAndLookat();
     }
 
-    private void recalculate() {
+    private void recalculateEyePositionAndLookat() {
         final float cosCircle = (float) Math.cos(Math.toRadians(circleAngle));
         final float sinCircle = (float) Math.sin(Math.toRadians(circleAngle));
 

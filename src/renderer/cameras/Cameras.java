@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer.cameras;
 
 import java.util.ArrayList;
@@ -32,8 +34,10 @@ public class Cameras {
     }
 
     private final List<Camera> cameras;
-    private int                activeCameraId;
-    private int                mainCameraId;
+    private int                activeCameraId; // The camera that has most
+                                               // recently been applied
+    private int                mainCameraId;   // The camera that is considered
+                                               // to be the main viewpoint
 
     public Cameras() {
         this.cameras = new ArrayList<>();
