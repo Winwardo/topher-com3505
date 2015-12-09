@@ -33,7 +33,7 @@ You can drag the mouse around, with left click to move the camera, and right cli
 On the left there is also a visual representation of the main scenegraph. By clicking the little blue button on the left of the folder icon, it will expand showing you all its children. Selecting any folder or node will "select" that object in the 3D world, drawing axes to mark its location. For an easy to find example, open the tree two layers, and then select the bottom SceneGraphNode. This is the Robot's lights, and will render the axes just infront of its chest.
 
 # Other notes
-This assignment makes use of display lights, particularly for all planes and cuboids, to speed up draw time.
+This assignment makes use of display lists, particularly for all planes and cuboids, to speed up draw time.
 A single frame buffer object is used and drawn to for display on the TV at the end of the screen. Due to draw depth limits, the TV can only render itself twice, and shows a black screen inside itself any deeper.
 
 The /res/ folder holds all textures and shader code. Some textures are ultimately unused, but are still loaded by the program, and as such are left in the folder. All photos were sourced from a Google Image search, and as such the images may not be publically usable. However as this is a non-commericial private assignment, this should be fine. The textures can be updated with new, open source ones if required.
