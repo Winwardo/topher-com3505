@@ -19,7 +19,7 @@ public class Interpolation {
         // http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js
 
         final float difference = to - from;
-        float result = (float) (0.5f
+        float result = (float) (-0.5f
             * (Math.cos(Math.PI * percentThrough) - 1.0f));
         return from + difference * result;
     }
