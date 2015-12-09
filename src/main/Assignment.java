@@ -13,6 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
@@ -31,6 +32,7 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
+import animation.Animations;
 import lighting.Lights;
 import renderer.cameras.Cameras;
 import renderer.cameras.RotateAroundPointCamera;
@@ -89,12 +91,16 @@ public class Assignment extends JFrame implements GLEventListener,
     private void setupUI(Scene scene) {
         addMenuBar();
         this.add(makeShaderRadioChoice(), "North");
-        this.add(makeSceneGraphTree(scene), "West");
+
+        Panel west = new Panel();
+        // west.add(makeSceneGraphTree(scene), "North");
+        west.add(makeAnimationControls(), "West");
 
         Panel south = new Panel();
         south.add(makeLightsSelection(), "North");
         south.add(makeCameraSelection(), "South");
 
+        this.add(west, "West");
         this.add(south, "South");
     }
 
@@ -121,6 +127,30 @@ public class Assignment extends JFrame implements GLEventListener,
         btn_robotCamera.addActionListener((e) -> {
             Cameras.get().setMainCamera(Cameras.ROBOT_CAMERA);
         });
+
+        return p;
+    }
+
+    private Panel makeAnimationControls() {
+        Panel p = new Panel();
+
+        JButton playAnimation = new JButton("Play animation");
+        JButton pauseAnimation = new JButton("Pause animation");
+        JButton restartAnimation = new JButton("Restart animation");
+
+        playAnimation.addActionListener((e) -> {
+            Animations.get().setPaused(false);
+        });
+        pauseAnimation.addActionListener((e) -> {
+            Animations.get().setPaused(true);
+        });
+        restartAnimation.addActionListener((e) -> {
+            Animations.get().restartAll();
+        });
+
+        p.add(playAnimation);
+        p.add(pauseAnimation);
+        p.add(restartAnimation);
 
         return p;
     }

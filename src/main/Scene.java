@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
+import animation.Animations;
 import lighting.Lights;
 import math.Vector3;
 import renderer.FBO;
@@ -41,6 +42,7 @@ class Scene {
         Cameras.setGlobal(new Cameras());
         Materials.setGlobal(new Materials(gl));
         Lights.setGlobal(new Lights(gl));
+        Animations.setGlobal(new Animations());
 
         setupGL();
         setupShaders();
@@ -335,6 +337,7 @@ class Scene {
     }
 
     public void update() {
+        Animations.get().tick();
         sceneGraph.update();
     }
 
