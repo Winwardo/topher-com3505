@@ -1,4 +1,4 @@
-/* I declare that this code is my own work. This file was modified from an original file by Steve Maddock. */
+/* I declare that this code is my own work. This file was modified and refactored from an original file T1.java by Steve Maddock. */
 /* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package main;
 
@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -22,10 +21,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JTree;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -44,9 +40,17 @@ import scenegraph.Selectable;
 import scenegraph.models.robot.Robot;
 import scenegraph.models.room.Room;
 
-public class Assignment extends JFrame implements GLEventListener,
-    ActionListener, ChangeListener, MouseMotionListener {
+/**
+ * The Assignment class deals with the initial set up of the entire program, and
+ * is responsible for creating the GUI.
+ * 
+ * @author Topher
+ *
+ */
+public class Assignment extends JFrame
+    implements GLEventListener, ActionListener, MouseMotionListener {
 
+    private static final long  serialVersionUID  = 1L;
     private static final float FIELD_OF_VIEW     = 90.0f;
     private static final int   WIDTH             = 1280;
     private static final int   HEIGHT            = 960;
@@ -92,23 +96,23 @@ public class Assignment extends JFrame implements GLEventListener,
     }
 
     private void setupUI(Scene scene) {
-        addMenuBar();
-        this.add(makeShaderRadioChoice(), "North");
+        addUIMenuBar();
+        this.add(makeUIShaderRadioChoice(), "North");
 
         Panel west = new Panel();
         west.setLayout(new BoxLayout(west, BoxLayout.PAGE_AXIS));
-        west.add(makeAnimationControls(), "North");
-        west.add(makeSceneGraphTree(scene), "South");
-        west.add(makeCameraSelection(), "South");
+        west.add(makeUIAnimationControls());
+        west.add(makeUISceneGraphTree(scene));
+        west.add(makeUICameraSelection());
 
         Panel south = new Panel();
-        south.add(makeLightsSelection(), "North");
+        south.add(makeUILightsSelection());
 
         this.add(west, "West");
         this.add(south, "South");
     }
 
-    private Panel makeCameraSelection() {
+    private Panel makeUICameraSelection() {
         Panel p = new Panel();
         ButtonGroup bg = new ButtonGroup();
 
@@ -135,9 +139,8 @@ public class Assignment extends JFrame implements GLEventListener,
         return p;
     }
 
-    private Panel makeAnimationControls() {
+    private Panel makeUIAnimationControls() {
         Panel p = new Panel();
-        // p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setLayout(new GridLayout());
 
         JButton playAnimation = new JButton("Play animation");
@@ -161,7 +164,7 @@ public class Assignment extends JFrame implements GLEventListener,
         return p;
     }
 
-    private Panel makeShaderRadioChoice() {
+    private Panel makeUIShaderRadioChoice() {
         Panel p = new Panel();
         ButtonGroup bg = new ButtonGroup();
 
@@ -209,7 +212,7 @@ public class Assignment extends JFrame implements GLEventListener,
         return p;
     }
 
-    private Panel makeLightsSelection() {
+    private Panel makeUILightsSelection() {
         Panel p = new Panel();
 
         JCheckBox worldLights = new JCheckBox("World lights");
@@ -224,7 +227,9 @@ public class Assignment extends JFrame implements GLEventListener,
         p.add(lightRobot);
         p.add(radiosityLights);
 
-        AtomicBoolean radiosity = new AtomicBoolean(true);
+        // Preferably we wouldn't be selecting these lights by their id, they
+        // should be selectable via their name in the Lights registry or
+        // similar.
 
         worldLights.addActionListener((e) -> {
             Lights.get().get(4).enable(worldLights.isSelected());
@@ -240,11 +245,13 @@ public class Assignment extends JFrame implements GLEventListener,
         spotlight2.addActionListener((e) -> {
             Lights.get().get(0).enable(spotlight2.isSelected());
             Lights.get().get(1).enable(spotlight2.isSelected());
+
             Room.circleLamp1.setIsOn(spotlight2.isSelected());
         });
         lightRobot.addActionListener((e) -> {
             Lights.get().get(6).enable(lightRobot.isSelected());
             Lights.get().get(7).enable(lightRobot.isSelected());
+
             Robot.CHEST_LIGHT.setIsOn(lightRobot.isSelected());
         });
 
@@ -264,7 +271,7 @@ public class Assignment extends JFrame implements GLEventListener,
         return p;
     }
 
-    private void addMenuBar() {
+    private void addUIMenuBar() {
         MenuBar menuBar = new MenuBar();
 
         Menu fileMenu = new Menu("File");
@@ -278,17 +285,21 @@ public class Assignment extends JFrame implements GLEventListener,
         this.setMenuBar(menuBar);
     }
 
-    private Panel makeSceneGraphTree(Scene scene) {
+    private Panel makeUISceneGraphTree(Scene scene) {
         Panel p = new Panel();
 
-        JTree sceneGraphJTree = makeSceneGraphJTree(scene);
+        JTree sceneGraphJTree = makeUISceneGraphJTree(scene);
         JScrollPane scrollPane = new JScrollPane(sceneGraphJTree);
 
         p.add(scrollPane);
         return p;
     }
 
-    private JTree makeSceneGraphJTree(Scene scene) {
+    /**
+     * Generates a traversable tree of nodes, which corresponds to the entire 3D
+     * scenegraph.
+     */
+    private JTree makeUISceneGraphJTree(Scene scene) {
         DefaultMutableTreeNode result = scene
             .sceneGraph()
             .createSceneGraphTree();
@@ -298,6 +309,8 @@ public class Assignment extends JFrame implements GLEventListener,
         sceneGraphJTree.setShowsRootHandles(true);
         sceneGraphJTree.setRootVisible(false);
 
+        // If a user selects a node, display some axes in the 3D view to reflect
+        // that fact
         sceneGraphJTree.addTreeSelectionListener(new TreeSelectionListener() {
             private Selectable lastSelected = null;
 
@@ -355,6 +368,7 @@ public class Assignment extends JFrame implements GLEventListener,
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width,
         int height) {
+        // This is all Steve Maddock's code
         Assignment.CURRENT_HEIGHT = height;
         Assignment.CURRENT_WIDTH = width;
 
@@ -377,20 +391,8 @@ public class Assignment extends JFrame implements GLEventListener,
     }
 
     @Override
-    public void stateChanged(ChangeEvent e) {
-        Object source = e.getSource();
-        if (source instanceof JSlider) {
-            JSlider slider = (JSlider) source;
-            switch (slider.getName()) {
-                case "ShaderSlider":
-                    scene.setShader(slider.getValue());
-                    break;
-            }
-        }
-    }
-
-    @Override
     public void mouseDragged(MouseEvent event) {
+        // This is mostly all originally Steve Maddock's code
         Point mouseLocation = event.getPoint();
 
         float dx = (float) (mouseLocation.x - mouseLastLocation.x) / WIDTH;
