@@ -16,12 +16,17 @@ import scenegraph.SceneGraphNode;
 public class HangingLight extends SceneGraph implements Toggleable {
     private GL2                  gl;
 
-    private final SceneGraphNode dullSphere; // For when this is turned off
-    private final SceneGraphNode litSphere;  // For when this is turned on
+    private final SceneGraphNode dullSphere;  // For when this is turned off
+    private final SceneGraphNode litSphere;   // For when this is turned on
+
+    private final Light          spotlight;
+    private final Light          ambientLight;
 
     public HangingLight(GL2 gl, Light spotLight, Light ambientLight) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
+        this.spotlight = spotLight;
+        this.ambientLight = ambientLight;
 
         // Attach spotlight
         root.createAttachedNode().attachLight(spotLight).setPosition(
@@ -71,6 +76,14 @@ public class HangingLight extends SceneGraph implements Toggleable {
 
     @Override
     public void update() {
+    }
+
+    public Light spotlight() {
+        return spotlight;
+    }
+
+    public Light ambientLight() {
+        return ambientLight;
     }
 
     @Override
