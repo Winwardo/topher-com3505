@@ -9,9 +9,9 @@ import renderer.cameras.Cameras;
 public class Teapot extends Renderable {
     private GLUT glut;
 
-    public Teapot(GL2 gl, GLUT glut, Material mat) {
+    public Teapot(GL2 gl, Material mat) {
         super(gl, mat);
-        this.glut = glut;
+        this.glut = new GLUT();
     }
 
     @Override

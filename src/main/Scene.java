@@ -1,9 +1,9 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package main;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.util.gl2.GLUT;
 import animation.Animations;
 import lighting.Lights;
 import math.Vector3;
@@ -22,8 +22,6 @@ import shaders.ShaderCore;
 
 class Scene {
     private final GL2        gl;
-    private final GLU        glu;
-    private final GLUT       glut;
 
     private final SceneGraph sceneGraph;
     private ShaderCore       shaderCore;
@@ -35,14 +33,8 @@ class Scene {
 
     public Scene(GL2 gl) {
         this.gl = gl;
-        this.glu = new GLU();
-        this.glut = new GLUT();
 
-        Cameras.setGlobal(new Cameras());
-        Materials.setGlobal(new Materials(gl));
-        Lights.setGlobal(new Lights(gl));
-        Animations.setGlobal(new Animations());
-
+        setupGlobalRegisters();
         setupGL();
         setupShaders();
         setupTextures();
@@ -52,6 +44,13 @@ class Scene {
 
         sceneGraph = makeSceneGraph();
         setZoom(100);
+    }
+
+    private void setupGlobalRegisters() {
+        Cameras.setGlobal(new Cameras());
+        Materials.setGlobal(new Materials(gl));
+        Lights.setGlobal(new Lights(gl));
+        Animations.setGlobal(new Animations());
     }
 
     private void setupCameras() {
@@ -79,10 +78,8 @@ class Scene {
         if (editMode) {
             return new EditSceneGraph(
                 gl,
-                glut,
                 new HangingLight(
                     gl,
-                    glut,
                     Lights.get().addSpotLight(
                         gl,
                         new Vector3(1.0f, 0.9f, 0.8f),
@@ -93,7 +90,7 @@ class Scene {
                         new Vector3(1.0f, 0.9f, 0.8f),
                         0.2f)));
         } else {
-            return new Animation2(gl, glut);
+            return new Animation2(gl);
             // return new DefaultSceneGraph(gl, glut);
         }
     }

@@ -1,7 +1,6 @@
 package scenegraph.models;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Cylinder;
@@ -9,13 +8,11 @@ import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
 public class Wineglass extends SceneGraph {
-    private GL2  gl;
-    private GLUT glut;
+    private GL2 gl;
 
-    public Wineglass(GL2 gl, GLUT glut) {
+    public Wineglass(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
-        this.glut = glut;
 
         final String material = "glass";
 
@@ -24,18 +21,13 @@ public class Wineglass extends SceneGraph {
 
         // Bottom
         base.createAttachedNode().attachRenderable(
-            new Cylinder(gl, glut, 1, 0.05f, Materials.get().get(material)));
+            new Cylinder(gl, 1, 0.05f, Materials.get().get(material)));
 
         // Leg
         base
             .createAttachedNode()
             .attachRenderable(
-                new Cylinder(
-                    gl,
-                    glut,
-                    0.15f,
-                    1f,
-                    Materials.get().get(material)))
+                new Cylinder(gl, 0.15f, 1f, Materials.get().get(material)))
             .setPosition(new Vector3(0, 0, -1));
 
         // Flare
@@ -44,7 +36,6 @@ public class Wineglass extends SceneGraph {
             .attachRenderable(
                 new Cylinder(
                     gl,
-                    glut,
                     0.75f,
                     0.15f,
                     1f,
@@ -55,12 +46,7 @@ public class Wineglass extends SceneGraph {
         base
             .createAttachedNode()
             .attachRenderable(
-                new Cylinder(
-                    gl,
-                    glut,
-                    0.75f,
-                    1f,
-                    Materials.get().get(material)))
+                new Cylinder(gl, 0.75f, 1f, Materials.get().get(material)))
             .setPosition(new Vector3(0, 0, -3));
     }
 

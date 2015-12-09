@@ -1,7 +1,6 @@
 package scenegraph.models;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.Light;
 import math.Vector3;
 import renderer.Materials;
@@ -17,8 +16,7 @@ public class HangingLight extends SceneGraph implements Toggleable {
     private final SceneGraphNode dullSphere;
     private final SceneGraphNode litSphere;
 
-    public HangingLight(GL2 gl, GLUT glut, Light spotLight,
-        Light ambientLight) {
+    public HangingLight(GL2 gl, Light spotLight, Light ambientLight) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
 
@@ -53,12 +51,7 @@ public class HangingLight extends SceneGraph implements Toggleable {
         root
             .createAttachedNode()
             .attachRenderable(
-                new Cylinder(
-                    gl,
-                    glut,
-                    0.04f,
-                    3,
-                    Materials.get().get("shinymetal")))
+                new Cylinder(gl, 0.04f, 3, Materials.get().get("shinymetal")))
             .setRotation(new Vector3(1, 0, 0), 270);
 
         root
@@ -66,7 +59,6 @@ public class HangingLight extends SceneGraph implements Toggleable {
             .attachRenderable(
                 new Cylinder(
                     gl,
-                    glut,
                     1,
                     0.04f,
                     1,

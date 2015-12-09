@@ -1,7 +1,6 @@
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Cuboid;
@@ -11,7 +10,7 @@ import scenegraph.SceneGraphNode;
 public class Claw extends SceneGraph {
     private final GL2 gl;
 
-    public Claw(GL2 gl, GLUT glut) {
+    public Claw(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
 

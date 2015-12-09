@@ -1,7 +1,6 @@
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Sphere;
@@ -14,15 +13,13 @@ public class Head extends SceneGraph {
     private static final float eyeOffset = 0.5f;
 
     private GL2                gl;
-    private GLUT               glut;
 
     private final BallJoint    neck;
     private float              rotate    = 0;
 
-    public Head(GL2 gl, GLUT glut) {
+    public Head(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
-        this.glut = glut;
 
         neck = new BallJoint(root);
         SceneGraphNode head = neck.get();
@@ -31,7 +28,7 @@ public class Head extends SceneGraph {
         head.setScaling(new Vector3(0.6f, 1, 1));
 
         head.attachRenderable(
-            new Teapot(gl, glut, Materials.get().get("shinymetal")));
+            new Teapot(gl, Materials.get().get("shinymetal")));
 
         attachLeftEye(head);
         attachRightEye(head);

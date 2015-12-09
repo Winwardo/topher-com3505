@@ -1,7 +1,6 @@
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Plane;
@@ -13,7 +12,7 @@ import scenegraph.models.Toggleable;
 public class ChestLight extends SceneGraph implements Toggleable {
     private SceneGraphNode chestLight;
 
-    public ChestLight(GL2 gl, GLUT glut) {
+    public ChestLight(GL2 gl) {
         super(new SceneGraphNode(gl));
 
         SceneGraphNode twister = root.createAttachedNode();
@@ -21,7 +20,7 @@ public class ChestLight extends SceneGraph implements Toggleable {
         twister
             .createAttachedNode()
             .attachRenderable(
-                new TexturedCube(gl, glut, Materials.get().get("shinymetal")))
+                new TexturedCube(gl, Materials.get().get("shinymetal")))
             .setPosition(new Vector3(-0.5f, -0.31f, -0.1f))
             .setScaling(new Vector3(1, 0.5f, 1));
 

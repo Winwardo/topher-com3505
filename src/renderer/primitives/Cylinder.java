@@ -3,7 +3,6 @@ package renderer.primitives;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
-import com.jogamp.opengl.util.gl2.GLUT;
 import renderer.DisplayList;
 import renderer.Material;
 import renderer.Renderable;
@@ -13,13 +12,12 @@ public class Cylinder extends Renderable {
 
     private final DisplayList displayList;
 
-    public Cylinder(GL2 gl, GLUT glut, float radius, float height,
-        Material mat) {
-        this(gl, glut, radius, radius, height, mat);
+    public Cylinder(GL2 gl, float radius, float height, Material mat) {
+        this(gl, radius, radius, height, mat);
     }
 
-    public Cylinder(GL2 gl, GLUT glut, float radius1, float radius2,
-        float height, Material mat) {
+    public Cylinder(GL2 gl, float radius1, float radius2, float height,
+        Material mat) {
         super(gl, mat);
 
         displayList = new DisplayList(gl, () -> {

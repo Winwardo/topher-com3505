@@ -1,7 +1,6 @@
 package scenegraph;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.Lights;
 import math.Vector3;
 import renderer.primitives.Axes;
@@ -11,7 +10,7 @@ public class EditSceneGraph extends SceneGraph {
     private final SceneGraphNode itemNode;
     private float                rotate;
 
-    public EditSceneGraph(GL2 gl, GLUT glut, SceneGraph scene) {
+    public EditSceneGraph(GL2 gl, SceneGraph scene) {
         super(new SceneGraphNode(gl));
 
         SceneGraphNode frontLight = root.createAttachedNode();

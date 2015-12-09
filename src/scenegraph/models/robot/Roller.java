@@ -17,7 +17,7 @@ public class Roller extends SceneGraph {
     private final SceneGraphNode ballNode;
     public static float          rotation = 0;
 
-    public Roller(GL2 gl, GLUT glut) {
+    public Roller(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
@@ -32,7 +32,6 @@ public class Roller extends SceneGraph {
         axis.attachRenderable(
             new Cylinder(
                 gl,
-                glut,
                 0.35f,
                 rollerLength,
                 Materials.get().get("shinymetal")));

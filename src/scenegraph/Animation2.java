@@ -1,16 +1,15 @@
 package scenegraph;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import scenegraph.models.room.Room;
 
 public class Animation2 extends SceneGraph {
     private final Room room;
 
-    public Animation2(GL2 gl, GLUT glut) {
+    public Animation2(GL2 gl) {
         super(new SceneGraphNode(gl));
 
-        room = new Room(gl, glut);
+        room = new Room(gl);
         root.createAttachedNodeFromSceneGraph(room);
     }
 

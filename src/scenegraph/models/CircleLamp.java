@@ -15,7 +15,7 @@ public class CircleLamp extends SceneGraph {
     private GL2  gl;
     private GLUT glut;
 
-    public CircleLamp(GL2 gl, GLUT glut, Light light) {
+    public CircleLamp(GL2 gl, Light light) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
         this.glut = glut;
@@ -34,7 +34,7 @@ public class CircleLamp extends SceneGraph {
         root
             .createAttachedNode()
             .attachRenderable(
-                new Cylinder(gl, glut, 0.04f, 3, Materials.get().get("black")))
+                new Cylinder(gl, 0.04f, 3, Materials.get().get("black")))
             .setRotation(new Vector3(1, 0, 0), 270);
 
     }

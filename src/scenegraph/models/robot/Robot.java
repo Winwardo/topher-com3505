@@ -1,8 +1,6 @@
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
-import lighting.Light;
 import lighting.Lights;
 import math.Vector3;
 import scenegraph.BallJoint;
@@ -12,7 +10,6 @@ import scenegraph.SceneGraphNode;
 public class Robot extends SceneGraph {
     private static final float   ARM_OUT = 0.65f;
     private GL2                  gl;
-    private GLUT                 glut;
 
     private final SceneGraph     roller;
     private final SceneGraph     head;
@@ -27,23 +24,22 @@ public class Robot extends SceneGraph {
     public static SceneGraphNode RIGHT_ARM;
     public static SceneGraphNode RIGHT_CLAW;
 
-    public Robot(GL2 gl, GLUT glut) {
+    public Robot(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
-        this.glut = glut;
 
         SceneGraphNode root1 = root.createAttachedNode();
         root1.setPosition(new Vector3(0, 1, 0));
 
         rollerBallJoint = new BallJoint(root1);
 
-        head = new Head(gl, glut);
+        head = new Head(gl);
         rollerBallJoint
             .get()
             .createAttachedNodeFromSceneGraph(head)
             .setPosition(new Vector3(0, 3, 0));
 
-        body = new Body(gl, glut);
+        body = new Body(gl);
         rollerBallJoint
             .get()
             .createAttachedNodeFromSceneGraph(body)
@@ -54,15 +50,15 @@ public class Robot extends SceneGraph {
             .createAttachedNode()
             .setPosition(new Vector3(0, 2.0f, 0));
 
-        rightArm = new RightArm(gl, glut);
+        rightArm = new RightArm(gl);
         arms.createAttachedNodeFromSceneGraph(rightArm).setPosition(
             new Vector3(0, 0, ARM_OUT));
 
-        leftArm = new LeftArm(gl, glut);
+        leftArm = new LeftArm(gl);
         arms.createAttachedNodeFromSceneGraph(leftArm).setPosition(
             new Vector3(0, 0, -ARM_OUT));
 
-        roller = new Roller(gl, glut);
+        roller = new Roller(gl);
         rollerBallJoint.get().createAttachedNodeFromSceneGraph(roller);
     }
 
@@ -79,6 +75,6 @@ public class Robot extends SceneGraph {
         float pp = rro * 10;
 
         rollerBallJoint.get().setRotation(new Vector3(0, 0, 1), pp);
-        ((Light) Lights.get().get(6)).setIncline(pp);
+        Lights.get().get(6).setIncline(pp);
     }
 }

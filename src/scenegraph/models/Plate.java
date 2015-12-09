@@ -1,7 +1,6 @@
 package scenegraph.models;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Cylinder;
@@ -9,13 +8,11 @@ import scenegraph.SceneGraph;
 import scenegraph.SceneGraphNode;
 
 public class Plate extends SceneGraph {
-    private GL2  gl;
-    private GLUT glut;
+    private GL2 gl;
 
-    public Plate(GL2 gl, GLUT glut) {
+    public Plate(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
-        this.glut = glut;
 
         root
             .createAttachedNode()
@@ -23,7 +20,6 @@ public class Plate extends SceneGraph {
             .attachRenderable(
                 new Cylinder(
                     gl,
-                    glut,
                     1,
                     0.05f,
                     Materials.get().get("plastic_plate")));

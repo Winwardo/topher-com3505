@@ -51,10 +51,10 @@ public class Room extends SceneGraph {
     public static HangingLight   circleLamp1;
     public static HangingLight   circleLamp2;
 
-    public Room(GL2 gl, GLUT glut) {
+    public Room(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
-        this.glut = glut;
+        this.glut = new GLUT();
 
         root.setPosition(Vector3.all(0));
         root.setRotation(new Vector3(0, 1, 0), 0);
@@ -69,7 +69,7 @@ public class Room extends SceneGraph {
 
         leanNode = robotNode.createAttachedNode();
         tiltNode = leanNode
-            .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl, glut));
+            .createAttachedNodeFromSceneGraph(robot1 = new Robot(gl));
 
         addFloorAndCeiling();
         addWalls();
@@ -106,7 +106,6 @@ public class Room extends SceneGraph {
 
             circleLamp1 = new HangingLight(
                 gl,
-                glut,
                 spotlight1,
                 lights.addPointLight(
                     gl,
@@ -127,7 +126,6 @@ public class Room extends SceneGraph {
             spotlight2.setPointAt(new float[] { 0, -1, 0, 1 });
             circleLamp2 = new HangingLight(
                 gl,
-                glut,
                 spotlight2,
                 lights.addPointLight(
                     gl,
@@ -397,7 +395,7 @@ public class Room extends SceneGraph {
             .setScaling(Vector3.all(3));
 
         root
-            .createAttachedNodeFromSceneGraph(new PlateWithGlasses(gl, glut))
+            .createAttachedNodeFromSceneGraph(new PlateWithGlasses(gl))
             .setPosition(new Vector3(37, 2.5f, 7));
 
         root

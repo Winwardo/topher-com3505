@@ -28,7 +28,7 @@ public class Animation1 extends SceneGraph {
 
         majorCube = root1.createAttachedNode();
         majorCube.attachRenderable(
-            new TexturedCube(gl, glut, Materials.get().get("shinymetal")));
+            new TexturedCube(gl, Materials.get().get("shinymetal")));
 
         minorCubeSpin = majorCube.createAttachedNode();
         minorCubeSpin.setPosition(new Vector3(0, 1, 0));
@@ -37,7 +37,7 @@ public class Animation1 extends SceneGraph {
         SceneGraphNode cubeNode = minorCubeSpin.createAttachedNode();
         cubeNode.setRotation(new Vector3(0, 0, 1), 45.0f);
         cubeNode.attachRenderable(
-            new Teapot(gl, glut, Materials.get().get("shinymetal")));
+            new Teapot(gl, Materials.get().get("shinymetal")));
         cubeNode.setScaling(new Vector3(0.5f, 0.5f, 0.5f));
 
         SceneGraphNode lightOffset = root.createAttachedNode();

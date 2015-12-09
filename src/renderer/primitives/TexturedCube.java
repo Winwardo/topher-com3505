@@ -1,19 +1,17 @@
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import renderer.Material;
 import renderer.Renderable;
 
+@Deprecated
 public class TexturedCube extends Renderable {
-    private GLUT      glut;
     private float     size;
 
     public static int currentTextureID = 0;
 
-    public TexturedCube(GL2 gl, GLUT glut, Material mat) {
+    public TexturedCube(GL2 gl, Material mat) {
         super(gl, mat);
-        this.glut = glut;
     }
 
     @Override

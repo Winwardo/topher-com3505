@@ -1,7 +1,6 @@
 package scenegraph;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import lighting.Lights;
 import math.Vector3;
 import renderer.Material;
@@ -14,14 +13,13 @@ public class DefaultSceneGraph extends SceneGraph {
     private SceneGraphNode minorCubeSpin;
     private float          rotate;
 
-    public DefaultSceneGraph(GL2 gl, GLUT glut) {
+    public DefaultSceneGraph(GL2 gl) {
         super(new SceneGraphNode(gl));
 
         SceneGraphNode root1 = root.createAttachedNode();
 
         majorCube = root1.createAttachedNode();
-        majorCube
-            .attachRenderable(new TexturedCube(gl, glut, Material.empty(gl)));
+        majorCube.attachRenderable(new TexturedCube(gl, Material.empty(gl)));
 
         minorCubeSpin = majorCube.createAttachedNode();
         minorCubeSpin.setPosition(new Vector3(0, 1, 0));
@@ -30,7 +28,7 @@ public class DefaultSceneGraph extends SceneGraph {
 
         SceneGraphNode cubeNode = minorCubeSpin.createAttachedNode();
         cubeNode.setRotation(new Vector3(0, 0, 1), 45.0f);
-        cubeNode.attachRenderable(new Teapot(gl, glut, Material.empty(gl)));
+        cubeNode.attachRenderable(new Teapot(gl, Material.empty(gl)));
         cubeNode.setScaling(new Vector3(0.5f, 0.5f, 0.5f));
 
         SceneGraphNode lightOffset = root.createAttachedNode();

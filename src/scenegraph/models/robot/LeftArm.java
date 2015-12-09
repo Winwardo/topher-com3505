@@ -1,7 +1,6 @@
 package scenegraph.models.robot;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 import math.Vector3;
 import renderer.Materials;
 import renderer.primitives.Cylinder;
@@ -17,7 +16,6 @@ public class LeftArm extends SceneGraph {
     private static final float   ARM_THICKNESS    = 0.25f;
 
     private GL2                  gl;
-    private GLUT                 glut;
 
     private final SceneGraphNode elbowBall;
     private final SceneGraphNode forearm;
@@ -28,10 +26,9 @@ public class LeftArm extends SceneGraph {
     private float                rotateShoulder   = 0;
     private float                rotateElbow      = 0;
 
-    public LeftArm(GL2 gl, GLUT glut) {
+    public LeftArm(GL2 gl) {
         super(new SceneGraphNode(gl));
         this.gl = gl;
-        this.glut = glut;
 
         SceneGraphNode base = root.createAttachedNode();
         base.setRotation(new Vector3(0, 0, 1), 180);
@@ -41,7 +38,6 @@ public class LeftArm extends SceneGraph {
         shoulderJoint.get().attachRenderable(
             new Cylinder(
                 gl,
-                glut,
                 ARM_THICKNESS,
                 UPPER_ARM_LENGTH,
                 Materials.get().get("shinymetal")));
@@ -60,13 +56,12 @@ public class LeftArm extends SceneGraph {
         forearm.attachRenderable(
             new Cylinder(
                 gl,
-                glut,
                 ARM_THICKNESS / 2,
                 LOWER_ARM_LENGTH,
                 Materials.get().get("shinymetal")));
 
         forearm
-            .createAttachedNodeFromSceneGraph(new Claw(gl, glut))
+            .createAttachedNodeFromSceneGraph(new Claw(gl))
             .setRotation(new Vector3(1, 0, 0), 90)
             .setPosition(new Vector3(0, 0, LOWER_ARM_LENGTH))
             .setScaling(Vector3.all(0.75f));
