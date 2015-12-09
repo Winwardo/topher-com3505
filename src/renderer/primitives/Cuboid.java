@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
@@ -51,6 +53,9 @@ public class Cuboid extends Renderable {
 
     public void generateAndDraw(Vector3 scale, Plane leftRightPlane,
         Plane frontBackPlane, Plane topBottomPlane) {
+        // Draw each side of the cuboid, rotating the appropriate plane each
+        // time
+
         //
         // Left
         gl.glPushMatrix();

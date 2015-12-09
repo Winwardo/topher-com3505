@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
@@ -9,7 +11,6 @@ import renderer.Renderable;
 
 public class Sphere extends Renderable {
     private static final float SPHERE_DEFAULT_RADIUS = 0.5f;
-
     private static final int   SPHERE_SUBDIVISION    = 20;
 
     private final DisplayList  displayList;
@@ -29,6 +30,8 @@ public class Sphere extends Renderable {
             GLU glu = new GLU();
             GLUquadric sphere = glu.gluNewQuadric();
 
+            // Quadrics are very out of date now, but they still get the job
+            // done
             glu.gluQuadricDrawStyle(sphere, GLU.GLU_FILL);
             glu.gluQuadricTexture(sphere, true);
             glu.gluQuadricNormals(sphere, GLU.GLU_SMOOTH);

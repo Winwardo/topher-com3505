@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
@@ -26,6 +28,13 @@ public class Plane extends Renderable {
         displayList.call();
     }
 
+    /**
+     * @subDivides is how many quads to split this plane up into. Higher values
+     *             produce better lighting effects
+     * 
+     * @texRepeats is how many times the applied material should repeat over the
+     *             entire plane.
+     */
     public void generateAndDraw(int xSubdivides, int ySubdivides,
         float xTexRepeats, float yTexRepeats) {
         float xStep = 1.0f / xSubdivides;

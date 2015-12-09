@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
@@ -28,7 +30,6 @@ public class Cylinder extends Renderable {
     @Override
     public void renderImpl() {
         displayList.call();
-
     }
 
     private void drawCylinder(float radius1, float radius2, float height) {
@@ -52,10 +53,11 @@ public class Cylinder extends Renderable {
         gl.glNormal3f(0, 0, -1);
         gl.glTexCoord2f(0.5f, 0.5f);
         gl.glVertex3f(0, 0, 0);
-        float twicePi = (float) Math.PI * 2;
+        float piTimesTwo = (float) Math.PI * 2;
+        float angle = piTimesTwo / SUBDIVISIONS;
         for (int i = SUBDIVISIONS; i >= 0; i--) {
-            float x = (float) (radius * Math.cos(i * twicePi / SUBDIVISIONS));
-            float y = (float) (radius * Math.sin(i * twicePi / SUBDIVISIONS));
+            float x = (float) (radius * Math.cos(i * angle));
+            float y = (float) (radius * Math.sin(i * angle));
 
             float texX = (x + 1) / 2;
             float texY = (y + 1) / 2;

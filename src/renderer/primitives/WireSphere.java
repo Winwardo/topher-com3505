@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer.primitives;
 
 import com.jogamp.opengl.GL2;
@@ -26,6 +28,8 @@ public class WireSphere extends Renderable {
 
         displayList = new DisplayList(gl, () -> {
             GLUT glut = new GLUT();
+            // A WireSphere doesn't need GLU Quadrics as we don't actually need
+            // proper texturing for it.
             glut.glutWireSphere(radius, SPHERE_SUBDIVISION, SPHERE_SUBDIVISION);
         });
     }

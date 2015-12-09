@@ -15,6 +15,13 @@ public class DisplayList {
     final GL2 gl;
     final int displayId;
 
+    /**
+     * 
+     * @param gl
+     * @param displayFunc
+     *            A lambda which performs some OpenGL functions to be stored in
+     *            this display list
+     */
     public DisplayList(GL2 gl, Runnable displayFunc) {
         this.gl = gl;
 
