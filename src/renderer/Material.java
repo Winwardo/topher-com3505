@@ -1,7 +1,16 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer;
 
 import com.jogamp.opengl.GL2;
 
+/**
+ * Contains ambient, diffuse, specular, shininess and image data, with a
+ * convenience binding function.
+ * 
+ * @author Topher
+ *
+ */
 public class Material {
     private final GL2     gl;
 
@@ -36,7 +45,7 @@ public class Material {
         return new Material(gl, "default");
     }
 
-    public void apply() {
+    public void bind() {
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, ambient, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, diffuse, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, specular, 0);

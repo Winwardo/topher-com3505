@@ -1,5 +1,14 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package math;
 
+/**
+ * Vector3 stores any 3 floats as a tuple with convenience functions to save on
+ * having to use arbitrary length arrays
+ * 
+ * @author Topher
+ *
+ */
 public class Vector3 {
     @Override
     public String toString() {

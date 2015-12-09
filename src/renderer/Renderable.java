@@ -21,7 +21,7 @@ public abstract class Renderable implements IRenderable, Selectable {
             Axes.renderAxes(gl);
         }
 
-        mat.apply();
+        mat.bind();
 
         gl.glPushMatrix();
         renderImpl();

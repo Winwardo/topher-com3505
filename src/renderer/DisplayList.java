@@ -1,7 +1,16 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer;
 
 import com.jogamp.opengl.GL2;
 
+/**
+ * DisplayList allows for convenient wrapping of generating and calling a gl
+ * display list.
+ * 
+ * @author Topher
+ *
+ */
 public class DisplayList {
     final GL2 gl;
     final int displayId;
