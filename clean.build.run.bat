@@ -1,3 +1,3 @@
-call tools/clean.bat
-call tools/build.bat
-call tools/run.bat
+call clean.bat
+call build.bat
+call run.bat

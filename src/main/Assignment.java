@@ -403,7 +403,7 @@ public class Assignment extends JFrame
             .get(Cameras.MAIN_CAMERA);
 
         if (event.getModifiers() == MouseEvent.BUTTON1_MASK) {
-            camera.addRotation(dx, dy);
+            camera.addRotation(dx, -dy);
         } else if (event.getModifiers() == MouseEvent.BUTTON3_MASK) {
             camera.addDistance(dy * 10);
         }

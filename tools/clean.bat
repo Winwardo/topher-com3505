@@ -1,1 +1,0 @@
-rmdir bin /s /q

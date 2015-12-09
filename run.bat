@@ -1,0 +1,1 @@
+java -cp ".;bin;lib/gluegen.jar;lib/jogl-all.jar" main.Assignment
