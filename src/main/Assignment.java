@@ -256,6 +256,7 @@ public class Assignment extends JFrame implements GLEventListener,
         });
 
         worldLights.setSelected(true);
+        worldLights.doClick();
         spotlight1.setSelected(true);
         spotlight2.setSelected(true);
         lightRobot.setSelected(true);

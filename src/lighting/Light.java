@@ -15,7 +15,7 @@ public class Light implements ILight {
 
     private float[] color;
     private float[] pointAt   = new float[] { 0, 0, -1 };
-    private float   cutoff    = 45;
+    private float   cutoff    = 180;
     private Vector3 position;
     private int     lightId;
 
