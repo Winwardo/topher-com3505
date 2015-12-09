@@ -1,3 +1,5 @@
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package scenegraph;
 
 import java.util.ArrayList;
@@ -8,6 +10,21 @@ import math.Vector3;
 import renderer.IRenderable;
 import renderer.primitives.Axes;
 
+/**
+ * Contains a list of lights, renderables, and other nodes for traversing. Nodes
+ * rendered through it keep their local transforms; in this way it is easy to
+ * build complex models with translations, rotations and scaling.
+ * 
+ * Most setters on this class (setPosition etc) return this, and as such are
+ * chainable in the following fashion:
+ * 
+ * <pre>
+ * SceneGraphNode node = root.createAttachedNode().setPosition(position).setRotation(rotation)
+ * </pre>
+ * 
+ * @author Topher
+ *
+ */
 public class SceneGraphNode implements Selectable {
     private final List<IRenderable>    renderables;
     private final List<SceneGraphNode> nodes;
@@ -43,6 +60,10 @@ public class SceneGraphNode implements Selectable {
         this(Vector3.zero(), Vector3.zero(), 0.0f, Vector3.one(), gl);
     }
 
+    /**
+     * Recursively apply all lights in this node and children nodes, with
+     * appropriate transforms applied.
+     */
     public void applyLights() {
         gl.glPushMatrix();
         {
@@ -59,6 +80,10 @@ public class SceneGraphNode implements Selectable {
         gl.glPopMatrix();
     }
 
+    /**
+     * Recursively render this node, and all children nodes, with appropriate
+     * transforms applied.
+     */
     public void render() {
         if (hidden) {
             return;
@@ -94,6 +119,11 @@ public class SceneGraphNode implements Selectable {
         return this;
     }
 
+    /**
+     * Make a new child node, and attach it to this one, available for immediate
+     * usage.
+     * 
+     */
     public SceneGraphNode createAttachedNode() {
         SceneGraphNode newNode = new SceneGraphNode(gl);
         attachNode(newNode);
