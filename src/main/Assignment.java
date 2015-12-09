@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -179,19 +180,25 @@ public class Assignment extends JFrame implements GLEventListener,
         JCheckBox spotlight1 = new JCheckBox("Spotlight #1");
         JCheckBox spotlight2 = new JCheckBox("Spotlight #2");
         JCheckBox lightRobot = new JCheckBox("Robot light");
+        JCheckBox radiosityLights = new JCheckBox("Enable fake radiosity");
 
         p.add(worldLights);
         p.add(spotlight1);
         p.add(spotlight2);
         p.add(lightRobot);
+        p.add(radiosityLights);
+
+        AtomicBoolean radiosity = new AtomicBoolean(true);
 
         worldLights.addActionListener((e) -> {
             Lights.get().get(4).enable(worldLights.isSelected());
             Lights.get().get(5).enable(worldLights.isSelected());
         });
+
         spotlight1.addActionListener((e) -> {
             Lights.get().get(2).enable(spotlight1.isSelected());
             Lights.get().get(3).enable(spotlight1.isSelected());
+
             Room.circleLamp2.setIsOn(spotlight1.isSelected());
         });
         spotlight2.addActionListener((e) -> {
@@ -205,10 +212,17 @@ public class Assignment extends JFrame implements GLEventListener,
             Robot.CHEST_LIGHT.setIsOn(lightRobot.isSelected());
         });
 
+        radiosityLights.addActionListener((e) -> {
+            Lights.get().get(3).hide(!radiosityLights.isSelected());
+            Lights.get().get(1).hide(!radiosityLights.isSelected());
+            Lights.get().get(7).hide(!radiosityLights.isSelected());
+        });
+
         worldLights.setSelected(true);
         spotlight1.setSelected(true);
         spotlight2.setSelected(true);
         lightRobot.setSelected(true);
+        radiosityLights.setSelected(true);
 
         return p;
     }

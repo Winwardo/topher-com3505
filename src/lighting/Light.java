@@ -20,6 +20,7 @@ public class Light implements ILight {
     private int     lightId;
 
     private boolean isEnabled = true;
+    private boolean isHidden  = false;
 
     Light(GL2 gl, Vector3 color, float brightness, float cutoff) {
         this.gl = gl;
@@ -77,7 +78,7 @@ public class Light implements ILight {
 
         gl.glLightfv(index, GL2.GL_POSITION, position1, 0);
 
-        if (isEnabled) {
+        if (isEnabled && !isHidden) {
             gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);
             gl.glLightfv(index, GL2.GL_DIFFUSE, color, 0);
             gl.glLightfv(index, GL2.GL_SPECULAR, color, 0);
@@ -112,5 +113,10 @@ public class Light implements ILight {
         } else {
             disable();
         }
+    }
+
+    @Override
+    public void hide(boolean hidden) {
+        isHidden = hidden;
     }
 }
