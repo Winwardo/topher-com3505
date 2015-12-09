@@ -1,4 +1,7 @@
-// Vertex shader. With help from
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
+// Vertex shader
+// With help from
 // https://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/lighting.php
 // 
 // We need to generate some values to send forwards to the fragment shader

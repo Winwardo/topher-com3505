@@ -1,5 +1,8 @@
 #version 120
 
+/* I declare that this code is my own work */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
+
 // Fragment shader. With help from
 // https://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/lighting.php
 // https://stackoverflow.com/questions/11434233/shader-for-a-spotlight
