@@ -1,3 +1,5 @@
+/* I declare that this code is my own work. Inspired and helped by http://jogamp.org/jogl-demos/src/demos/es2/RawGL2ES2demo.java */
+/* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package shaders;
 
 import java.io.IOException;
@@ -12,23 +14,6 @@ public class ShaderCore {
 
     public ShaderCore(GL2 gl) {
         this.gl = gl;
-    }
-
-    public int setupShaders(String fragment, String vertex) {
-        int fragShader = createFragmentShader(fragment);
-        int vertShader = createVertexShader(vertex);
-
-        int shaderProgram = gl.glCreateProgram();
-        gl.glAttachShader(shaderProgram, vertShader);
-        gl.glAttachShader(shaderProgram, fragShader);
-
-        gl.glLinkProgram(shaderProgram);
-
-        gl.glDetachShader(shaderProgram, vertShader);
-        gl.glDetachShader(shaderProgram, fragShader);
-
-        gl.glDeleteShader(shaderProgram);
-        return shaderProgram;
     }
 
     private void useShader(int shaderProgram) {
@@ -54,7 +39,7 @@ public class ShaderCore {
             0);
         gl.glCompileShader(shader);
 
-        assertCompiled(shader);
+        checkThatShaderCompiledCorrectly(shader);
 
         return shader;
     }
@@ -67,7 +52,7 @@ public class ShaderCore {
         return createShader(vertex, GL2ES2.GL_VERTEX_SHADER);
     }
 
-    private void assertCompiled(int shader) {
+    private void checkThatShaderCompiledCorrectly(int shader) {
         int[] compiledStatus = { 0 };
         gl.glGetShaderiv(shader, GL2ES2.GL_COMPILE_STATUS, compiledStatus, 0);
 
@@ -131,7 +116,7 @@ public class ShaderCore {
             String fragmentInfo = String
                 .format(fragmentInfoRaw, fragmentParams);
 
-            return setupShaders(fragmentInfo, vertexInfo);
+            return generateShader(fragmentInfo, vertexInfo);
         } catch (IOException ex) {
             ex.printStackTrace();
             return 0;
@@ -140,6 +125,23 @@ public class ShaderCore {
 
     public int setupShaders(String shaderName) {
         return setupShaders(shaderName, null, null);
+    }
+
+    private int generateShader(String fragment, String vertex) {
+        int fragShader = createFragmentShader(fragment);
+        int vertShader = createVertexShader(vertex);
+
+        int shaderProgram = gl.glCreateProgram();
+        gl.glAttachShader(shaderProgram, vertShader);
+        gl.glAttachShader(shaderProgram, fragShader);
+
+        gl.glLinkProgram(shaderProgram);
+
+        gl.glDetachShader(shaderProgram, vertShader);
+        gl.glDetachShader(shaderProgram, fragShader);
+
+        gl.glDeleteShader(shaderProgram);
+        return shaderProgram;
     }
 
     public int loadShaders() {
