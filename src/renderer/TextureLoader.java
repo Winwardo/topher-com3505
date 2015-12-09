@@ -1,15 +1,17 @@
-/* I declare that this code is my own work */
+/* I declare that this code is my own work, except the function loadImage */
 /* Topher Winward, 120134353, crwinward1@sheffield.ac.uk */
 package renderer;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Map;
 import java.util.TreeMap;
-import com.jogamp.opengl.GL;
+import javax.imageio.ImageIO;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.util.awt.ImageUtil;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 /**
  * TextureLoader provides a Singleton access to save on programming costs.
@@ -46,63 +48,43 @@ public class TextureLoader {
         this.textures = new TreeMap<>();
     }
 
-    public int loadBMP(String textureName, String filename) {
-        return loadBMP(textureName, filename, 256, 256);
+    public int loadTexture(String textureName, String filename) {
+        return loadTexture(textureName, filename, 256, 256);
     }
 
-    public int loadBMP(String textureName, String filename, int width,
-        int height) {
+    public Texture loadImage(GL2 gl, String filename) {
+        // This code is Steve Maddock's
+        Texture tex = null;
         try {
-            DataInputStream dataStream = new DataInputStream(
-                new FileInputStream(filename));
-            dataStream.skipBytes(18 + 2 + 28); // why?
+            File f = new File(filename);
+            BufferedImage img = ImageIO.read(f);
+            ImageUtil.flipImageVertically(img);
+            tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
 
-            byte buf2[] = new byte[dataStream.available()];
-
-            dataStream.read(buf2);
-            dataStream.close();
-
-            final int index = textureCount;
-            textureCount++;
-
-            ByteBuffer buf = ByteBuffer.wrap(buf2);
-
-            gl.glBindTexture(GL.GL_TEXTURE_2D, index);
-
-            gl.glTexImage2D(
-                GL.GL_TEXTURE_2D,
-                0,
-                3,
-                width,
-                height,
-                0,
-                GL.GL_BGR,
-                GL.GL_UNSIGNED_BYTE,
-                buf);
-
-            gl.glTexParameteri(
-                GL.GL_TEXTURE_2D,
-                GL.GL_TEXTURE_MAG_FILTER,
-                GL.GL_LINEAR);
-            gl.glTexParameteri(
-                GL.GL_TEXTURE_2D,
-                GL.GL_TEXTURE_MIN_FILTER,
-                GL.GL_LINEAR);
-
-            gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
-
-            this.textures.put(textureName, index);
-
-            System.out.format(
-                "Loaded texture `%s` successfully. Bound to texture #%d.\n",
-                textureName,
-                index);
-
-            return index;
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return 0;
+            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+            tex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
+            tex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
+        } catch (Exception e) {
+            System.out.println("Error loading texture " + filename);
         }
+        return tex;
+    }
+
+    public int loadTexture(String textureName, String filename, int width,
+        int height) {
+        Texture tex = loadImage(gl, filename);
+        int index = tex.getTextureObject();
+
+        this.textures.put(textureName, index);
+        textureCount++;
+
+        System.out.format(
+            "Loaded texture `%s` successfully. Bound to texture #%d.\n",
+            textureName,
+            index);
+
+        return index;
     }
 
     public int get(String textureName) {
@@ -122,24 +104,24 @@ public class TextureLoader {
     }
 
     public void loadTextures() {
-        loadBMP("default", "res\\purple.bmp");
-        loadBMP("white", "res\\white.bmp");
-        loadBMP("rendertex", "res\\white.bmp");
-        loadBMP("metal", "res\\metal.bmp");
-        loadBMP("nyan", "res\\texture2.bmp");
-        loadBMP("white", "res\\white.bmp");
-        loadBMP("black", "res\\black.bmp");
-        loadBMP("eye_right", "res\\eye_right.bmp");
-        loadBMP("eye_left", "res\\eye_left.bmp");
-        loadBMP("hardwood", "res\\hardwood.bmp");
-        loadBMP("wood2", "res\\wood2.bmp");
-        loadBMP("glass", "res\\glass.bmp");
-        loadBMP("plate", "res\\plate.bmp");
-        loadBMP("tiles", "res\\marbletile.bmp");
-        loadBMP("marble", "res\\marble.bmp");
-        loadBMP("rug", "res\\carpet.bmp", 512, 512);
-        loadBMP("red_wall", "res\\red_wall.bmp");
-        loadBMP("chest_light", "res\\chest_light.bmp");
-        loadBMP("white_noise", "res\\white_noise.bmp");
+        loadTexture("default", "res\\purple.bmp");
+        loadTexture("white", "res\\white.bmp");
+        loadTexture("rendertex", "res\\white.bmp");
+        loadTexture("metal", "res\\metal.bmp");
+        loadTexture("nyan", "res\\texture2.bmp");
+        loadTexture("white", "res\\white.bmp");
+        loadTexture("black", "res\\black.bmp");
+        loadTexture("eye_right", "res\\eye_right.bmp");
+        loadTexture("eye_left", "res\\eye_left.bmp");
+        loadTexture("hardwood", "res\\hardwood.bmp");
+        loadTexture("wood2", "res\\wood2.bmp");
+        loadTexture("glass", "res\\glass.bmp");
+        loadTexture("plate", "res\\plate.bmp");
+        loadTexture("tiles", "res\\marbletile.bmp");
+        loadTexture("marble", "res\\marble.bmp");
+        loadTexture("rug", "res\\carpet.bmp", 512, 512);
+        loadTexture("red_wall", "res\\red_wall.bmp");
+        loadTexture("chest_light", "res\\chest_light.bmp");
+        loadTexture("white_noise", "res\\white_noise.bmp");
     }
 }
