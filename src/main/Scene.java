@@ -123,30 +123,21 @@ class Scene {
 
         String maxlights = "8";
 
-        int albedo = shaderCore.setupShaders(
-            "phong",
-            null,
-            new String[] { maxlights, "2", "0", "0", "0" });
+        int albedo = shaderCore
+            .setupShaders("phong", null, new String[] { maxlights, "ALBEDO" });
 
-        int ambient = shaderCore.setupShaders(
-            "phong",
-            null,
-            new String[] { maxlights, "0", "1", "0", "0" });
-
-        int diffuse = shaderCore.setupShaders(
-            "phong",
-            null,
-            new String[] { maxlights, "0", "0", "1", "0" });
+        int ambient = shaderCore
+            .setupShaders("phong", null, new String[] { maxlights, "AMBIENT" });
+        int diffuse = shaderCore
+            .setupShaders("phong", null, new String[] { maxlights, "DIFFUSE" });
 
         int specular = shaderCore.setupShaders(
             "phong",
             null,
-            new String[] { maxlights, "0", "0", "0", "1" });
+            new String[] { maxlights, "SPECULAR" });
 
-        int all = shaderCore.setupShaders(
-            "phong",
-            null,
-            new String[] { maxlights, "1", "1", "1", "1" });
+        int all = shaderCore
+            .setupShaders("phong", null, new String[] { maxlights, "ALL" });
 
         currentShader = all;
         shaderCore.queueShader(all);

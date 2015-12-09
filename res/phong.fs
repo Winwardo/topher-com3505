@@ -15,13 +15,19 @@ varying vec3 vertexModelview;
 varying vec3 normal;
 uniform sampler2D tex;
 
+
+#define ALBEDO 0
+#define AMBIENT 1
+#define DIFFUSE 2
+#define SPECULAR 3
+#define ALL 4
+
 #define MAX_LIGHTS %s
-#define ALBEDO_CONSTANT %s
-#define AMBIENT_CONSTANT %s
-#define DIFFUSE_CONSTANT %s
-#define SPECULAR_CONSTANT %s
+#define SHADER_TYPE %s
 
 void main (void) { 
+        vec4 finalColor = vec4(0.0, 0.0, 0.0, 0.0);
+
         // Albedo is the raw texture image for drawing, like some wood image.
         vec4 albedo = texture2D(tex,gl_TexCoord[0].st);
 
@@ -29,8 +35,10 @@ void main (void) {
         // A more advanced shader might look up from an ambient texture map.
         // By clamping the ambient to 0.05 minimum, we will always be able to slightly
         // see in the room, even when all lights are off.
-        vec4 ambientComp = clamp(gl_FrontMaterial.ambient, 0.05, 1.0) * AMBIENT_CONSTANT;
-        vec4 finalColor = ambientComp;
+        vec4 ambientComp = clamp(gl_FrontMaterial.ambient, 0.05, 1.0);
+        #if SHADER_TYPE == AMBIENT || SHADER_TYPE == ALL
+                finalColor += ambientComp;
+        #endif
 
         // Apply Lambertian diffuse and specular per light
         for (int i = 0; i < MAX_LIGHTS; i++) {
@@ -45,7 +53,7 @@ void main (void) {
                 // If the pixel would be facing away from the light source, ignore it totally
                 if (lambertian > 0.0) {
                         // Create diffuse
-                        vec4 diffuse = gl_FrontLightProduct[i].diffuse * lambertian * DIFFUSE_CONSTANT;
+                        vec4 diffuse = gl_FrontLightProduct[i].diffuse * lambertian;
 
                         // Check if we're within spotlight radius (if this isn't a point light)
                         float spotEffect = dot(normalize(gl_LightSource[i].spotDirection), normalize(-lightDirection));
@@ -63,7 +71,7 @@ void main (void) {
                         float specAngle = max(dot(halfDir, normal), 0.0);
 
                         vec4 preSpecular = vec4(pow(specAngle, 0.3*gl_FrontMaterial.shininess));
-                        vec4 specular = gl_FrontLightProduct[i].specular * preSpecular * SPECULAR_CONSTANT;
+                        vec4 specular = gl_FrontLightProduct[i].specular * preSpecular;
 
 
                         // Generate attenuation, so that far away lights don't light up the pixel
@@ -81,16 +89,24 @@ void main (void) {
 
                         // Combine the diffuse and specular, modulated by the attenuation
                         // and whether or not we're inside the spotlight radius
-                        finalColor += (diffuse + specular) * attenuation * spotlightFactor;
+                        #if SHADER_TYPE == DIFFUSE || SHADER_TYPE == ALL
+                                finalColor += (diffuse) * attenuation * spotlightFactor;
+                        #endif
+
+                        #if SHADER_TYPE == SPECULAR || SHADER_TYPE == ALL
+                                finalColor += (specular) * attenuation * spotlightFactor;
+                        #endif
                 }
         }
 
 
-        if (ALBEDO_CONSTANT == 0) {
-                gl_FragColor = finalColor;
-        } else if (ALBEDO_CONSTANT == 2) {
-                gl_FragColor = albedo;
-        } else {
-                gl_FragColor = albedo * finalColor;
-        }
+
+        #if SHADER_TYPE == ALBEDO
+                finalColor = albedo;
+        #endif
+        #if SHADER_TYPE == ALL
+                finalColor = finalColor * albedo;
+        #endif
+
+        gl_FragColor = finalColor;        
 }
