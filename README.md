@@ -1,8 +1,15 @@
-Topher Winward's (120134353) COM3505 submission.
-crwinward1@sheffield.ac.uk
-Robot Waiter.
-This entire assignment, unless explicitly stated, is my own work.
+# Robot Waiter.
+
+This was a university assignment to animate a "Robot Waiter" around a scene, exploring concepts such as animation, cameras, lighting and shaders.  
+This entire assignment, unless explicitly stated, is my own work.  
+
 Some segments are sourced from Steve Maddock, inspired by websites (URLs are provided closer to the code), and some images are collected from Google Images.
+
+![image](https://user-images.githubusercontent.com/840549/154488083-33bfa31e-5c74-42a2-81ad-747a224ba626.png)
+
+# Quick description
+This project uses OpenGL2.x to render a "Robot Waiter" who travels around a dark room, shining a light as it goes.
+It has a variety of options, such as switching between fixed-function vertex lighting, and using shaders to more realistically render the scene.
 
 # How to run
 Several tools are provided for convenient compilation and running.
@@ -39,6 +46,17 @@ A single frame buffer object is used and drawn to for display on the TV at the e
 The /res/ folder holds all textures and shader code. Some textures are ultimately unused, but are still loaded by the program, and as such are left in the folder. All photos were sourced from a Google Image search, and as such the images may not be publically usable. However as this is a non-commericial private assignment, this should be fine. The textures can be updated with new, open source ones if required.
 
 The screenshots folder shows how the radiosity bounce affects lighting in the room, as well as shows a photo of the "Edit Scene" which was used throughout development to build up objects. It had three lights and rotated the object to show off detail and specular. This was removed in the final version and codebase as it was not needed, but is still available in earlier git versions.
+
+## Examples of changing the lighting real-time in the scene
+![image](https://user-images.githubusercontent.com/840549/154488376-e334bbd2-c1a8-491c-bc1e-10fb722ec61f.png)
+![image](https://user-images.githubusercontent.com/840549/154488408-a7203623-6769-4682-baa1-3b4856b89eeb.png)
+![image](https://user-images.githubusercontent.com/840549/154488382-cb4c39ec-b123-4a44-96b1-5039f49e478e.png)
+![image](https://user-images.githubusercontent.com/840549/154488393-6fd466f0-a682-4bc1-9716-7df19e27a5c2.png)
+
+Note in the second image image, the "simulated radiosity" option has been disabled, so the light doesn't bounce as it would in real life (as seen in the first image.)
+
+## A view of the editor used to help create the Robot and other props in the room
+![image](https://user-images.githubusercontent.com/840549/154488815-fc231d66-dc06-4fe7-b35b-dde53f2ffa9f.png)
 
 Three 30 second videos have been captured and placed on Youtube (unlisted) for viewing. Any stuttering and artifacts are a result of the FRAPS software used to record it, and not the assignment itself.
 https://www.youtube.com/watch?v=z4fAfZG0tPA
